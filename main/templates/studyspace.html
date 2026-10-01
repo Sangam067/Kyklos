@@ -1,0 +1,818 @@
+{% extends "base.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+    {% block content %}
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudySpace - Your Ultimate Study Environment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #001a1a, #004d4d, #003329);
+            color: #e6ffff;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 20px;
+        }
+
+        .workspace {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            min-height: 600px;
+        }
+
+        .timer-section {
+            background: rgba(0, 26, 26, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .timer-display {
+            font-size: 2.5rem;
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .timer-controls button {
+            flex: 1;
+        }
+
+        .resources {
+            background: rgba(0, 26, 26, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .resource-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .resource-tabs button {
+            flex: 1;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border: none;
+            border-radius: 5px;
+            color: #e6ffff;
+            cursor: pointer;
+        }
+
+        .resource-tabs button:hover,
+        .resource-tabs button.active {
+            background: rgba(0, 102, 102, 0.7);
+        }
+
+        .resource-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .resource-input input {
+            flex-grow: 1;
+        }
+
+        .resource-list {
+            list-style: none;
+        }
+
+        .resource-list li {
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            margin: 5px 0;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .resource-list li:hover {
+            background: rgba(0, 102, 102, 0.4);
+        }
+
+        .resource-list li img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .file-upload {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .file-upload label {
+            display: block;
+            padding: 10px;
+            background: rgba(0, 77, 77, 0.5);
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .file-upload label:hover {
+            background: rgba(0, 102, 102, 0.7);
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .chatbot {
+            background: rgba(0, 26, 26, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            overflow-y: auto;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        input, button, textarea {
+            background: rgba(230, 255, 255, 0.1);
+            border: 1px solid rgba(230, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            color: #e6ffff;
+        }
+
+        button {
+            background: rgba(0, 77, 77, 0.5);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: rgba(0, 102, 102, 0.7);
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .todo-list {
+            background: rgba(0, 26, 26, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .notes {
+            background: rgba(0, 26, 26, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            flex-grow: 1;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            color: #80ffff;
+        }
+
+        .task-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .tasks {
+            list-style: none;
+        }
+
+        .tasks li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        .tasks li.completed span {
+            text-decoration: line-through;
+            color: #80ffff;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            resize: none;
+        }
+
+        .message-user {
+            text-align: right;
+            margin: 10px 0;
+        }
+
+        .message-bubble {
+            display: inline-block;
+            padding: 8px 12px;
+            border-radius: 15px;
+            max-width: 80%;
+        }
+
+        .message-user .message-bubble {
+            background: rgba(0, 77, 77, 0.5);
+        }
+
+        .message-ai .message-bubble {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .message-ai {
+            margin: 10px 0;
+        }
+
+        .timer-settings {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .timer-input-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .timer-input {
+            width: 60px;
+            text-align: center;
+            padding: 8px;
+            background: rgba(230, 255, 255, 0.1);
+            border: 1px solid rgba(230, 255, 255, 0.2);
+            border-radius: 5px;
+            color: #e6ffff;
+            font-size: 1rem;
+        }
+
+        .timer-input::-webkit-inner-spin-button,
+        .timer-input::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .timer-label {
+            font-size: 0.9rem;
+            color: #80ffff;
+        }
+
+        .resource-viewer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .resource-viewer.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .resource-viewer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: rgba(0, 26, 26, 0.8);
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .resource-viewer-title {
+            color: #80ffff;
+            font-size: 1.2rem;
+        }
+
+        .resource-viewer-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #e6ffff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .resource-viewer-content {
+            flex-grow: 1;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .resource-viewer iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .resource-input-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .resource-input-tabs button {
+            flex: 1;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            border: none;
+            border-radius: 5px;
+            color: #e6ffff;
+            cursor: pointer;
+        }
+
+        .resource-input-tabs button.active {
+            background: rgba(0, 102, 102, 0.7);
+        }
+
+        .resource-input-panel {
+            display: none;
+        }
+
+        .resource-input-panel.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .resource-viewer {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>StudySpace For {{username}}</h1>
+            <p>Your All-in-One Study Environment</p>
+        </header>
+
+        <div class="main-content">
+            <main class="workspace">
+                <div class="timer-section">
+                    <h2>Study Timer</h2>
+                    <div class="timer-settings">
+                        <div class="timer-input-group">
+                            <input type="number" id="minutes-input" class="timer-input" min="0" max="99" value="25">
+                            <span class="timer-label">min</span>
+                        </div>
+                        <div class="timer-input-group">
+                            <input type="number" id="seconds-input" class="timer-input" min="0" max="59" value="0">
+                            <span class="timer-label">sec</span>
+                        </div>
+                        <button onclick="setCustomTime()">Set Time</button>
+                    </div>
+                    <div class="timer-display" id="timer">25:00</div>
+                    <div class="timer-controls">
+                        <button id="startTimer">Start Timer</button>
+                        <button id="resetTimer">Reset</button>
+                    </div>
+                </div>
+
+                <div class="resources">
+                    <h2>Study Resources</h2>
+                    <form method="post" enctype="multipart/form-data" action = "/addresource{{id}}/">
+                        {% csrf_token %}
+                        <div class="file-upload">
+                            <label for="file-input">
+                                📤 Click to Upload Thumbnail Of your Resource
+                                <input type="file" id="file-input" multiple accept="image/*,.pdf,.doc,.docx" name="thumbnail">
+                            </label>
+                        </div>
+                        
+                        <div class="resource-input">
+                            <input type="text" placeholder="Enter resource title..." id="resource-title" name = "title">
+                            <input type="text" placeholder="Enter resource category..." id="resource-category" name = "category">
+                            <input type="text" placeholder="Enter URL..." id="resource-url" name = "url">
+                            <button type="submit" onclick="alert('Resource uploaded, Credit was increased by 150.')">Add</button>
+                        </div>
+                    </form>
+
+                    <ul class="resource-list" id="resource-list">
+                        {% for resource in resources %}
+                                    <li onclick="showResource('{{resource.resourceurl}}')">
+                                        <img src="{{resource.thumbnail.url}}" alt="Book">
+                                        <span>{{resource.title}}</span>
+                                    </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="chatbot">
+                    <h2>Study Assistant</h2>
+                    <div class="chat-messages" id="chat-messages">
+                        <!-- Messages will be added here dynamically -->
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="chat-input" placeholder="Ask me anything...">
+                        <button id="send-button">Send</button>
+                    </div>
+                </div>
+            </main>
+
+            <aside class="sidebar">
+                <div class="todo-list">
+                    <h2>Study Tasks</h2>
+                    <div class="task-input">
+                        <input type="text" id="task-input" placeholder="Add new task...">
+                        <button onclick="addTask()">Add</button>
+                    </div>
+                    <ul class="tasks" id="task-list">
+                        <li>
+                            <input type="checkbox" onchange="toggleTask(this)">
+                            <span>Review Chapter 1</span>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="toggleTask(this)">
+                            <span>Complete Practice Problems</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="notes">
+                    <h2>Quick Notes</h2>
+                    <textarea id="notes" placeholder="Write your notes here..."></textarea>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <div class="resource-viewer" id="resource-viewer">
+        <div class="resource-viewer-header">
+            <div class="resource-viewer-title" id="resource-viewer-title">Resource Title</div>
+            <button class="resource-viewer-close" onclick="closeResource()">Close</button>
+        </div>
+        <div class="resource-viewer-content">
+            <iframe id="resource-viewer-frame" title="Resource Viewer"></iframe>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = '';
+        const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
+
+        async function getAIResponse(message) {
+            try {
+                const response = await fetch(`${API_URL}?key=${API_KEY}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{ text: message }]
+                        }]
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('API request failed');
+                }
+
+                const data = await response.json();
+                return data.candidates[0].content.parts[0].text;
+            } catch (error) {
+                console.error('Error:', error);
+                return 'Sorry, I encountered an error. Please try again.';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatMessages = document.querySelector('.chat-messages');
+            const chatInput = document.querySelector('.chat-input input');
+            const sendButton = document.querySelector('.chat-input button');
+            let isProcessing = false;
+
+            async function sendMessage() {
+                if (isProcessing || !chatInput.value.trim()) return;
+
+                const userMessage = chatInput.value.trim();
+                chatInput.value = '';
+
+                chatMessages.innerHTML += `
+                    <div class="message-user">
+                        <div class="message-bubble">
+                            ${userMessage}
+                        </div>
+                    </div>
+                `;
+
+                isProcessing = true;
+                sendButton.textContent = '...';
+                sendButton.disabled = true;
+
+                const aiResponse = await getAIResponse(userMessage);
+
+                chatMessages.innerHTML += `
+                    <div class="message-ai">
+                        <div class="message-bubble">
+                            ${aiResponse}
+                        </div>
+                    </div>
+                `;
+
+                isProcessing = false;
+                sendButton.textContent = 'Send';
+                sendButton.disabled = false;
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            sendButton.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+
+            chatMessages.innerHTML += `
+                <div class="message-ai">
+                    <div class="message-bubble">
+                        Hello! I'm your Study Assistant powered by Gemini AI. How can I help you with your studies today?
+                    </div>
+                </div>
+            `;
+        });
+
+        let timerMinutes = 25;
+        let timerSeconds = 0;
+        let timerInterval = null;
+        const timerDisplay = document.getElementById('timer');
+        const startButton = document.getElementById('startTimer');
+        const minutesInput = document.getElementById('minutes-input');
+        const secondsInput = document.getElementById('seconds-input');
+
+        function updateTimerDisplay() {
+            timerDisplay.textContent = `${String(timerMinutes).padStart(2, '0')}:${String(timerSeconds).padStart(2, '0')}`;
+        }
+
+        function setCustomTime() {
+            // Clear any running timer
+            if (timerInterval !== null) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                startButton.textContent = 'Start Timer';
+            }
+
+            // Get and validate input values
+            let minutes = parseInt(minutesInput.value) || 0;
+            let seconds = parseInt(secondsInput.value) || 0;
+
+            // Validate and adjust values
+            if (seconds >= 60) {
+                minutes += Math.floor(seconds / 60);
+                seconds = seconds % 60;
+            }
+
+            // Update inputs with adjusted values
+            minutesInput.value = minutes;
+            secondsInput.value = seconds;
+
+            // Set timer values
+            timerMinutes = minutes;
+            timerSeconds = seconds;
+
+            // Update display
+            updateTimerDisplay();
+        }
+
+        function startTimer() {
+            if (timerInterval === null) {
+                // Don't start if timer is at 0
+                if (timerMinutes === 0 && timerSeconds === 0) {
+                    alert('Please set a time greater than 0');
+                    return;
+                }
+
+                timerInterval = setInterval(() => {
+                    if (timerSeconds === 0) {
+                        if (timerMinutes === 0) {
+                            clearInterval(timerInterval);
+                            timerInterval = null;
+                            startButton.textContent = 'Start Timer';
+                            alert('Time is up!');
+                            return;
+                        }
+                        timerMinutes--;
+                        timerSeconds = 59;
+                    } else {
+                        timerSeconds--;
+                    }
+                    updateTimerDisplay();
+                }, 1000);
+                startButton.textContent = 'Pause Timer';
+            } else {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                startButton.textContent = 'Start Timer';
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            // Reset to the values in the input fields
+            setCustomTime();
+            startButton.textContent = 'Start Timer';
+        }
+
+        // Add input validation
+        minutesInput.addEventListener('input', function() {
+            let value = parseInt(this.value) || 0;
+            if (value > 99) value = 99;
+            if (value < 0) value = 0;
+            this.value = value;
+        });
+
+        secondsInput.addEventListener('input', function() {
+            let value = parseInt(this.value) || 0;
+            if (value > 59) value = 59;
+            if (value < 0) value = 0;
+            this.value = value;
+        });
+
+        document.getElementById('startTimer').addEventListener('click', startTimer);
+        document.getElementById('resetTimer').addEventListener('click', resetTimer);
+
+        function showTab(tab) {
+            document.querySelectorAll('.resource-tabs button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function showInputTab(tab) {
+            document.querySelectorAll('.resource-input-tabs button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelectorAll('.resource-input-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            
+            event.target.classList.add('active');
+            document.getElementById(`${tab}-input`).classList.add('active');
+        }
+
+        function addResource() {
+            const title = document.getElementById('resource-title').value;
+            const url = document.getElementById('resource-url').value;
+            if (title && url) {
+                const li = document.createElement('li');
+                li.onclick = () => showResource(url, title);
+                li.innerHTML = `
+                    <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=80&h=80&fit=crop" alt="">
+                    <span>📚 ${title}</span>
+                `;
+                document.getElementById('resource-list').appendChild(li);
+                document.getElementById('resource-title').value = '';
+                document.getElementById('resource-url').value = '';
+            }
+        }
+
+        function showResource(url, title) {
+            const viewer = document.getElementById('resource-viewer');
+            const frame = document.getElementById('resource-viewer-frame');
+            const titleElement = document.getElementById('resource-viewer-title');
+            
+            titleElement.textContent = title;
+            frame.src = url;
+            viewer.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeResource() {
+            const viewer = document.getElementById('resource-viewer');
+            const frame = document.getElementById('resource-viewer-frame');
+            
+            viewer.classList.remove('active');
+            frame.src = '';
+            document.body.style.overflow = '';
+        }
+
+        // File upload handling
+        document.getElementById('file-input-field').addEventListener('change', function(e) {
+            const files = e.target.files;
+            for (let file of files) {
+                // In a real application, you would upload the file to a server here
+                // For this demo, we'll create a local object URL
+                const url = URL.createObjectURL(file);
+                const li = document.createElement('li');
+                li.onclick = () => showResource(url, file.name);
+                li.innerHTML = `
+                    <img src="${file.type.startsWith('image/') ? url : 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=80&h=80&fit=crop'}" alt="">
+                    <span>📄 ${file.name}</span>
+                `;
+                document.getElementById('resource-list').appendChild(li);
+            }
+            e.target.value = ''; // Reset the input
+        });
+
+        function addTask() {
+            const taskInput = document.getElementById('task-input');
+            const taskText = taskInput.value.trim();
+            if (taskText) {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <input type="checkbox" onchange="toggleTask(this)">
+                    <span>${taskText}</span>
+                `;
+                document.getElementById('task-list').appendChild(li);
+                taskInput.value = '';
+            }
+        }
+
+        function toggleTask(checkbox) {
+            const li = checkbox.parentElement;
+            if (checkbox.checked) {
+                li.classList.add('completed');
+            } else {
+                li.classList.remove('completed');
+            }
+        }
+
+        document.getElementById('task-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                addTask();
+            }
+        });
+    </script>
+</body>
+{% endblock content %} 
+</html>

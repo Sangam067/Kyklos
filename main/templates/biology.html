@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biology Notes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+           background-image:url(bg.jpg);
+           background-size:cover;
+            color: #e0ffff;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #003838;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #006400;
+        }
+
+        h1 {
+            color: #00ff9d;
+            margin-bottom: 10px;
+        }
+
+        .notes-section {
+            padding: 20px;
+        }
+
+        .note-card {
+            background-color: #005252;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #006400;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .note-card:hover {
+            transform: translateX(10px);
+        }
+
+        .note-info {
+            flex-grow: 1;
+        }
+
+        .note-card h2 {
+            color: #00ff9d;
+            margin-bottom: 5px;
+        }
+
+        .note-meta {
+            font-size: 0.9em;
+            color: #a0ffff;
+        }
+
+        .download-link {
+            background-color: #006400;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .download-link:hover {
+            background-color: #008000;
+        }
+
+        .file-icon {
+            font-size: 1.2em;
+        }
+
+        .file-size {
+            color: #a0ffff;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+
+        .shared-by {
+            font-style: italic;
+            color: #a0ffff;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Biology Notes</h1>
+        <p>Shared notes from your teachers.</p>
+    </header>
+
+    <div class="container">
+        <div class="notes-section">
+            <div class="note-card">
+                <div class="note-info">
+                    <h2>Cell Biology - Structure and Function</h2>
+                    <div class="note-meta">PDF Document • Last updated: Feb 1, 2024</div>
+                    <div class="shared-by">Shared by: Raju Basnet</div>
+                </div>
+                <a href="https://docs.google.com/document/d/1-7r_kjHkDmehDhwnIkoqBsfzxwS9qqa4xV8uKYCOO3o/edit" class="download-link">
+                    <span class="file-icon">📄</span>
+                    Open
+                </a>
+            </div>
+
+
+            <div class="note-card">
+                <div class="note-info">
+                    <h2>Ecology - Ecosystems and Biodiversity</h2>
+                    <div class="note-meta">Word Document • Last updated: Jan 25, 2024</div>
+                   <div class="shared-by">Shared by: Ram Gurung</div>
+                </div>
+                <a href="
+                https://docs.google.com/document/d/1-RsxTxE80dKMBdIXVSbZ0IY0slbf_1okIUsUpJFaJa4/edit" class="download-link">
+                    <span class="file-icon">📄</span>
+                    Open
+                </a>
+            </div>
+
+            <div class="note-card">
+                <div class="note-info">
+                    <h2>Human Anatomy - Body Systems</h2>
+                    <div class="note-meta">PDF Document • Last updated: Jan 22, 2024</div>
+                    <div class="shared-by">Shared by: Anita Sharma</div>
+                </div>
+                <a href="
+                https://docs.google.com/document/d/10FwayJhLpJeCgEQmvD5snPfe4cOAWKkDkSaYyf1HsA0/edit" class="download-link">
+                    <span class="file-icon">📄</span>
+                    Open
+                </a>
+            </div>
+
+            <div class="note-card">
+                <div class="note-info">
+                    <h2>Microbiology - Bacteria and Viruses</h2>
+                    <div class="note-meta">PDF Document • Last updated: Jan 18, 2024</div>
+                    <div class="shared-by">Shared by: Bishnu Khadka</div>
+                </div>
+                <a href="https://docs.google.com/document/d/10sn7cTLzVapNncAEm900DrnopfYz647Z5Cw-1pxbRVc/edit" class="download-link">
+                    <span class="file-icon">📄</span>
+                    Open
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock content %}
+</html>

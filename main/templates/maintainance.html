@@ -1,0 +1,373 @@
+{% extends "base.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+    {% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maintenance - Hostel Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #4a7ab1 0%, #4e8496 50%, #54a8cc 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            position: fixed;
+            width: 280px;
+            height: 100%;
+            background: rgba(91, 170, 204, 0.95);
+            padding: 25px;
+            border-right: 1px solid rgba(0, 255, 255, 0.1);
+        }
+
+        .logo {
+            color: #00e6e6;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 35px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-bottom: 15px;
+        }
+
+        .nav-links a {
+            color: #b3ffff;
+            text-decoration: none;
+            font-size: 16px;
+            display: block;
+            padding: 12px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: rgba(0, 230, 230, 0.05);
+        }
+
+        .nav-links a:hover {
+            background: rgba(0, 230, 230, 0.15);
+            transform: translateX(5px);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+        }
+
+        .main-content {
+            margin-left: 280px;
+            padding: 30px;
+        }
+
+        .header {
+            background: rgba(16, 32, 39, 0.8);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            border: 1px solid rgba(0, 255, 255, 0.1);
+        }
+
+        .header h1 {
+            color: #00e6e6;
+            font-size: 28px;
+            letter-spacing: 1px;
+        }
+
+        .card {
+            background: rgba(16, 32, 39, 0.8);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            border: 1px solid rgba(0, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .stat-card {
+            background: rgba(16, 32, 39, 0.8);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card h3 {
+            color: #80ffff;
+            margin-bottom: 15px;
+            font-size: 18px;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-card .number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #00e6e6;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #80ffff;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(16, 32, 39, 0.6);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #e0e0e0;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: rgba(0, 255, 255, 0.5);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #00b3b3, #008080);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #00cccc, #009999);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+            margin-top: 20px;
+        }
+
+        .table th,
+        .table td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        .table th {
+            background: rgba(0, 230, 230, 0.1);
+            color: #00e6e6;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .table tr {
+            background: rgba(16, 32, 39, 0.6);
+            transition: transform 0.3s ease;
+        }
+
+        .table tr:hover {
+            transform: scale(1.01);
+            background: rgba(16, 32, 39, 0.8);
+        }
+
+        .table td {
+            color: #e0e0e0;
+        }
+
+        h2 {
+            color: #00e6e6;
+            margin-bottom: 20px;
+            font-size: 24px;
+            letter-spacing: 0.5px;
+        }
+
+        select option {
+            background: #1a2634;
+            color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            Hostel Management
+        </div>
+        <ul class="nav-links">
+            <li><a href="/dashboard{{hostel.id}}/">Dashboard</a></li>
+            <li><a href="/complaint{{hostel.id}}/">Complaints</a></li>
+            <li><a href="/maintainance{{hostel.id}}/">Maintenance</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h1>Maintenance Management For {{hostel.name}}</h1>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Pending Tasks</h3>
+                <div class="number" id="pendingTasks">5</div>
+            </div>
+            <div class="stat-card">
+                <h3>In Progress</h3>
+                <div class="number">3</div>
+            </div>
+            <div class="stat-card">
+                <h3>Completed Today</h3>
+                <div class="number">7</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Schedule Maintenance</h2>
+            <form id="maintenanceForm">
+                <div class="form-group">
+                    <label for="room">Room Number</label>
+                    <input type="text" id="room" required>
+                </div>
+                <div class="form-group">
+                    <label for="type">Maintenance Type</label>
+                    <select id="type" required>
+                        <option value="">Select Type</option>
+                        <option value="routine">Routine Check</option>
+                        <option value="repair">Repair Work</option>
+                        <option value="replacement">Replacement</option>
+                        <option value="emergency">Emergency Maintenance</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="priority">Priority Level</label>
+                    <select id="priority" required>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                        <option value="urgent">Urgent</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn">Schedule Maintenance</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Maintenance Schedule</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Room</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="scheduleTableBody">
+                    <tr>
+                        <td>2024-03-15</td>
+                        <td>102</td>
+                        <td>Repair Work</td>
+                        <td>Fix electrical wiring</td>
+                        <td>High</td>
+                        <td>In Progress</td>
+                    </tr>
+                    <tr>
+                        <td>2024-03-16</td>
+                        <td>205</td>
+                        <td>Routine Check</td>
+                        <td>Monthly maintenance</td>
+                        <td>Low</td>
+                        <td>Scheduled</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("maintenanceForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            // Get form data
+            const room = document.getElementById("room").value;
+            const type = document.getElementById("type").value;
+            const priority = document.getElementById("priority").value;
+            const description = document.getElementById("description").value;
+            const date = new Date().toISOString().split('T')[0]; // Today's date in YYYY-MM-DD format
+
+            // Add to maintenance schedule table
+            const tableBody = document.getElementById("scheduleTableBody");
+            const newRow = tableBody.insertRow();
+
+            newRow.innerHTML = `
+                <td>${date}</td>
+                <td>${room}</td>
+                <td>${type}</td>
+                <td>${description}</td>
+                <td>${priority}</td>
+                <td>Pending</td>
+            `;
+
+            // Increase the pending tasks count
+            const pendingTasks = document.getElementById("pendingTasks");
+            pendingTasks.textContent = parseInt(pendingTasks.textContent) + 1;
+
+            // Reset form
+            document.getElementById("maintenanceForm").reset();
+        });
+    </script>
+
+</body>
+{% endblock content %}
+</html>

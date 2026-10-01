@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+
+{% load static  %}
+<!DOCTYPE html>
+<html lang="en">
+    {% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Community</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+           
+            background:url({% static 'bg.jpg' %});
+            background-size:cover;
+            
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        .nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #7fffd4;
+            text-decoration: none;
+        }
+
+        .start-discussion {
+            background: #7fffd4;
+            color: #1a2f3f;
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .start-discussion:hover {
+            background: #5fffc4;
+            transform: translateY(-1px);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #7fffd4;
+        }
+
+        .post {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            object-fit: cover;
+        }
+
+        .user-info h3 {
+            color: #7fffd4;
+            margin-bottom: 0.2rem;
+        }
+
+        .user-info span {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        .post-content {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 1rem;
+            color: #aaa;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: #7fffd4;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .action-btn:hover {
+            color: #fff;
+        }
+
+        .replies {
+            margin-left: 3rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .reply-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .reply-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            padding: 0.8rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            resize: vertical;
+        }
+
+        .reply-input::placeholder {
+            color: #aaa;
+        }
+
+        .submit-reply {
+            background: #7fffd4;
+            color: #1a2f3f;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .submit-reply:hover {
+            background: #5fffc4;
+        }
+
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-content">
+            <a href="/" class="nav-brand">Kyklos</a>
+            <a href="/creatediscussion{{userid}}/" class="start-discussion">Start Discussion</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="header">
+            <h1>Discussion Community</h1>
+            <p>Share knowledge, ask questions, learn together, bond together</p>
+        </header>
+        
+        <main>
+            {% for discussion in discussions %}
+            
+            <div class="post">
+                <div class="post-header">
+                    <img src="{% static 'icon.png' %}" alt="User Avatar" class="avatar">
+                    <div class="user-info">
+                        <h3>{{discussion.username}}</h3>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <h3>{{discussion.title}}</h3>
+                    <h5>{{discussion.topic}}</h5>
+                    <p>{{discussion.content}}</p>
+                </div>
+                <div class="post-actions">
+                    <button class="action-btn" onclick="toggleReplies(this)">💬 Reply</button>
+                    <button class="action-btn">⬆️ Upvote</button>
+                    <button class="action-btn">🔖 Save</button>
+                </div>
+                <div class="replies">
+                    <div class="reply-box">
+                        <textarea class="reply-input" placeholder="Write your reply..."></textarea>
+                        <button class="submit-reply">Submit</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </main>
+    </div>
+
+    <script>
+        function toggleReplies(button) {
+            const post = button.closest('.post');
+            const replies = post.querySelector('.replies');
+            replies.classList.toggle('show');
+        }
+    </script>
+</body>
+{% endblock content %} 
+</html>

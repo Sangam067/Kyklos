@@ -1,0 +1,567 @@
+{% extends "base.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Website</title>
+
+    <style>
+        body {
+            margin-left:50px ;
+            margin-right:50px;
+            font-family: Arial, sans-serif;
+       line-height: 1.6;
+   
+      color: white;
+    
+            background-image: url({% static 'bg.jpg' %});
+            background-size: cover;
+            color: white;
+        }
+
+        .content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        .content-left {
+            width: 50%;
+            padding-right: 20px;
+        }
+
+        .content-right {
+            width: 50%;
+            padding-left: 40px;
+        }
+
+
+        .content-left p {
+            
+            margin-bottom: 1em;
+           
+        }
+
+
+       
+
+        .content-right img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        nav {
+            position: absolute;
+            top: 12px;
+            left: 0;
+            right: 0;
+            margin: 20px;
+            font-size: 19px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+       
+        }
+        
+
+        nav .logo {
+            margin-right: auto;
+        }
+
+        nav .menu {
+            display: flex;
+            align-items: center;
+        }
+
+        nav a {
+            position: relative;
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1em;
+            color: white;
+            text-decoration: none;
+            transition: color 0.5s, background-color 0.5s;
+        }
+
+        nav a::before, nav a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            transition: transform 0.5s;
+        }
+
+        nav a::before {
+            background: linear-gradient(90deg, cyan, black);
+            transform: scaleX(0);
+            transform-origin: left;
+        }
+
+        nav a::after {
+            background: linear-gradient(90deg, cyan, green);
+            transform: scaleX(0);
+            transform-origin: left;
+        }
+
+        nav a:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        nav a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        nav a:hover {
+            color: #262626;
+        }
+
+       
+       
+
+        .bot{
+            margin-top:130px;
+            width:1000px;
+            height:1000px;
+        }
+        .butto11{text-decoration: none;
+        color: white;}
+
+        h2 {
+      margin: 0;
+      font-size: 50px;
+display:inline;
+text-align:center;
+
+
+
+    }
+
+h1{ 
+    margin-bottom: 0px;
+    font-size: 50px;
+      background:
+  -webkit-linear-gradient(silver 40%, green);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+    text-align: center;
+}
+.mid{
+    font-size:20px;
+    color:white;
+    text-align:justify;
+}
+.m{ text-align: center;
+    font-size: 30px;}
+
+    .words {
+            background: rgba(16, 34, 64, 0.5);
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            padding: 10px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .hostel-card {
+            background: rgba(16, 34, 64, 0.5);
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            padding: 24px;
+            margin-bottom: 24px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .hostel-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(100, 255, 218, 0.1);
+        }
+
+        .hostel-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border: 2px solid rgba(100, 255, 218, 0.1);
+        }
+
+        .hostel-card h3 {
+            color: #64ffda;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .hostel-card ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .hostel-card li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .hostel-card li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #64ffda;
+        }
+
+        .price-tag {
+            display: inline-block;
+            background: rgba(100, 255, 218, 0.1);
+            color: #64ffda;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+
+        .review {
+            border-left: 4px solid #64ffda;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            background: rgba(16, 34, 64, 0.5);
+            border-radius: 0 8px 8px 0;
+            transition: all 0.3s ease;
+        }
+
+        .review:hover {
+            transform: translateX(10px);
+            background: rgba(16, 34, 64, 0.8);
+        }
+
+        .review p {
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+
+        .review small {
+            color: #64ffda;
+            font-weight: bold;
+        }
+
+        .resource-list {
+            list-style: none;
+        }
+
+        .resource-list li {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(16, 34, 64, 0.5);
+            border-radius: 8px;
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .resource-list li:hover {
+            transform: translateX(10px);
+            background: rgba(16, 34, 64, 0.8);
+        }
+
+        .quiz-form {
+            background: rgba(16, 34, 64, 0.5);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid rgba(100, 255, 218, 0.1);
+        }
+
+        .quiz-question {
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-options label {
+            display: block;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(16, 34, 64, 0.5);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(100, 255, 218, 0.1);
+        }
+
+        .quiz-options label:hover {
+            background: rgba(100, 255, 218, 0.1);
+            transform: translateX(10px);
+        }
+
+        .quiz-options input[type="radio"] {
+            margin-right: 1rem;
+            accent-color: #64ffda;
+        }
+
+        button {
+            background: linear-gradient(135deg, #64ffda 0%, #00b4d8 100%);
+            color: #0a192f;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(100, 255, 218, 0.3);
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #0f2d4a 0%, #164e87 100%);
+            color: #64ffda;
+            border-radius: 12px;
+            margin-top: 3rem;
+            border: 1px solid rgba(100, 255, 218, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .hostel-image {
+                height: 200px;
+            }
+        }
+
+
+        
+    .containera {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+
+    .slider {
+      position: relative;
+      overflow: hidden;
+      height: 400px;
+      margin: 2rem 0;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .slide {
+      min-width: 100%;
+      position: relative;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+    }
+
+    .slide-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 2rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.9));
+      color: white;
+    }
+
+    .view-more-btn {
+      background: linear-gradient(to right, #06b6d4, #0891b2);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: all 0.3s ease;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .view-more-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+    }
+
+    .slider-buttons button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(6, 182, 212, 0.8);
+      color: white;
+      border: none;
+      padding: 1rem;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      font-size: 1.2rem;
+    }
+
+    .slider-buttons button:hover {
+      background: rgba(6, 182, 212, 1);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .prev { left: 1rem; }
+    .next { right: 1rem; }
+  
+    </style>
+</head>
+<body>
+
+<nav>
+    <img class="abd" src="{% static 'kyk.png' %}" width="70" height="70" alt="Logo">
+    <div class="menu">
+        <a href="#hostels">Hostel</a>
+    
+        <a href="#resources">Resources</a>
+        <a href="#quiz">Quiz</a>
+        <a href="/login">
+            <img src="{% static 'icon.png' %}" width="30" height="30" alt="Profile">
+        </a>
+    </div>
+</nav>
+
+<div class="content">
+    <div class="content-left">
+        <h1 style="margin-left:50px">WELCOME TO KYKLOS</h1><br>
+        <br>
+        <p></p>
+        <p class="mid">At Kyklos, we believe that every student deserves comprehensive support to thrive both academically and personally. Our mission is to provide a nurturing and engaging virtual environment where students receive top-notch education, guidance in hostel selection, proper money management, and time management skills. With our holistic approach and accessible resources, we aim to unlock each student's full potential and set them on a path to success.</p>
+
+        <div>
+          <button class="button11" style="margin-left:100px;">  <a style="text-decoration:none; " href="#">About Us</a></button>
+           <button class="button11" style="margin-left:200px;"> <a style="text-decoration:none; "  href="#">Contact</a></button>
+         </div>
+<br>
+    </div>
+    <div class="content-right">
+        <img class="bot" src="{% static 'bot.png' %}" alt="Kyklos">
+    </div>
+</div>
+
+<section id="hostels">
+    <h2>Colaborative Hostels : </h2>
+    <br>
+  <div class="containera">
+    <div class="slider">
+      <div class="slides" id="slides">
+        <div class="slide">
+            
+          <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=800&q=80" alt="Hostel1">
+          <div class="slide-content">
+            <h3>Bagbazzar fancy hostel</h3>
+            <p>Bagbazzar, Kathmandu</p>
+            <p>Rs12,000/month • ⭐ 4.8 (234 reviews)</p>
+            <a style="text-decoration:none;" href="/hostel1/"><button class="view-more-btn">View More →</button></a>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="https://images.unsplash.com/photo-1520277739336-7bf67edfa768?auto=format&fit=crop&w=800&q=80" alt="Hostel2">
+          <div class="slide-content">
+            <h3>Maitighar hostel</h3>
+            <p>Maitighar, Kathmandu</p>
+            <p>Rs14,000/month • ⭐ 4.6 (189 reviews)</p>
+            <a style="text-decoration:none;" href="/hostel2/"><button class="view-more-btn">View More →</button></a>
+          </div>
+        </div>
+        <div class="slide">
+            <img src="{% static 'bdh.jpg' %}" alt="Coastal Dreams">
+            <div class="slide-content">
+              <h3>Boys Dream Hostel</h3>
+              <p>Baneshwor, Kathmandu</p>
+              <p>Rs15,000/month • ⭐ 4.7 (156 reviews)</p>
+             <a style="text-decoration:none;" href="/hostel3/"> <button class="view-more-btn">View More →</button></a>
+            </div>
+          </div>
+       
+      </div>
+      <div class="slider-buttons">
+        <button class="prev" onclick="prevSlide()">←</button>
+        <button class="next" onclick="nextSlide()">→</button>
+      </div>
+    </div>
+
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.getElementById('slides');
+    const totalSlides = 3;
+
+    function showSlide(index) {
+      slides.style.transform = `translateX(-${index * 100}%)`;
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      showSlide(currentSlide);
+    }
+
+    function viewHostel(id) {
+      // This function would navigate to the specific hostel page
+      alert('Viewing details for: ' + id);
+    }
+  </script>
+
+</section>
+
+
+<section id="resources">
+    <h2>Our Special Features : </h2><br>
+    <ul class="resource-list">
+        <li>📚Study Space</li>
+        <li>💻Comprehensive Hostel System With Student And Warden Portal.</li>
+        <li>📝Academic Assistant</li>
+        <li>🎯Tution Classroooms</li>
+        <li>💻Upload Resources and View Customized Resources Based On Interest</li>
+        <li>📚Discussions</li>
+        <li>📝Earn and Redeem Credit</li>
+        <li>For the resources click the link below to go to our community page</li>
+    </ul>
+    
+</section>
+<br>
+
+<footer>
+    <p>© 2025 Kyklos. All rights reserved.</p>
+</footer>
+
+</body>
+{% endblock content %} 
+</html>

@@ -1,0 +1,1090 @@
+{% extends "base.html" %}
+
+
+{% load static %}
+<html lang="en">
+  {% block content %}
+ 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kyklos</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background-color: #0c4a6e;
+      color: #ecfeff;
+    }
+
+    header {
+      background-color: #164e63;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid #155e75;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-content {
+      max-width: 80rem;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .logo span {
+      color: #22d3ee;
+      font-size: 1.5rem;
+    }
+
+    .search-container {
+      position: relative;
+    }
+
+    .search-input {
+      padding: 0.5rem 1rem;
+      padding-right: 2.5rem;
+      border-radius: 9999px;
+      background-color: #155e75;
+      color: #ecfeff;
+      border: none;
+      width: 20rem;
+    }
+
+    .search-input::placeholder {
+      color: #22d3ee;
+    }
+
+    .search-input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px #22d3ee;
+    }
+
+    .search-icon {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #22d3ee;
+    }
+
+    .user-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .points-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: #155e75;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      color: #22d3ee;
+      font-weight: 500;
+    }
+
+    .profile-img {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 9999px;
+      border: 2px solid #22d3ee;
+    }
+
+    main {
+      max-width: 80rem;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      gap: 2rem;
+    }
+
+    .card {
+      background-color: #164e63;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      border: 1px solid #155e75;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      margin-bottom: 1.5rem;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-title span {
+      color: #22d3ee;
+    }
+
+    .group-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      border: 1px solid rgba(21, 94, 117, 0.5);
+      border-radius: 0.5rem;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .group-item:hover {
+      background-color: #155e75;
+    }
+
+    .group-icon {
+      background-color: rgba(21, 94, 117, 0.5);
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      font-size: 1.25rem;
+    }
+
+    .group-info {
+      flex: 1;
+    }
+
+    .group-name {
+      font-weight: 500;
+      color: #ecfeff;
+      margin-bottom: 0.25rem;
+    }
+
+    .group-desc {
+      font-size: 0.875rem;
+      color: #22d3ee;
+    }
+
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .resource-card {
+      background-color: #155e75;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .resource-img {
+      width: 100%;
+      height: 8rem;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .resource-card:hover .resource-img {
+      transform: scale(1.05);
+    }
+
+    .resource-content {
+      padding: 1rem;
+    }
+
+    .resource-title {
+      font-weight: 600;
+      color: #ecfeff;
+      margin-bottom: 0.25rem;
+    }
+
+    .resource-author {
+      font-size: 0.875rem;
+      color: #22d3ee;
+    }
+
+    .resource-category {
+      display: inline-block;
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      background-color: #0e7490;
+      color: #67e8f9;
+      padding: 0.25rem 0.5rem;
+      border-radius: 9999px;
+    }
+
+    .post {
+      margin-bottom: 1rem;
+    }
+
+    .post-header {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .post-content {
+      color: #cffafe;
+      margin-bottom: 1rem;
+    }
+
+    .post-actions {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .action-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: none;
+      border: none;
+      color: #22d3ee;
+      cursor: pointer;
+      transition: color 0.2s;
+      font-size: 0.875rem;
+    }
+
+    .action-btn:hover {
+      color: #67e8f9;
+    }
+
+    .view-discussion {
+      color: #22d3ee;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .view-discussion:hover {
+      color: #67e8f9;
+    }
+
+    .comments-section {
+      border-top: 1px solid #155e75;
+      padding-top: 1rem;
+      margin-top: 1rem;
+    }
+
+    .comment-form {
+      margin-bottom: 1rem;
+    }
+
+    .comment-input {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      background-color: #155e75;
+      border: none;
+      color: #ecfeff;
+    }
+
+    .comment-input::placeholder {
+      color: #22d3ee;
+    }
+
+    .comment-input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px #22d3ee;
+    }
+
+    .comment {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .comment-avatar {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 9999px;
+      background-color: #155e75;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #22d3ee;
+      font-weight: 500;
+    }
+
+    .comment-content {
+      flex: 1;
+    }
+
+    .comment-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .comment-author {
+      font-weight: 500;
+      color: #ecfeff;
+    }
+
+    .comment-time {
+      font-size: 0.875rem;
+      color: #22d3ee;
+    }
+
+    .comment-text {
+      color: #cffafe;
+    }
+
+    .contributor {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .event {
+      border-left: 4px solid #22d3ee;
+      padding-left: 1rem;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+      border-top-right-radius: 0.5rem;
+      border-bottom-right-radius: 0.5rem;
+      transition: background-color 0.2s;
+    }
+
+    .event:hover {
+      background-color: rgba(21, 94, 117, 0.5);
+    }
+
+    .event-name {
+      font-weight: 500;
+      color: #ecfeff;
+      margin-bottom: 0.25rem;
+    }
+
+    .event-info {
+      font-size: 0.875rem;
+      color: #22d3ee;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .hostel-card {
+      background-color: #164e63;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      border: 1px solid #155e75;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      margin-bottom: 1.5rem;
+    }
+
+    .words {
+      background: rgba(16, 34, 64, 0.5);
+      border: 1px solid rgba(100, 255, 218, 0.1);
+      padding: 10px;
+      border-radius: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .hostel-card {
+      background: rgba(16, 34, 64, 0.5);
+      border: 1px solid rgba(100, 255, 218, 0.1);
+      padding: 24px;
+      margin-bottom: 24px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .hostel-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(100, 255, 218, 0.1);
+    }
+
+    .hostel-image {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      border: 2px solid rgba(100, 255, 218, 0.1);
+    }
+
+    .hostel-card h3 {
+      color: #64ffda;
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+    }
+
+    .hostel-card ul {
+      list-style: none;
+      margin-top: 1rem;
+    }
+
+    .hostel-card li {
+      margin-bottom: 0.5rem;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    .hostel-card li:before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: #64ffda;
+    }
+
+    .price-tag {
+      display: inline-block;
+      background: rgba(100, 255, 218, 0.1);
+      color: #64ffda;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
+    .quiz-card {
+      background-color: #164e63;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      border: 1px solid #155e75;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      margin-top: 1.5rem;
+    }
+
+    .quiz-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #ecfeff;
+    }
+
+    .quiz-title span {
+      color: #22d3ee;
+    }
+
+    .quiz-question {
+      color: #ecfeff;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .quiz-option {
+      background-color: #155e75;
+      border: 1px solid #0e7490;
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+      color: #ecfeff;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .quiz-option:hover {
+      background-color: #0e7490;
+    }
+
+    .quiz-option.correct {
+      background-color: #065f46;
+      border-color: #059669;
+    }
+
+    .quiz-option.wrong {
+      background-color: #991b1b;
+      border-color: #dc2626;
+    }
+
+    .quiz-submit {
+      background-color: #0891b2;
+      color: #ecfeff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      width: 100%;
+    }
+
+    .quiz-submit:hover {
+      background-color: #0e7490;
+    }
+
+    .quiz-submit:disabled {
+      background-color: #155e75;
+      cursor: not-allowed;
+    }
+
+    .quiz-result {
+      margin-top: 1rem;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      text-align: center;
+      font-weight: 500;
+      display: none;
+    }
+
+    .quiz-result.correct {
+      background-color: #065f46;
+      color: #ecfeff;
+    }
+
+    .quiz-result.wrong {
+      background-color: #991b1b;
+      color: #ecfeff;
+    }
+
+    .points-animation {
+      animation: pointsBump 0.3s ease-in-out;
+    }
+
+    @keyframes pointsBump {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.1);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .slider {
+      position: relative;
+      overflow: hidden;
+      height: 400px;
+      margin: 2rem 0;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .slide {
+      min-width: 100%;
+      position: relative;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+    }
+
+    .slide-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 2rem;
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+      color: white;
+    }
+
+    .view-more-btn {
+      background: linear-gradient(to right, #06b6d4, #0891b2);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: all 0.3s ease;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .view-more-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+    }
+
+    .slider-buttons button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(6, 182, 212, 0.8);
+      color: rgb(165, 79, 79);
+      border: none;
+      padding: 1rem;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      font-size: 1.2rem;
+    }
+
+    .slider-buttons button:hover {
+      background: rgba(6, 182, 212, 1);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .prev {
+      left: 1rem;
+    }
+
+    .next {
+      right: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-content">
+      <h1 class="logo">
+        <img src="{% static 'kyk.png' %}" alt="Kyklos" width="48" height="48">
+        Kyklos
+      </h1>
+
+      <div class="search-container">
+        <input type="search" class="search-input" placeholder="Search topics, groups, resources...">
+        <span class="search-icon">🔍</span>
+      </div>
+
+      <div class="user-section">
+        <a style="text-decoration: none;" href="/reedem{{id}}/"><div class="points-badge">
+          🏆 Credit-points : {{student_object.credit_score}}
+        </div></a>
+        <img src="{% static 'lol.png' %}" alt="Profile" class="profile-img">
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Left Sidebar -->
+    <div>
+      <div class="card">
+        <h2 class="card-title">
+          <span>📚</span>
+          Tution Classrooms
+        </h2>
+        <a href="/mathgroup/" class="group-item">
+          <div class="group-icon">➗</div>
+          <div class="group-info">
+            <p class="group-name">Maths</p>
+            <p class="group-desc">Algebra, Calculus, Statistics</p>
+          </div>
+        </a>
+        <a href="/physicsgroup/" class="group-item">
+          <div class="group-icon">⚛️</div>
+          <div class="group-info">
+            <p class="group-name">Physics</p>
+            <p class="group-desc">Mechanics, Quantum Physics</p>
+          </div>
+        </a>
+        <a href="/biologygroup/" class="group-item">
+          <div class="group-icon">🧬</div>
+          <div class="group-info">
+            <p class="group-name">Biology</p>
+            <p class="group-desc">Genetics, Ecology, Anatomy</p>
+          </div>
+        </a>
+        <a href="/computergroup/" class="group-item">
+          <div class="group-icon">💻</div>
+          <div class="group-info">
+            <p class="group-name">Computer Science</p>
+            <p class="group-desc">Programs, Algorithms</p>
+          </div>
+        </a>
+      </div>
+      <!-- Posts section -->
+      <div class="card post">
+        <h2>Recent Discussions</h2>
+        <br><br>
+        {% for discussion in discussions %}
+        <div class="post-header">
+          <img src="{% static 'icon.png' %}" alt="Profile" class="profile-img">
+          <div>
+            <p class="group-name">{{discussion.username}}</p>
+            <p class="group-desc">{{discussion.category}} • 2 hours ago</p>
+          </div>
+        </div>
+
+        <p class="post-content">
+          <strong>{{discussion.topic}}</strong>
+        </p>
+        {{discussion.title}}
+        <p>
+        </p>
+          {{discussion.content}}
+        </p>
+        <div class="post-actions">
+          <button class="action-btn"
+            onclick="this.querySelector('span:last-child').textContent = parseInt(this.querySelector('span:last-child').textContent) + 1">
+            📈 <span>15</span>
+          </button>
+          <button class="action-btn" onclick="document.querySelector('.comments-section').classList.toggle('hidden')">
+            💬 <span>2</span>
+          </button>
+        </div>
+        <br>
+
+        <div class="comments-section hidden">
+          <form class="comment-form" onsubmit="event.preventDefault(); addComment(this)">
+            <input type="text" class="comment-input" placeholder="Add a comment..." required="">
+          </form>
+          <div class="comments-list">
+            <div class="comment">
+              <div class="comment-avatar">A</div>
+              <div class="comment-content">
+                <div class="comment-header">
+                  <span class="comment-author">Alice Chen</span>
+                  <span class="comment-time">5m ago</span>
+                </div>
+                <p class="comment-text">Great explanation needed!</p>
+              </div>
+            </div>
+            <div class="comment">
+              <div class="comment-avatar">B</div>
+              <div class="comment-content">
+                <div class="comment-header">
+                  <span class="comment-author">Bob Smith</span>
+                  <span class="comment-time">10m ago</span>
+                </div>
+                <p class="comment-text">I can help explain this concept</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        <a style="text-align: center;" href="/discussion{{id}}/" class="view-discussion">View More Discussion →</a>
+      </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+      <!-- Featured Resources card -->
+      <div class="card">
+        <h2 class="card-title">
+          <span>💡</span>
+          Featured Resources for {{username}}
+        </h2>
+        <div class="resources-grid">
+        {% for resource in resources %}
+          <div class="resource-card">
+            <a href="/studyspace{{id}}/"><img src="{{resource.thumbnail.url}}" alt="Advanced Calculus" class="resource-img"></a>
+            <div class="resource-content">
+              <h3 class="resource-title">{{resource.title}}</h3>
+              <p class="resource-author">{{resource.username}}</p>
+              <span class="resource-category">{{resource.category}}</span>
+            </div>
+          </div>
+        {% endfor %}
+        <br>
+          <a href="/studyspace{{id}}/" class="action-btn">
+            <span>Upload resources from study space.</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Featured Hostels -->
+      <div class="quiz-card">
+        <h2>Featured hostel near your location</h2>
+        <div class="slider">
+          <div class="slides" id="slides">
+            <div class="slide">
+
+              <img
+                src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+                alt="Hostel1">
+              <div class="slide-content">
+                <h3>Bagbazzar fancy hostel</h3>
+                <p>Bagbazzar, Kathmandu</p>
+                <p>Rs12,000/month • ⭐ 4.8 (234 reviews)</p>
+                <a style="text-decoration:none;" href="/hostel5/"><button class="view-more-btn"
+                    onclick="viewHostel('Bagbazzar fancy hostel')">View More →</button></a>
+              </div>
+            </div>
+            <div class="slide">
+              <img
+                src="https://images.unsplash.com/photo-1520277739336-7bf67edfa768?auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+                alt="Hostel2">
+              <div class="slide-content">
+                <h3>Maitighar hostel</h3>
+                <p>Maitighar, Kathmandu</p>
+                <p>Rs14,000/month • ⭐ 4.6 (189 reviews)</p>
+                <a style="text-decoration:none;" href="/hostel6/"><button class="view-more-btn"
+                    onclick="viewHostel('Maitighar hostel')">View More →</button></a>
+              </div>
+            </div>
+            <div class="slide">
+              <img src="{% static 'bdh.jpg' %}" alt="Coastal Dreams">
+              <div class="slide-content">
+                <h3>Boys Dream Hostel</h3>
+                <p>Baneshwor, Kathmandu</p>
+                <p>Rs15,000/month • ⭐ 4.7 (156 reviews)</p>
+                <a style="text-decoration:none;" href="/hostel7/"> <button class="view-more-btn"
+                    onclick="viewHostel('Boys Dream Hostel')">View More →</button></a>
+              </div>
+            </div>
+
+          </div>
+          <div class="slider-buttons">
+            <button class="prev" onclick="prevSlide()">←</button>
+            <button class="next" onclick="nextSlide()">→</button>
+          </div>
+        </div>
+      </div>
+
+
+
+      <script>
+        let currentSlide = 0;
+        const slides = document.getElementById('slides');
+        const totalSlides = 3;
+
+        function showSlide(index) {
+          slides.style.transform = `translateX(-${index * 100}%)`;
+        }
+
+        function nextSlide() {
+          currentSlide = (currentSlide + 1) % totalSlides;
+          showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+          currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+          showSlide(currentSlide);
+        }
+
+        function viewHostel(id) {
+          // This function would navigate to the specific hostel page
+          alert('Viewing details for: ' + id);
+        }
+      </script>
+
+
+
+      <!-- Daily Quiz -->
+      <div class="quiz-card">
+        <h2 class="quiz-title">
+          <span>🎯</span>
+          Daily Quiz
+        </h2>
+        <p class="quiz-question">What is the primary difference between classical and quantum mechanics?</p>
+        <div class="quiz-options">
+          <button class="quiz-option" data-correct="true">
+            <span>A.</span> Quantum mechanics deals with probabilistic behavior at the microscopic level
+          </button>
+          <button class="quiz-option">
+            <span>B.</span> Classical mechanics is more accurate than quantum mechanics
+          </button>
+          <button class="quiz-option">
+            <span>C.</span> Quantum mechanics only applies to light
+          </button>
+          <button class="quiz-option">
+            <span>D.</span> There is no significant difference between them
+          </button>
+        </div>
+        <button class="quiz-submit" disabled="">Submit Answer</button>
+        <div class="quiz-result"></div>
+      </div>
+
+    </div>
+
+    <!-- Right Sidebar -->
+    <div class="sidebar">
+      <!-- Top Contributors section -->
+      <div class="card">
+        <h2 class="card-title">
+          <span>🏆</span>
+          Top Contributors
+        </h2>
+        <div class="contributor">
+          <img src="{% static 'icon.png' %}" alt="Profile" class="profile-img">
+          <div class="group-info">
+            <p class="group-name">Aayus Tiwari</p>
+            <p class="group-desc">Physics</p>
+          </div>
+        </div>
+        <div class="contributor">
+          <img src="{% static 'icon.png' %}" alt="Profile" class="profile-img">
+          <div class="group-info">
+            <p class="group-name">Pratik Bhandari</p>
+            <p class="group-desc">Python Coding</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upcoming Events section -->
+      <div class="card">
+        <h2 class="card-title">
+          <span>📅</span>
+          Upcoming Events
+        </h2>
+        <div class="event">
+          <p class="event-name">Advanced Physics Seminar</p>
+          <p class="event-info">March 15 • 45 attending</p>
+        </div>
+        <div class="event">
+          <p class="event-name">Math Olympiad Prep</p>
+          <p class="event-info">March 18 • 89 attending</p>
+        </div>
+        <div class="event">
+          <p class="event-name">CS Career Workshop</p>
+          <p class="event-info">March 20 • 67 attending</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function addComment(form) {
+      const input = form.querySelector('input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const commentsList = document.querySelector('.comments-list');
+      const newComment = document.createElement('div');
+      newComment.className = 'comment';
+      newComment.innerHTML = `
+        <div class="comment-avatar">Y</div>
+        <div class="comment-content">
+          <div class="comment-header">
+            <span class="comment-author">You</span>
+            <span class="comment-time">Just now</span>
+          </div>
+          <p class="comment-text">${text}</p>
+        </div>
+      `;
+
+      commentsList.appendChild(newComment);
+      form.reset();
+
+      // Update comment count
+      const commentCount = document.querySelector('.action-btn:nth-child(2) span');
+      commentCount.textContent = parseInt(commentCount.textContent) + 1;
+    }
+
+    // Quiz functionality
+    const quizOptions = document.querySelectorAll('.quiz-option');
+    const submitButton = document.querySelector('.quiz-submit');
+    const quizResult = document.querySelector('.quiz-result');
+    const pointsBadge = document.querySelector('.points-badge');
+    let currentPoints = 1250;
+    let selectedOption = null;
+
+    quizOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        // Reset previously selected option
+        quizOptions.forEach(opt => opt.style.backgroundColor = '');
+
+        // Highlight selected option
+        option.style.backgroundColor = '#0e7490';
+        selectedOption = option;
+        submitButton.disabled = false;
+      });
+    });
+
+    submitButton.addEventListener('click', () => {
+      if (!selectedOption) return;
+
+      const isCorrect = selectedOption.dataset.correct === 'true';
+      quizOptions.forEach(option => {
+        option.disabled = true;
+        if (option.dataset.correct === 'true') {
+          option.classList.add('correct');
+
+        } else if (option === selectedOption && !isCorrect) {
+          option.classList.add('wrong');
+        }
+      });
+
+      // Show result message
+      quizResult.style.display = 'block';
+      quizResult.classList.add(isCorrect ? 'correct' : 'wrong');
+      quizResult.textContent = isCorrect ?
+        '🎉 Correct! You earned 50 points!' :
+        '❌ Incorrect. Try again tomorrow!';
+
+      // Update points if correct
+      if (isCorrect) {
+        currentPoints += 50;
+        pointsBadge.innerHTML = `🏆 ${currentPoints} Points`;
+        pointsBadge.classList.add('points-animation');
+        setTimeout(() => {
+          pointsBadge.classList.remove('points-animation');
+        }, 300);
+      }
+
+      submitButton.disabled = true;
+    });
+    submitButton.addEventListener('click', () => {
+  if (!selectedOption) return;
+
+  const isCorrect = selectedOption.dataset.correct === 'true';
+  quizOptions.forEach(option => {
+    option.disabled = true;
+    if (option.dataset.correct === 'true') {
+      option.classList.add('correct');
+    } else if (option === selectedOption && !isCorrect) {
+      option.classList.add('wrong');
+    }
+  });
+
+  // Show result message
+  quizResult.style.display = 'block';
+  quizResult.classList.add(isCorrect ? 'correct' : 'wrong');
+  quizResult.textContent = isCorrect ?
+    '🎉 Correct! You earned 50 points!' :
+    '❌ Incorrect. Try again tomorrow!';
+
+  // Update points if correct
+  if (isCorrect) {
+    currentPoints += 50;
+    pointsBadge.innerHTML = `🏆 ${currentPoints} Points`;
+    pointsBadge.classList.add('points-animation');
+    setTimeout(() => {
+      pointsBadge.classList.remove('points-animation');
+    }, 300);
+
+    // Navigate to the /correctoptionclicked/ route
+    window.location.href = '/correctoptionclicked{{id}}/';
+  }
+  submitButton.disabled = true;
+  });
+  </script>
+
+
+
+
+
+
+</body>
+{% endblock content %} 
+
+</html>

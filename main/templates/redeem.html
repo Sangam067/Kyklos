@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+    {% block content %}
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Rewards Center</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #001a1a, #004d4d, #003329);
+            min-height: 100vh;
+            color: white;
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .coin-balance {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .category {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+
+        .reward-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .subdescription {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .redeem-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s ease;
+        }
+
+        .redeem-btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .redeem-btn:disabled {
+            background: rgba(0, 0, 0, 0.2);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            .categories {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Student Rewards Center</h1>
+        <div class="coin-balance">
+            <span>Your Balance: {{creditscore}} coins</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="categories">
+            <div class="category">
+                <h2>Extra Learning Resources</h2>
+                <div class="reward-item">
+                    <h3>Science Experiment Guide</h3>
+                    <p class="subdescription">Step-by-step science experiment manual</p>
+                    <p class="price">150 coins</p>
+                    <form action="/redeemsubmit{{id}}/" method="post">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                        <button type="submit" class="redeem-btn">Redeem</button>
+                    </form>
+                </div>
+                <div class="reward-item">
+                    <h3>English Grammar Workbook</h3>
+                    <p class="subdescription">Practice grammar with detailed exercises</p>
+                    <p class="price">150 coins</p>
+                    <form action="/redeemsubmit{{id}}/" method="post">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                        <button type="submit" class="redeem-btn">Redeem</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="category">
+                <h2>Technology Access</h2>
+                <div class="reward-item">
+                    <h3>Cloud Storage Upgrade</h3>
+                    <p class="subdescription">Extra 50GB cloud storage for a month</p>
+                    <p class="price">150 coins</p>
+                    <form action="/redeemsubmit{{id}}/" method="post">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                        <button type="submit" class="redeem-btn">Redeem</button>
+                    </form>
+                </div>
+                <div class="reward-item">
+                    <h3>Premium Coding Platform</h3>
+                    <p class="subdescription">1-month premium subscription</p>
+                    <p class="price">150 coins</p>
+                    <form action="/redeemsubmit{{id}}/" method="post">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                        <button type="submit" class="redeem-btn">Redeem</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const balance = parseInt("{{creditscore}}") || 0;
+        document.querySelectorAll('.reward-item').forEach(item => {
+            const price = parseInt(item.querySelector('.price').textContent);
+            const button = item.querySelector('.redeem-btn');
+            if (price > balance) {
+                button.disabled = true;
+            }
+        });
+    </script>
+</body>
+{% endblock content %} 
+</html>

@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematics Study Group</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #003300, #339933, #003300);
+            color: white;
+            padding: 2rem;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1, h2 {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #e8eaf6;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .section {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+        }
+
+        .button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+        }
+
+        .button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .assignment {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .ask-question {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        textarea {
+            background-color: rgba(139, 240, 124, 0.505);
+            color: white;
+            height: 200px;
+            width: 300px;
+        }
+
+        .file-upload {
+            margin: 1rem 0;
+        }
+
+        .file-upload button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            margin-left: 1rem;
+        }
+
+        .file-upload button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Mathematics Classroom</h1>
+            <p>Join our Classroom! Deep dive into the world of numbers, equations, and problem-solving techniques through collaborative learning and practice.</p>
+        </header>
+
+        <div class="grid-container">
+            <div class="section" id="resources">
+                <h2>Study Resources</h2>
+                <ul>
+                    <li>Algebra & Linear Equations</li>
+                    <li>Calculus & Differentiation</li>
+                    <li>Geometry & Trigonometry</li>
+                    <li>Statistics & Probability</li>
+                </ul>
+                <a href="/math/" class="button">Visit here for notes</a>
+            </div>
+
+            <div class="section" id="assignments">
+                <h2>Assignments</h2>
+                <div class="assignment">
+                    <h3>Assignment 1: Solving Quadratic Equations</h3>
+                    <p>Solve the given quadratic equations and explain the solution process.</p>
+                    <p>Due Date: March 27, 2024</p>
+                    <br>
+                    <br>
+                    <p>Your Answer : </p>
+
+                    <div class="file-upload">
+                        <input type="file" name="assignment1-file" />
+                        <button class="button">Post</button>
+                    </div>
+                </div>
+                <div class="assignment">
+                    <h3>Assignment 2: Integration Techniques</h3>
+                    <p>Compute the integrals of the following functions using the appropriate methods.</p>
+                    <p>Due Date: April 3, 2024</p>
+                    <br>
+                    <br>
+                    <p>Your Answer : </p>
+
+                    <div class="file-upload">
+                        <input type="file" name="assignment2-file" />
+                        <button class="button">Post</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section ask-question">
+                <h2>Ask a Question</h2>
+                <p>If you have any questions, feel free to ask your teacher.</p>
+                <textarea id="questionText" rows="4"></textarea>
+                <button id="submitBtn" class="button">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            alert("Your question has been submitted.");
+            document.getElementById('questionText').value = ''; // Clears the textarea
+        });
+    </script>
+        </div>
+    </div>
+</body>
+{% endblock content %}
+</html>

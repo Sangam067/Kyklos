@@ -1,0 +1,261 @@
+{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaints - Hostel Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI';
+        }
+
+        body {
+            background: linear-gradient(135deg, #001a1a 0%, #003333 50%, #004d4d 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            position: fixed;
+            width: 280px;
+            height: 100%;
+            background: rgba(0, 26, 26, 0.95);
+            padding: 25px;
+            border-right: 1px solid rgba(0, 255, 255, 0.1);
+        }
+
+        .logo {
+            color: #00e6e6;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 35px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-bottom: 15px;
+        }
+
+        .nav-links a {
+            color: #b3ffff;
+            text-decoration: none;
+            font-size: 16px;
+            display: block;
+            padding: 12px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: rgba(0, 230, 230, 0.05);
+        }
+
+        .nav-links a:hover {
+            background: rgba(0, 230, 230, 0.15);
+            transform: translateX(5px);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+        }
+
+        .main-content {
+            margin-left: 280px;
+            padding: 30px;
+        }
+
+        .header {
+            background: rgba(0, 26, 26, 0.8);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            border: 1px solid rgba(0, 255, 255, 0.1);
+        }
+
+        .header h1 {
+            color: #00e6e6;
+            font-size: 28px;
+            letter-spacing: 1px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .stat-card {
+            background: rgba(0, 26, 26, 0.8);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card h3 {
+            color: #80ffff;
+            margin-bottom: 15px;
+            font-size: 18px;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-card .number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #00e6e6;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        .card {
+            background: rgba(0, 26, 26, 0.8);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            border: 1px solid rgba(0, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+            margin-top: 20px;
+        }
+
+        .table th,
+        .table td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        .table th {
+            background: rgba(0, 230, 230, 0.1);
+            color: #00e6e6;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .table tr {
+            background: rgba(0, 26, 26, 0.6);
+            transition: transform 0.3s ease;
+        }
+
+        .table tr:hover {
+            transform: scale(1.01);
+            background: rgba(0, 26, 26, 0.8);
+        }
+
+        .table td {
+            color: #e0e0e0;
+        }
+
+        .status {
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-weight: 500;
+            text-align: center;
+            display: inline-block;
+            min-width: 100px;
+        }
+
+        .status.pending {
+            background: rgba(255, 171, 0, 0.2);
+            color: #ffab00;
+            border: 1px solid rgba(255, 171, 0, 0.3);
+        }
+
+        .status.urgent {
+            background: rgba(255, 82, 82, 0.2);
+            color: #ff5252;
+            border: 1px solid rgba(255, 82, 82, 0.3);
+        }
+
+        h2 {
+            color: #00e6e6;
+            margin-bottom: 20px;
+            font-size: 24px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            Hostel Management
+        </div>
+        <ul class="nav-links">
+            <li><a href="/dashboard{{hostel.id}}/">Dashboard</a></li>
+            <li><a href="/complaint{{hostel.id}}/">Complaints</a></li>
+            <li><a href="/maintainance{{hostel.id}}/">Maintenance</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h1>Pending Complaints</h1>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Pending</h3>
+                <div class="number">15</div>
+            </div>
+            <div class="stat-card">
+                <h3>Urgent Cases</h3>
+                <div class="number">4</div>
+            </div>
+            <div class="stat-card">
+                <h3>Today's New</h3>
+                <div class="number">6</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>All Pending Complaints</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Room</th>
+                        <th>Student Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for complaint in complaints %}
+                    <tr>
+                        <td>{{complaint.roomno}}</td>
+                        <td>{{complaint.studentname}}</td>
+                        <td>{{complaint.complaint_type}}</td>
+                        <td>{{complaint.description}}</td>
+                        <td>{{complaint.priority}}</td>
+                        <td><span class="status pending">Pending</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+{% endblock content %}
+</html>

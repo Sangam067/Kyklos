@@ -1,0 +1,238 @@
+
+{% extends "base.html" %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    {% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyConnect - Create Discussion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2f3f 0%, #0d4b4b 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4fd1c5;
+            text-decoration: none;
+        }
+
+        .create-form {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-title {
+            font-size: 24px;
+            color: #4fd1c5;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: white;
+            font-size: 16px;
+        }
+
+        .form-textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+        }
+
+        .form-select option {
+            background: #1a2f3f;
+            color: white;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: #4fd1c5;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .submit-button,
+        .cancel-button {
+            padding: 12px 24px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .submit-button {
+            background: #4fd1c5;
+            color: #1a2f3f;
+        }
+
+        .submit-button:hover {
+            background: #3bb3a7;
+        }
+
+        .cancel-button {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .cancel-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .guidelines {
+            background: rgba(79, 209, 197, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .guidelines h3 {
+            color: #4fd1c5;
+            margin-bottom: 15px;
+        }
+
+        .guidelines ul {
+            list-style-type: none;
+        }
+
+        .guidelines li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .guidelines li::before {
+            content: "•";
+            color: #4fd1c5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <a href="/" class="logo">Kyklos</a>
+        </header>
+
+        <main>
+            <form class="create-form" action="/postdiscussion{{userid}}/" method="post">
+                <h1 class="form-title">Create a New Discussion</h1>
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class="form-label" for="topic" >Topic</label>
+                    <select class="form-select" id="topic" name = "topic" required>
+                        <option value="">Select a topic</option>
+                        <option value="computer-science">Computer Science</option>
+                        <option value="mathematics">Mathematics</option>
+                        <option value="physics">Physics</option>
+                        <option value="chemistry">Chemistry</option>
+                        <option value="biology">Biology</option>
+                        <option value="engineering">Engineering</option>
+                        <option value="astronomy">Astronomy</option>
+                        <option value="Others">Others</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="title">Title</label>
+                    <input type="text" class="form-input" id="title"  name = "title"
+                           placeholder="Enter a clear, specific title for your discussion" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="content">Content</label>
+                    <textarea class="form-textarea" id="content"  name= "content"
+                              placeholder="Describe your question or topic in detail..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="category">Category</label>
+                    <input type="text" class="form-input" id="category" name="category"
+                           placeholder="Enter your category." required>
+                </div>
+
+                <div class="guidelines">
+                    <h3>Discussion Guidelines</h3>
+                    <ul>
+                        <li>Be specific and clear about your question or topic</li>
+                        <li>Provide relevant context and background information</li>
+                        <li>Use appropriate formatting for code snippets or equations</li>
+                        <li>Be respectful and professional in your communication</li>
+                        <li>Check if a similar discussion already exists before posting</li>
+                    </ul>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="submit-button">Post Discussion</button>
+                    <a href="/discussion{{userid}}/" class="cancel-button">Cancel</a>
+                </div>
+            </form>
+        </main>
+    </div>
+</body>
+{% endblock content %} 
+
+</html>

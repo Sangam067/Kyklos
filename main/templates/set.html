@@ -1,567 +1,640 @@
 {% extends "base.html" %}
 {% load static %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
-{% block content %}
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Website</title>
+    <title>Kyklos — Student Community & Hostel Management Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
         body {
-            margin-left:50px ;
-            margin-right:50px;
-            font-family: Arial, sans-serif;
-       line-height: 1.6;
-   
-      color: white;
-    
-            background-image: url({% static 'bg.jpg' %});
+            background-color: #071520;
+            background-image: radial-gradient(circle at 15% 20%, rgba(6, 182, 212, 0.12) 0%, transparent 45%),
+                              radial-gradient(circle at 85% 70%, rgba(14, 116, 144, 0.15) 0%, transparent 45%),
+                              url("{% static 'bg.jpg' %}");
             background-size: cover;
-            color: white;
+            background-position: center;
+            background-attachment: fixed;
+            color: #ecfeff;
+            line-height: 1.6;
+            min-height: 100vh;
         }
 
-        .content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 100vh;
-            padding: 20px;
-        }
-
-        .content-left {
-            width: 50%;
-            padding-right: 20px;
-        }
-
-        .content-right {
-            width: 50%;
-            padding-left: 40px;
-        }
-
-
-        .content-left p {
-            
-            margin-bottom: 1em;
-           
-        }
-
-
-       
-
-        .content-right img {
-            max-width: 100%;
-            height: auto;
-        }
-
+        /* Navigation */
         nav {
-            position: absolute;
-            top: 12px;
+            position: fixed;
+            top: 0;
             left: 0;
             right: 0;
-            margin: 20px;
-            font-size: 19px;
+            height: 72px;
+            padding: 0 2.5rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-       
+            background: rgba(10, 25, 38, 0.85);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(34, 211, 238, 0.2);
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
-        
 
-        nav .logo {
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 1.35rem;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-brand img {
+            border-radius: 8px;
+            filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.4));
+        }
+
+        .nav-brand span {
+            color: #22d3ee;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-menu a {
+            color: #cffafe;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .nav-menu a:hover {
+            color: #22d3ee;
+        }
+
+        .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+            color: #ffffff !important;
+            padding: 0.55rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 700 !important;
+            font-size: 0.9rem !important;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+        }
+
+        .nav-cta:hover {
+            background: linear-gradient(135deg, #22d3ee, #06b6d4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8.5rem 2rem 5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: calc(100vh - 100px);
+            gap: 3rem;
+        }
+
+        .hero-left {
+            flex: 1.1;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(34, 211, 238, 0.12);
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            color: #22d3ee;
+            padding: 0.4rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-left h1 {
+            font-size: 3.25rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #ffffff 40%, #67e8f9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 1.1rem;
+            color: #cffafe;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.25rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            color: #ffffff;
+            padding: 0.85rem 1.85rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 18px rgba(6, 182, 212, 0.4);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(6, 182, 212, 0.6);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            color: #cffafe;
+            padding: 0.85rem 1.85rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(34, 211, 238, 0.15);
+            color: #ffffff;
+            border-color: #22d3ee;
+            transform: translateY(-2px);
+        }
+
+        .hero-right {
+            flex: 0.9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .bot-img {
+            max-width: 100%;
+            width: 420px;
+            height: auto;
+            filter: drop-shadow(0 20px 30px rgba(6, 182, 212, 0.3));
+            animation: floatBot 4s ease-in-out infinite;
+        }
+
+        @keyframes floatBot {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* Section Commons */
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .section-title {
+            font-size: 2.35rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title span {
+            color: #22d3ee;
+        }
+
+        .section-subtitle {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        /* Hostels Slider */
+        .slider-wrapper {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(34, 211, 238, 0.25);
+            height: 440px;
+            background: #0f2027;
+        }
+
+        .slides {
+            display: flex;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 3rem 2.5rem 2rem;
+            background: linear-gradient(transparent, rgba(10, 25, 38, 0.95) 75%);
+        }
+
+        .slide-overlay h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.35rem;
+        }
+
+        .slide-overlay p {
+            color: #cffafe;
+            font-size: 1rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .slide-overlay .pricing {
+            font-weight: 700;
+            color: #22d3ee;
+        }
+
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            background: rgba(10, 25, 38, 0.85);
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            border-radius: 50%;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(6px);
+            font-size: 1.25rem;
+            z-index: 10;
+        }
+
+        .slider-nav:hover {
+            background: rgba(6, 182, 212, 0.9);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.5);
+        }
+
+        .slider-prev { left: 1.25rem; }
+        .slider-next { right: 1.25rem; }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: rgba(15, 32, 45, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(34, 211, 238, 0.15);
+            border-radius: 14px;
+            padding: 1.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(34, 211, 238, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background: rgba(15, 32, 45, 0.9);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Community Banner */
+        .community-banner {
+            margin-top: 4rem;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(14, 116, 144, 0.25) 100%);
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            border-radius: 16px;
+            padding: 3rem 2.5rem;
+            text-align: center;
+        }
+
+        .community-banner h3 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 0.75rem;
+        }
+
+        .community-banner p {
+            color: #cffafe;
+            font-size: 1.05rem;
+            margin-bottom: 1.75rem;
+            max-width: 600px;
+            margin-left: auto;
             margin-right: auto;
         }
 
-        nav .menu {
-            display: flex;
-            align-items: center;
-        }
-
-        nav a {
-            position: relative;
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 1em;
-            color: white;
-            text-decoration: none;
-            transition: color 0.5s, background-color 0.5s;
-        }
-
-        nav a::before, nav a::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: -1;
-            transition: transform 0.5s;
-        }
-
-        nav a::before {
-            background: linear-gradient(90deg, cyan, black);
-            transform: scaleX(0);
-            transform-origin: left;
-        }
-
-        nav a::after {
-            background: linear-gradient(90deg, cyan, green);
-            transform: scaleX(0);
-            transform-origin: left;
-        }
-
-        nav a:hover::before {
-            transform: scaleX(1);
-            transform-origin: left;
-        }
-
-        nav a:hover::after {
-            transform: scaleX(1);
-            transform-origin: left;
-        }
-
-        nav a:hover {
-            color: #262626;
-        }
-
-       
-       
-
-        .bot{
-            margin-top:130px;
-            width:1000px;
-            height:1000px;
-        }
-        .butto11{text-decoration: none;
-        color: white;}
-
-        h2 {
-      margin: 0;
-      font-size: 50px;
-display:inline;
-text-align:center;
-
-
-
-    }
-
-h1{ 
-    margin-bottom: 0px;
-    font-size: 50px;
-      background:
-  -webkit-linear-gradient(silver 40%, green);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-    text-align: center;
-}
-.mid{
-    font-size:20px;
-    color:white;
-    text-align:justify;
-}
-.m{ text-align: center;
-    font-size: 30px;}
-
-    .words {
-            background: rgba(16, 34, 64, 0.5);
-            border: 1px solid rgba(100, 255, 218, 0.1);
-            padding: 10px;
-            border-radius: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .hostel-card {
-            background: rgba(16, 34, 64, 0.5);
-            border: 1px solid rgba(100, 255, 218, 0.1);
-            padding: 24px;
-            margin-bottom: 24px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .hostel-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(100, 255, 218, 0.1);
-        }
-
-        .hostel-image {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            border: 2px solid rgba(100, 255, 218, 0.1);
-        }
-
-        .hostel-card h3 {
-            color: #64ffda;
-            margin-bottom: 1rem;
-            font-size: 1.4rem;
-        }
-
-        .hostel-card ul {
-            list-style: none;
-            margin-top: 1rem;
-        }
-
-        .hostel-card li {
-            margin-bottom: 0.5rem;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        .hostel-card li:before {
-            content: "→";
-            position: absolute;
-            left: 0;
-            color: #64ffda;
-        }
-
-        .price-tag {
-            display: inline-block;
-            background: rgba(100, 255, 218, 0.1);
-            color: #64ffda;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            margin-top: 1rem;
-            font-weight: bold;
-        }
-
-        .review {
-            border-left: 4px solid #64ffda;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            background: rgba(16, 34, 64, 0.5);
-            border-radius: 0 8px 8px 0;
-            transition: all 0.3s ease;
-        }
-
-        .review:hover {
-            transform: translateX(10px);
-            background: rgba(16, 34, 64, 0.8);
-        }
-
-        .review p {
-            font-style: italic;
-            margin-bottom: 0.5rem;
-        }
-
-        .review small {
-            color: #64ffda;
-            font-weight: bold;
-        }
-
-        .resource-list {
-            list-style: none;
-        }
-
-        .resource-list li {
-            margin-bottom: 1rem;
-            padding: 1rem;
-            background: rgba(16, 34, 64, 0.5);
-            border-radius: 8px;
-            border: 1px solid rgba(100, 255, 218, 0.1);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .resource-list li:hover {
-            transform: translateX(10px);
-            background: rgba(16, 34, 64, 0.8);
-        }
-
-        .quiz-form {
-            background: rgba(16, 34, 64, 0.5);
-            padding: 2rem;
-            border-radius: 8px;
-            border: 1px solid rgba(100, 255, 218, 0.1);
-        }
-
-        .quiz-question {
-            margin-bottom: 1.5rem;
-        }
-
-        .quiz-options label {
-            display: block;
-            margin-bottom: 1rem;
-            padding: 1rem;
-            background: rgba(16, 34, 64, 0.5);
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(100, 255, 218, 0.1);
-        }
-
-        .quiz-options label:hover {
-            background: rgba(100, 255, 218, 0.1);
-            transform: translateX(10px);
-        }
-
-        .quiz-options input[type="radio"] {
-            margin-right: 1rem;
-            accent-color: #64ffda;
-        }
-
-        button {
-            background: linear-gradient(135deg, #64ffda 0%, #00b4d8 100%);
-            color: #0a192f;
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-decoration: none;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(100, 255, 218, 0.3);
-        }
-
+        /* Footer */
         footer {
+            background: rgba(8, 20, 30, 0.95);
+            border-top: 1px solid rgba(34, 211, 238, 0.15);
+            padding: 2.5rem 2rem;
             text-align: center;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, #0f2d4a 0%, #164e87 100%);
-            color: #64ffda;
-            border-radius: 12px;
-            margin-top: 3rem;
-            border: 1px solid rgba(100, 255, 218, 0.1);
+            color: #64748b;
+            font-size: 0.95rem;
         }
 
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
+        footer span {
+            color: #22d3ee;
+            font-weight: 600;
+        }
 
-            nav ul {
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hero {
                 flex-direction: column;
-                align-items: center;
-                gap: 1rem;
+                text-align: center;
+                padding-top: 6.5rem;
             }
-
-            .hostel-image {
-                height: 200px;
+            .hero-left h1 {
+                font-size: 2.5rem;
+            }
+            .hero-buttons {
+                justify-content: center;
+            }
+            .bot-img {
+                width: 320px;
+            }
+            nav {
+                padding: 0 1.25rem;
+            }
+            .nav-menu a:not(.nav-cta) {
+                display: none;
             }
         }
-
-
-        
-    .containera {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem 1rem;
-    }
-
-
-    .slider {
-      position: relative;
-      overflow: hidden;
-      height: 400px;
-      margin: 2rem 0;
-      border-radius: 12px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-    }
-
-    .slides {
-      display: flex;
-      transition: transform 0.5s ease;
-    }
-
-    .slide {
-      min-width: 100%;
-      position: relative;
-    }
-
-    .slide img {
-      width: 100%;
-      height: 400px;
-      object-fit: cover;
-    }
-
-    .slide-content {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 2rem;
-      background: linear-gradient(transparent, rgba(0,0,0,0.9));
-      color: white;
-    }
-
-    .view-more-btn {
-      background: linear-gradient(to right, #06b6d4, #0891b2);
-      color: white;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-top: 1rem;
-      transition: all 0.3s ease;
-      font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .view-more-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
-    }
-
-    .slider-buttons button {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(6, 182, 212, 0.8);
-      color: white;
-      border: none;
-      padding: 1rem;
-      cursor: pointer;
-      border-radius: 50%;
-      transition: all 0.3s ease;
-      font-size: 1.2rem;
-    }
-
-    .slider-buttons button:hover {
-      background: rgba(6, 182, 212, 1);
-      transform: translateY(-50%) scale(1.1);
-    }
-
-    .prev { left: 1rem; }
-    .next { right: 1rem; }
-  
     </style>
 </head>
 <body>
 
+<!-- Navigation Bar -->
 <nav>
-    <img class="abd" src="{% static 'kyk.png' %}" width="70" height="70" alt="Logo">
-    <div class="menu">
-        <a href="#hostels">Hostel</a>
-    
-        <a href="#resources">Resources</a>
-        <a href="#quiz">Quiz</a>
-        <a href="/login">
-            <img src="{% static 'icon.png' %}" width="30" height="30" alt="Profile">
+    <a href="/" class="nav-brand">
+        <img src="{% static 'kyk.png' %}" width="42" height="42" alt="Kyklos Logo">
+        <span>Kyklos</span>
+    </a>
+    <div class="nav-menu">
+        <a href="#hostels">Hostels</a>
+        <a href="#features">Features</a>
+        <a href="/login/" class="nav-cta">
+            <i class="fas fa-sign-in-alt"></i> Student Sign In
         </a>
     </div>
 </nav>
 
-<div class="content">
-    <div class="content-left">
-        <h1 style="margin-left:50px">WELCOME TO KYKLOS</h1><br>
-        <br>
-        <p></p>
-        <p class="mid">At Kyklos, we believe that every student deserves comprehensive support to thrive both academically and personally. Our mission is to provide a nurturing and engaging virtual environment where students receive top-notch education, guidance in hostel selection, proper money management, and time management skills. With our holistic approach and accessible resources, we aim to unlock each student's full potential and set them on a path to success.</p>
-
-        <div>
-          <button class="button11" style="margin-left:100px;">  <a style="text-decoration:none; " href="#">About Us</a></button>
-           <button class="button11" style="margin-left:200px;"> <a style="text-decoration:none; "  href="#">Contact</a></button>
-         </div>
-<br>
-    </div>
-    <div class="content-right">
-        <img class="bot" src="{% static 'bot.png' %}" alt="Kyklos">
-    </div>
-</div>
-
-<section id="hostels">
-    <h2>Colaborative Hostels : </h2>
-    <br>
-  <div class="containera">
-    <div class="slider">
-      <div class="slides" id="slides">
-        <div class="slide">
-            
-          <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=800&q=80" alt="Hostel1">
-          <div class="slide-content">
-            <h3>Bagbazzar fancy hostel</h3>
-            <p>Bagbazzar, Kathmandu</p>
-            <p>Rs12,000/month • ⭐ 4.8 (234 reviews)</p>
-            <a style="text-decoration:none;" href="/hostel1/"><button class="view-more-btn">View More →</button></a>
-          </div>
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-left">
+        <div class="hero-badge">
+            <i class="fas fa-sparkles"></i> All-In-One Student Platform
         </div>
-        <div class="slide">
-          <img src="https://images.unsplash.com/photo-1520277739336-7bf67edfa768?auto=format&fit=crop&w=800&q=80" alt="Hostel2">
-          <div class="slide-content">
-            <h3>Maitighar hostel</h3>
-            <p>Maitighar, Kathmandu</p>
-            <p>Rs14,000/month • ⭐ 4.6 (189 reviews)</p>
-            <a style="text-decoration:none;" href="/hostel2/"><button class="view-more-btn">View More →</button></a>
-          </div>
+        <h1>Welcome to Kyklos</h1>
+        <p class="hero-desc">
+            At Kyklos, we believe that every student deserves comprehensive support to thrive academically and personally. Discover verified student hostels, connect in subject study spaces, submit facility complaints to wardens, and earn rewards through peer discussions.
+        </p>
+        <div class="hero-buttons">
+            <a href="#hostels" class="btn-primary">
+                <i class="fas fa-search-location"></i> Explore Hostels
+            </a>
+            <a href="/login/" class="btn-secondary">
+                <i class="fas fa-user-graduate"></i> Student Portal
+            </a>
         </div>
-        <div class="slide">
-            <img src="{% static 'bdh.jpg' %}" alt="Coastal Dreams">
-            <div class="slide-content">
-              <h3>Boys Dream Hostel</h3>
-              <p>Baneshwor, Kathmandu</p>
-              <p>Rs15,000/month • ⭐ 4.7 (156 reviews)</p>
-             <a style="text-decoration:none;" href="/hostel3/"> <button class="view-more-btn">View More →</button></a>
+    </div>
+    <div class="hero-right">
+        <img class="bot-img" src="{% static 'bot.png' %}" alt="Kyklos Mascot">
+    </div>
+</section>
+
+<!-- Collaborative Hostels Section -->
+<section id="hostels" class="section-container">
+    <div class="section-header">
+        <h2 class="section-title">Collaborative <span>Student Hostels</span></h2>
+        <p class="section-subtitle">
+            Browse verified hostels with round-the-clock security, meal plans, transparent monthly pricing, and integrated warden management portals.
+        </p>
+    </div>
+
+    <div class="slider-wrapper">
+        <div class="slides" id="slides">
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=1200&q=80" alt="Bagbazzar Fancy Hostel">
+                <div class="slide-overlay">
+                    <h3>Bagbazzar Fancy Hostel</h3>
+                    <p>Bagbazzar, Kathmandu • Near Major Campuses</p>
+                    <p class="pricing">Rs 12,000 / month • ⭐ 4.8 (234 reviews)</p>
+                    <a href="/hostel1/" class="btn-primary" style="margin-top: 0.75rem; padding: 0.6rem 1.4rem; font-size: 0.9rem;">
+                        View Hostel Details →
+                    </a>
+                </div>
             </div>
-          </div>
-       
-      </div>
-      <div class="slider-buttons">
-        <button class="prev" onclick="prevSlide()">←</button>
-        <button class="next" onclick="nextSlide()">→</button>
-      </div>
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1520277739336-7bf67edfa768?auto=format&fit=crop&w=1200&q=80" alt="Maitighar Hostel">
+                <div class="slide-overlay">
+                    <h3>Maitighar Hostel</h3>
+                    <p>Maitighar, Kathmandu • Modern Rooms with High-Speed WiFi</p>
+                    <p class="pricing">Rs 14,000 / month • ⭐ 4.6 (189 reviews)</p>
+                    <a href="/hostel2/" class="btn-primary" style="margin-top: 0.75rem; padding: 0.6rem 1.4rem; font-size: 0.9rem;">
+                        View Hostel Details →
+                    </a>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="{% static 'bdh.jpg' %}" alt="Boys Dream Hostel">
+                <div class="slide-overlay">
+                    <h3>Boys Dream Hostel</h3>
+                    <p>Baneshwor, Kathmandu • 24/7 Security & Dining Mess</p>
+                    <p class="pricing">Rs 15,000 / month • ⭐ 4.7 (156 reviews)</p>
+                    <a href="/hostel3/" class="btn-primary" style="margin-top: 0.75rem; padding: 0.6rem 1.4rem; font-size: 0.9rem;">
+                        View Hostel Details →
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <button class="slider-nav slider-prev" onclick="prevSlide()" aria-label="Previous Hostel">←</button>
+        <button class="slider-nav slider-next" onclick="nextSlide()" aria-label="Next Hostel">→</button>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="section-container" style="padding-top: 0;">
+    <div class="section-header">
+        <h2 class="section-title">Special <span>Platform Features</span></h2>
+        <p class="section-subtitle">
+            Everything students and wardens need to collaborate, study, and manage facilities seamlessly.
+        </p>
     </div>
 
+    <div class="features-grid">
+        <div class="feature-card">
+            <span class="feature-icon">📚</span>
+            <h3>StudySpace Environment</h3>
+            <p>Customizable virtual study hub featuring built-in Pomodoro timers, subject resource storage, and notes sharing.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">🏢</span>
+            <h3>Comprehensive Hostel Portal</h3>
+            <p>Direct communication pipeline between students and wardens for room assignments, facility maintenance, and notices.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">🛠️</span>
+            <h3>Warden Complaint Tracking</h3>
+            <p>Students can attach live photos or webcam snapshots to notify wardens of plumbing, electrical, and room issues with email alerts.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">🎓</span>
+            <h3>Tuition Classrooms</h3>
+            <p>Dedicated classrooms for Physics, Mathematics, Biology, and Computer Science with curated lecture notes and assignments.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">💬</span>
+            <h3>Discussion Forums</h3>
+            <p>Engage with peers on academic concepts, ask questions, share answers, and vote on helpful solutions.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">🏆</span>
+            <h3>Gamified Credit Rewards</h3>
+            <p>Earn reward coins by answering academic quizzes and contributing resources, then redeem them for exclusive benefits.</p>
+        </div>
+    </div>
 
-  <script>
+    <!-- Community Call to Action -->
+    <div class="community-banner">
+        <h3>Ready to level up your student experience?</h3>
+        <p>Sign in to your student dashboard or create a new account to unlock full access to StudySpace, quizzes, and discussions.</p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <a href="/login/" class="btn-primary">
+                <i class="fas fa-sign-in-alt"></i> Login Now
+            </a>
+            <a href="/register/" class="btn-secondary">
+                <i class="fas fa-user-plus"></i> Create New Account
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>© 2025 <span>Kyklos</span> — Student Community & Hostel Management Platform. Built with Python & Django.</p>
+</footer>
+
+<script>
     let currentSlide = 0;
     const slides = document.getElementById('slides');
     const totalSlides = 3;
 
     function showSlide(index) {
-      slides.style.transform = `translateX(-${index * 100}%)`;
+        if (slides) {
+            slides.style.transform = `translateX(-${index * 100}%)`;
+        }
     }
 
     function nextSlide() {
-      currentSlide = (currentSlide + 1) % totalSlides;
-      showSlide(currentSlide);
+        currentSlide = (currentSlide + 1) % totalSlides;
+        showSlide(currentSlide);
     }
 
     function prevSlide() {
-      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-      showSlide(currentSlide);
+        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+        showSlide(currentSlide);
     }
 
-    function viewHostel(id) {
-      // This function would navigate to the specific hostel page
-      alert('Viewing details for: ' + id);
-    }
-  </script>
-
-</section>
-
-
-<section id="resources">
-    <h2>Our Special Features : </h2><br>
-    <ul class="resource-list">
-        <li>📚Study Space</li>
-        <li>💻Comprehensive Hostel System With Student And Warden Portal.</li>
-        <li>📝Academic Assistant</li>
-        <li>🎯Tution Classroooms</li>
-        <li>💻Upload Resources and View Customized Resources Based On Interest</li>
-        <li>📚Discussions</li>
-        <li>📝Earn and Redeem Credit</li>
-        <li>For the resources click the link below to go to our community page</li>
-    </ul>
-    
-</section>
-<br>
-
-<footer>
-    <p>© 2025 Kyklos. All rights reserved.</p>
-</footer>
+    // Auto rotate every 7 seconds
+    setInterval(nextSlide, 7000);
+</script>
 
 </body>
-{% endblock content %} 
 </html>
+{% endblock content %}

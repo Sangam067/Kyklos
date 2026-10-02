@@ -1,33 +1,41 @@
 {% extends "base.html" %}
-
-
 {% load static %}
+{% block content %}
+<!DOCTYPE html>
 <html lang="en">
-  {% block content %}
- 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kyklos</title>
+  <title>Kyklos — Student Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
     body {
       min-height: 100vh;
-      background-color: #0c4a6e;
+      background-color: #082f49;
+      background-image: radial-gradient(at 10% 20%, rgba(14, 116, 144, 0.3) 0px, transparent 50%),
+                        radial-gradient(at 90% 80%, rgba(6, 182, 212, 0.2) 0px, transparent 50%);
       color: #ecfeff;
     }
 
     header {
-      background-color: #164e63;
-      padding: 1rem 1.5rem;
-      border-bottom: 1px solid #155e75;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      background-color: rgba(22, 78, 99, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 0.85rem 1.5rem;
+      border-bottom: 1px solid rgba(34, 211, 238, 0.2);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     .header-content {
@@ -36,50 +44,86 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 1rem;
     }
 
     .logo {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      font-size: 1.5rem;
-      font-weight: bold;
+      gap: 0.75rem;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #ffffff;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .logo img {
+      border-radius: 8px;
     }
 
     .logo span {
       color: #22d3ee;
-      font-size: 1.5rem;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .nav-link {
+      color: #cffafe;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .nav-link:hover {
+      background: rgba(34, 211, 238, 0.15);
+      color: #22d3ee;
     }
 
     .search-container {
       position: relative;
+      flex: 1;
+      max-width: 22rem;
     }
 
     .search-input {
-      padding: 0.5rem 1rem;
-      padding-right: 2.5rem;
+      width: 100%;
+      padding: 0.55rem 1rem 0.55rem 2.25rem;
       border-radius: 9999px;
-      background-color: #155e75;
+      background-color: rgba(21, 94, 117, 0.7);
       color: #ecfeff;
-      border: none;
-      width: 20rem;
+      border: 1px solid rgba(34, 211, 238, 0.25);
+      font-size: 0.875rem;
+      transition: all 0.2s;
     }
 
     .search-input::placeholder {
-      color: #22d3ee;
+      color: #67e8f9;
+      opacity: 0.7;
     }
 
     .search-input:focus {
       outline: none;
-      box-shadow: 0 0 0 2px #22d3ee;
+      border-color: #22d3ee;
+      box-shadow: 0 0 12px rgba(34, 211, 238, 0.3);
+      background-color: rgba(21, 94, 117, 0.95);
     }
 
     .search-icon {
       position: absolute;
-      right: 0.75rem;
+      left: 0.85rem;
       top: 50%;
       transform: translateY(-50%);
+      font-size: 0.85rem;
       color: #22d3ee;
+      pointer-events: none;
     }
 
     .user-section {
@@ -92,45 +136,60 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      background-color: #155e75;
-      padding: 0.25rem 0.75rem;
+      background: linear-gradient(135deg, rgba(14, 116, 144, 0.8), rgba(21, 94, 117, 0.8));
+      border: 1px solid rgba(34, 211, 238, 0.4);
+      padding: 0.4rem 0.9rem;
       border-radius: 9999px;
       color: #22d3ee;
-      font-weight: 500;
+      font-weight: 700;
+      font-size: 0.875rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s;
+    }
+
+    .points-badge:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(34, 211, 238, 0.3);
+      border-color: #67e8f9;
     }
 
     .profile-img {
-      width: 2.5rem;
-      height: 2.5rem;
+      width: 2.4rem;
+      height: 2.4rem;
       border-radius: 9999px;
       border: 2px solid #22d3ee;
+      object-fit: cover;
+      box-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
     }
 
     main {
       max-width: 80rem;
       margin: 2rem auto;
-      padding: 0 1rem;
+      padding: 0 1.25rem;
       display: grid;
       grid-template-columns: 1fr 2fr 1fr;
-      gap: 2rem;
+      gap: 1.75rem;
+      align-items: start;
     }
 
     .card {
-      background-color: #164e63;
-      border-radius: 0.5rem;
-      padding: 1rem;
-      border: 1px solid #155e75;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      background: rgba(22, 78, 99, 0.7);
+      backdrop-filter: blur(8px);
+      border-radius: 14px;
+      padding: 1.25rem;
+      border: 1px solid rgba(34, 211, 238, 0.15);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
       margin-bottom: 1.5rem;
     }
 
     .card-title {
-      font-size: 1.25rem;
-      font-weight: 600;
+      font-size: 1.15rem;
+      font-weight: 700;
       margin-bottom: 1rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      color: #ffffff;
     }
 
     .card-title span {
@@ -142,23 +201,31 @@
       align-items: center;
       gap: 0.75rem;
       padding: 0.75rem;
-      border: 1px solid rgba(21, 94, 117, 0.5);
-      border-radius: 0.5rem;
+      border: 1px solid rgba(34, 211, 238, 0.1);
+      border-radius: 10px;
       margin-bottom: 0.5rem;
       cursor: pointer;
       transition: all 0.2s;
       text-decoration: none;
+      background: rgba(15, 60, 77, 0.5);
     }
 
     .group-item:hover {
-      background-color: #155e75;
+      background-color: rgba(21, 94, 117, 0.9);
+      border-color: rgba(34, 211, 238, 0.4);
+      transform: translateX(4px);
     }
 
     .group-icon {
-      background-color: rgba(21, 94, 117, 0.5);
+      background-color: rgba(34, 211, 238, 0.15);
       padding: 0.5rem;
-      border-radius: 0.5rem;
+      border-radius: 8px;
       font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
     }
 
     .group-info {
@@ -166,157 +233,238 @@
     }
 
     .group-name {
-      font-weight: 500;
+      font-weight: 600;
       color: #ecfeff;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.15rem;
+      font-size: 0.95rem;
     }
 
     .group-desc {
-      font-size: 0.875rem;
-      color: #22d3ee;
+      font-size: 0.8rem;
+      color: #67e8f9;
     }
 
     .resources-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
+      margin-bottom: 1rem;
     }
 
     .resource-card {
-      background-color: #155e75;
-      border-radius: 0.5rem;
+      background-color: rgba(21, 94, 117, 0.7);
+      border: 1px solid rgba(34, 211, 238, 0.15);
+      border-radius: 10px;
       overflow: hidden;
-      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .resource-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      border-color: rgba(34, 211, 238, 0.4);
     }
 
     .resource-img {
       width: 100%;
-      height: 8rem;
+      height: 8.5rem;
       object-fit: cover;
+      display: block;
       transition: transform 0.3s;
     }
 
     .resource-card:hover .resource-img {
-      transform: scale(1.05);
+      transform: scale(1.04);
     }
 
     .resource-content {
-      padding: 1rem;
+      padding: 0.85rem;
     }
 
     .resource-title {
-      font-weight: 600;
+      font-weight: 700;
+      font-size: 0.95rem;
       color: #ecfeff;
       margin-bottom: 0.25rem;
     }
 
     .resource-author {
-      font-size: 0.875rem;
-      color: #22d3ee;
+      font-size: 0.8rem;
+      color: #67e8f9;
     }
 
     .resource-category {
       display: inline-block;
       margin-top: 0.5rem;
-      font-size: 0.75rem;
-      background-color: #0e7490;
-      color: #67e8f9;
-      padding: 0.25rem 0.5rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      background-color: rgba(14, 116, 144, 0.8);
+      color: #a5f3fc;
+      padding: 0.2rem 0.55rem;
       border-radius: 9999px;
+      border: 1px solid rgba(34, 211, 238, 0.3);
     }
 
     .post {
-      margin-bottom: 1rem;
+      background: rgba(22, 78, 99, 0.6);
+      border: 1px solid rgba(34, 211, 238, 0.15);
+      border-radius: 12px;
+      padding: 1.15rem;
+      margin-bottom: 1.25rem;
     }
 
     .post-header {
       display: flex;
+      align-items: center;
       gap: 0.75rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .post-header .profile-img {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .post-topic {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #22d3ee;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.25rem;
+    }
+
+    .post-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.4rem;
     }
 
     .post-content {
       color: #cffafe;
-      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 0.85rem;
     }
 
     .post-actions {
       display: flex;
-      gap: 1.5rem;
+      gap: 1.25rem;
       align-items: center;
-      margin-bottom: 1rem;
+      padding-top: 0.6rem;
+      border-top: 1px solid rgba(34, 211, 238, 0.1);
     }
 
     .action-btn {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
       background: none;
       border: none;
-      color: #22d3ee;
+      color: #67e8f9;
       cursor: pointer;
-      transition: color 0.2s;
-      font-size: 0.875rem;
+      transition: all 0.2s;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.3rem 0.5rem;
+      border-radius: 6px;
     }
 
     .action-btn:hover {
-      color: #67e8f9;
+      color: #ffffff;
+      background: rgba(34, 211, 238, 0.15);
+    }
+
+    .action-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, #0891b2, #0e7490);
+      color: #ffffff;
+      padding: 0.6rem 1.1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+      border: 1px solid rgba(34, 211, 238, 0.3);
+    }
+
+    .action-btn-primary:hover {
+      background: linear-gradient(135deg, #06b6d4, #0891b2);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.4);
     }
 
     .view-discussion {
+      display: block;
       color: #22d3ee;
       text-decoration: none;
-      transition: color 0.2s;
+      transition: all 0.2s;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-align: center;
+      padding: 0.5rem;
     }
 
     .view-discussion:hover {
-      color: #67e8f9;
+      color: #a5f3fc;
+      transform: translateX(3px);
     }
 
     .comments-section {
-      border-top: 1px solid #155e75;
-      padding-top: 1rem;
-      margin-top: 1rem;
+      border-top: 1px solid rgba(34, 211, 238, 0.15);
+      padding-top: 0.85rem;
+      margin-top: 0.85rem;
+    }
+
+    .comments-section.hidden {
+      display: none;
     }
 
     .comment-form {
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
     }
 
     .comment-input {
       width: 100%;
-      padding: 0.5rem;
-      border-radius: 0.5rem;
-      background-color: #155e75;
-      border: none;
+      padding: 0.55rem 0.85rem;
+      border-radius: 8px;
+      background-color: rgba(15, 60, 77, 0.8);
+      border: 1px solid rgba(34, 211, 238, 0.2);
       color: #ecfeff;
+      font-size: 0.85rem;
     }
 
     .comment-input::placeholder {
-      color: #22d3ee;
+      color: #67e8f9;
+      opacity: 0.7;
     }
 
     .comment-input:focus {
       outline: none;
-      box-shadow: 0 0 0 2px #22d3ee;
+      border-color: #22d3ee;
+      box-shadow: 0 0 8px rgba(34, 211, 238, 0.3);
     }
 
     .comment {
       display: flex;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
+      gap: 0.6rem;
+      margin-bottom: 0.65rem;
     }
 
     .comment-avatar {
-      width: 2rem;
-      height: 2rem;
+      width: 1.8rem;
+      height: 1.8rem;
       border-radius: 9999px;
-      background-color: #155e75;
+      background-color: #0e7490;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #22d3ee;
-      font-weight: 500;
+      font-weight: 700;
+      font-size: 0.75rem;
     }
 
     .comment-content {
@@ -327,160 +475,83 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.15rem;
     }
 
     .comment-author {
-      font-weight: 500;
+      font-weight: 600;
+      font-size: 0.8rem;
       color: #ecfeff;
     }
 
     .comment-time {
-      font-size: 0.875rem;
-      color: #22d3ee;
+      font-size: 0.72rem;
+      color: #67e8f9;
     }
 
     .comment-text {
       color: #cffafe;
+      font-size: 0.82rem;
     }
 
     .contributor {
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0.85rem;
+      padding: 0.5rem;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    .contributor:hover {
+      background: rgba(34, 211, 238, 0.08);
     }
 
     .event {
-      border-left: 4px solid #22d3ee;
-      padding-left: 1rem;
-      padding-top: 0.5rem;
-      padding-bottom: 0.5rem;
-      margin-bottom: 1rem;
-      border-top-right-radius: 0.5rem;
-      border-bottom-right-radius: 0.5rem;
-      transition: background-color 0.2s;
-    }
-
-    .event:hover {
-      background-color: rgba(21, 94, 117, 0.5);
+      padding: 0.75rem;
+      border-radius: 8px;
+      background: rgba(15, 60, 77, 0.5);
+      border: 1px solid rgba(34, 211, 238, 0.1);
+      margin-bottom: 0.65rem;
     }
 
     .event-name {
-      font-weight: 500;
+      font-weight: 600;
+      font-size: 0.9rem;
       color: #ecfeff;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.2rem;
     }
 
     .event-info {
-      font-size: 0.875rem;
-      color: #22d3ee;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .hostel-card {
-      background-color: #164e63;
-      border-radius: 0.5rem;
-      padding: 1rem;
-      border: 1px solid #155e75;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      margin-bottom: 1.5rem;
-    }
-
-    .words {
-      background: rgba(16, 34, 64, 0.5);
-      border: 1px solid rgba(100, 255, 218, 0.1);
-      padding: 10px;
-      border-radius: 15px;
-      transition: all 0.3s ease;
-    }
-
-    .hostel-card {
-      background: rgba(16, 34, 64, 0.5);
-      border: 1px solid rgba(100, 255, 218, 0.1);
-      padding: 24px;
-      margin-bottom: 24px;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-    }
-
-    .hostel-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 20px rgba(100, 255, 218, 0.1);
-    }
-
-    .hostel-image {
-      width: 100%;
-      height: 300px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-bottom: 1.5rem;
-      border: 2px solid rgba(100, 255, 218, 0.1);
-    }
-
-    .hostel-card h3 {
-      color: #64ffda;
-      margin-bottom: 1rem;
-      font-size: 1.4rem;
-    }
-
-    .hostel-card ul {
-      list-style: none;
-      margin-top: 1rem;
-    }
-
-    .hostel-card li {
-      margin-bottom: 0.5rem;
-      padding-left: 1.5rem;
-      position: relative;
-    }
-
-    .hostel-card li:before {
-      content: "→";
-      position: absolute;
-      left: 0;
-      color: #64ffda;
-    }
-
-    .price-tag {
-      display: inline-block;
-      background: rgba(100, 255, 218, 0.1);
-      color: #64ffda;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      margin-top: 1rem;
-      font-weight: bold;
+      font-size: 0.8rem;
+      color: #67e8f9;
     }
 
     .quiz-card {
-      background-color: #164e63;
-      border-radius: 0.5rem;
+      background: rgba(22, 78, 99, 0.7);
+      backdrop-filter: blur(8px);
+      border-radius: 14px;
       padding: 1.5rem;
-      border: 1px solid #155e75;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(34, 211, 238, 0.15);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
       margin-top: 1.5rem;
     }
 
     .quiz-title {
-      font-size: 1.25rem;
-      font-weight: 600;
+      font-size: 1.2rem;
+      font-weight: 700;
       margin-bottom: 1rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      color: #ecfeff;
-    }
-
-    .quiz-title span {
-      color: #22d3ee;
+      color: #ffffff;
     }
 
     .quiz-question {
       color: #ecfeff;
-      font-size: 1.1rem;
+      font-size: 1rem;
+      font-weight: 500;
       margin-bottom: 1rem;
       line-height: 1.5;
     }
@@ -488,117 +559,128 @@
     .quiz-options {
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
-      margin-bottom: 1.5rem;
+      gap: 0.65rem;
+      margin-bottom: 1.25rem;
     }
 
     .quiz-option {
-      background-color: #155e75;
-      border: 1px solid #0e7490;
-      border-radius: 0.5rem;
-      padding: 0.75rem 1rem;
+      background-color: rgba(21, 94, 117, 0.7);
+      border: 1px solid rgba(34, 211, 238, 0.2);
+      border-radius: 10px;
+      padding: 0.8rem 1rem;
       color: #ecfeff;
       cursor: pointer;
       transition: all 0.2s;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.75rem;
+      text-align: left;
+      font-size: 0.9rem;
     }
 
-    .quiz-option:hover {
-      background-color: #0e7490;
+    .quiz-option:hover:not(:disabled) {
+      background-color: rgba(14, 116, 144, 0.9);
+      border-color: #22d3ee;
+      transform: translateX(4px);
     }
 
     .quiz-option.correct {
-      background-color: #065f46;
-      border-color: #059669;
+      background-color: #065f46 !important;
+      border-color: #10b981 !important;
+      color: #ffffff;
     }
 
     .quiz-option.wrong {
-      background-color: #991b1b;
-      border-color: #dc2626;
+      background-color: #991b1b !important;
+      border-color: #ef4444 !important;
+      color: #ffffff;
     }
 
     .quiz-submit {
-      background-color: #0891b2;
-      color: #ecfeff;
+      background: linear-gradient(135deg, #06b6d4, #0891b2);
+      color: #ffffff;
       border: none;
       padding: 0.75rem 1.5rem;
-      border-radius: 0.5rem;
-      font-weight: 500;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
       cursor: pointer;
-      transition: background-color 0.2s;
+      transition: all 0.2s;
       width: 100%;
+      box-shadow: 0 4px 14px rgba(6, 182, 212, 0.3);
     }
 
-    .quiz-submit:hover {
-      background-color: #0e7490;
+    .quiz-submit:hover:not(:disabled) {
+      background: linear-gradient(135deg, #22d3ee, #06b6d4);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(6, 182, 212, 0.5);
     }
 
     .quiz-submit:disabled {
-      background-color: #155e75;
+      background: #155e75;
+      color: #94a3b8;
       cursor: not-allowed;
+      box-shadow: none;
     }
 
     .quiz-result {
       margin-top: 1rem;
-      padding: 0.75rem;
-      border-radius: 0.5rem;
+      padding: 0.85rem;
+      border-radius: 8px;
       text-align: center;
-      font-weight: 500;
+      font-weight: 600;
+      font-size: 0.95rem;
       display: none;
     }
 
     .quiz-result.correct {
-      background-color: #065f46;
+      background-color: rgba(6, 95, 70, 0.85);
+      border: 1px solid #10b981;
       color: #ecfeff;
     }
 
     .quiz-result.wrong {
-      background-color: #991b1b;
+      background-color: rgba(153, 27, 27, 0.85);
+      border: 1px solid #ef4444;
       color: #ecfeff;
     }
 
     .points-animation {
-      animation: pointsBump 0.3s ease-in-out;
+      animation: pointsBump 0.4s ease-in-out;
     }
 
     @keyframes pointsBump {
-      0% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.1);
-      }
-
-      100% {
-        transform: scale(1);
-      }
+      0% { transform: scale(1); }
+      50% { transform: scale(1.15); filter: drop-shadow(0 0 12px #22d3ee); }
+      100% { transform: scale(1); }
     }
 
+    /* Slider */
     .slider {
       position: relative;
       overflow: hidden;
-      height: 400px;
-      margin: 2rem 0;
+      height: 380px;
+      margin: 1.25rem 0 0.5rem;
       border-radius: 12px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(34, 211, 238, 0.2);
     }
 
     .slides {
       display: flex;
-      transition: transform 0.5s ease;
+      height: 100%;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .slide {
       min-width: 100%;
+      height: 100%;
       position: relative;
     }
 
     .slide img {
       width: 100%;
-      height: 400px;
+      height: 100%;
       object-fit: cover;
     }
 
@@ -607,55 +689,108 @@
       bottom: 0;
       left: 0;
       right: 0;
-      padding: 2rem;
-      background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+      padding: 1.75rem 1.5rem 1.5rem;
+      background: linear-gradient(transparent, rgba(8, 47, 73, 0.95) 75%);
       color: white;
+    }
+
+    .slide-content h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+      color: #ffffff;
+    }
+
+    .slide-content p {
+      font-size: 0.875rem;
+      color: #cffafe;
+      margin-bottom: 0.25rem;
     }
 
     .view-more-btn {
-      background: linear-gradient(to right, #06b6d4, #0891b2);
-      color: white;
+      display: inline-block;
+      background: linear-gradient(135deg, #06b6d4, #0891b2);
+      color: #ffffff;
       border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 6px;
+      padding: 0.55rem 1.25rem;
+      border-radius: 8px;
       cursor: pointer;
-      margin-top: 1rem;
-      transition: all 0.3s ease;
-      font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      margin-top: 0.75rem;
+      transition: all 0.2s ease;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
     }
 
     .view-more-btn:hover {
+      background: linear-gradient(135deg, #22d3ee, #06b6d4);
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+      box-shadow: 0 6px 16px rgba(6, 182, 212, 0.5);
     }
 
     .slider-buttons button {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(6, 182, 212, 0.8);
-      color: rgb(165, 79, 79);
-      border: none;
-      padding: 1rem;
+      background: rgba(15, 32, 45, 0.8);
+      color: #ffffff;
+      border: 1px solid rgba(34, 211, 238, 0.3);
+      width: 42px;
+      height: 42px;
       cursor: pointer;
       border-radius: 50%;
-      transition: all 0.3s ease;
-      font-size: 1.2rem;
+      transition: all 0.2s ease;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
     }
 
     .slider-buttons button:hover {
-      background: rgba(6, 182, 212, 1);
+      background: rgba(6, 182, 212, 0.9);
+      color: #ffffff;
       transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 0 15px rgba(6, 182, 212, 0.5);
     }
 
-    .prev {
-      left: 1rem;
+    .prev { left: 1rem; }
+    .next { right: 1rem; }
+
+    /* Responsive */
+    @media (max-width: 1080px) {
+      main {
+        grid-template-columns: 1fr 1.6fr;
+      }
+      .right-sidebar {
+        grid-column: span 2;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
     }
 
-    .next {
-      right: 1rem;
+    @media (max-width: 768px) {
+      .header-content {
+        flex-wrap: wrap;
+      }
+      .search-container {
+        order: 3;
+        max-width: 100%;
+        width: 100%;
+      }
+      main {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+      }
+      .right-sidebar {
+        grid-column: span 1;
+        grid-template-columns: 1fr;
+      }
+      .resources-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -663,37 +798,44 @@
 <body>
   <header>
     <div class="header-content">
-      <h1 class="logo">
-        <img src="{% static 'kyk.png' %}" alt="Kyklos" width="48" height="48">
-        Kyklos
-      </h1>
+      <a href="/" class="logo">
+        <img src="{% static 'kyk.png' %}" alt="Kyklos" width="40" height="40">
+        <span>Kyklos</span>
+      </a>
 
       <div class="search-container">
-        <input type="search" class="search-input" placeholder="Search topics, groups, resources...">
         <span class="search-icon">🔍</span>
+        <input type="search" class="search-input" placeholder="Search topics, groups, resources...">
       </div>
 
+      <nav class="nav-actions">
+        <a href="/studyspace{{id}}/" class="nav-link">StudySpace</a>
+        <a href="/discussion{{id}}/" class="nav-link">Discussions</a>
+      </nav>
+
       <div class="user-section">
-        <a style="text-decoration: none;" href="/reedem{{id}}/"><div class="points-badge">
-          🏆 Credit-points : {{student_object.credit_score}}
-        </div></a>
-        <img src="{% static 'lol.png' %}" alt="Profile" class="profile-img">
+        <a style="text-decoration: none;" href="/reedem{{id}}/">
+          <div class="points-badge" id="headerPointsBadge">
+            🏆 Coins: {{student_object.credit_score}}
+          </div>
+        </a>
+        <img src="{% static 'lol.png' %}" alt="{{username}}" class="profile-img" title="{{username}}">
       </div>
     </div>
   </header>
 
   <main>
-    <!-- Left Sidebar -->
-    <div>
+    <!-- Left Column: Classrooms & Discussions -->
+    <div class="left-col">
       <div class="card">
         <h2 class="card-title">
           <span>📚</span>
-          Tution Classrooms
+          Tuition Classrooms
         </h2>
         <a href="/mathgroup/" class="group-item">
           <div class="group-icon">➗</div>
           <div class="group-info">
-            <p class="group-name">Maths</p>
+            <p class="group-name">Mathematics</p>
             <p class="group-desc">Algebra, Calculus, Statistics</p>
           </div>
         </a>
@@ -715,77 +857,67 @@
           <div class="group-icon">💻</div>
           <div class="group-info">
             <p class="group-name">Computer Science</p>
-            <p class="group-desc">Programs, Algorithms</p>
+            <p class="group-desc">Algorithms, Web Development</p>
           </div>
         </a>
       </div>
-      <!-- Posts section -->
-      <div class="card post">
-        <h2>Recent Discussions</h2>
-        <br><br>
+
+      <!-- Discussions list -->
+      <div class="card">
+        <h2 class="card-title">
+          <span>💬</span>
+          Recent Discussions
+        </h2>
         {% for discussion in discussions %}
-        <div class="post-header">
-          <img src="{% static 'icon.png' %}" alt="Profile" class="profile-img">
-          <div>
-            <p class="group-name">{{discussion.username}}</p>
-            <p class="group-desc">{{discussion.category}} • 2 hours ago</p>
-          </div>
-        </div>
-
-        <p class="post-content">
-          <strong>{{discussion.topic}}</strong>
-        </p>
-        {{discussion.title}}
-        <p>
-        </p>
-          {{discussion.content}}
-        </p>
-        <div class="post-actions">
-          <button class="action-btn"
-            onclick="this.querySelector('span:last-child').textContent = parseInt(this.querySelector('span:last-child').textContent) + 1">
-            📈 <span>15</span>
-          </button>
-          <button class="action-btn" onclick="document.querySelector('.comments-section').classList.toggle('hidden')">
-            💬 <span>2</span>
-          </button>
-        </div>
-        <br>
-
-        <div class="comments-section hidden">
-          <form class="comment-form" onsubmit="event.preventDefault(); addComment(this)">
-            <input type="text" class="comment-input" placeholder="Add a comment..." required="">
-          </form>
-          <div class="comments-list">
-            <div class="comment">
-              <div class="comment-avatar">A</div>
-              <div class="comment-content">
-                <div class="comment-header">
-                  <span class="comment-author">Alice Chen</span>
-                  <span class="comment-time">5m ago</span>
-                </div>
-                <p class="comment-text">Great explanation needed!</p>
-              </div>
+        <div class="post">
+          <div class="post-header">
+            <img src="{% static 'icon.png' %}" alt="Profile" class="profile-img">
+            <div>
+              <p class="group-name">{{discussion.username}}</p>
+              <p class="group-desc">{{discussion.category}}</p>
             </div>
-            <div class="comment">
-              <div class="comment-avatar">B</div>
-              <div class="comment-content">
-                <div class="comment-header">
-                  <span class="comment-author">Bob Smith</span>
-                  <span class="comment-time">10m ago</span>
+          </div>
+
+          <p class="post-topic">{{discussion.topic}}</p>
+          <p class="post-title">{{discussion.title}}</p>
+          <p class="post-content">{{discussion.content}}</p>
+
+          <div class="post-actions">
+            <button class="action-btn"
+              onclick="let c = this.querySelector('span:last-child'); c.textContent = parseInt(c.textContent) + 1">
+              📈 <span>15</span>
+            </button>
+            <button class="action-btn" onclick="this.closest('.post').querySelector('.comments-section').classList.toggle('hidden')">
+              💬 <span>Comments</span>
+            </button>
+          </div>
+
+          <div class="comments-section hidden">
+            <form class="comment-form" onsubmit="event.preventDefault(); addComment(this)">
+              <input type="text" class="comment-input" placeholder="Add a comment..." required>
+            </form>
+            <div class="comments-list">
+              <div class="comment">
+                <div class="comment-avatar">A</div>
+                <div class="comment-content">
+                  <div class="comment-header">
+                    <span class="comment-author">Alice Chen</span>
+                    <span class="comment-time">5m ago</span>
+                  </div>
+                  <p class="comment-text">Great question! Looking forward to the answer.</p>
                 </div>
-                <p class="comment-text">I can help explain this concept</p>
               </div>
             </div>
           </div>
         </div>
+        {% empty %}
+        <p style="color: #94a3b8; font-size: 0.9rem; text-align: center; padding: 1rem 0;">No discussions yet. Be the first to start one!</p>
         {% endfor %}
-        <a style="text-align: center;" href="/discussion{{id}}/" class="view-discussion">View More Discussion →</a>
+        <a href="/discussion{{id}}/" class="view-discussion">View All Discussions →</a>
       </div>
     </div>
-    </div>
-    </div>
 
-    <!-- Main Content -->
+    <!-- Center Column: Resources & Hostels & Quiz -->
     <div class="content">
       <!-- Featured Resources card -->
       <div class="card">
@@ -796,129 +928,100 @@
         <div class="resources-grid">
         {% for resource in resources %}
           <div class="resource-card">
-            <a href="/studyspace{{id}}/"><img src="{{resource.thumbnail.url}}" alt="Advanced Calculus" class="resource-img"></a>
+            <a href="/studyspace{{id}}/">
+              <img src="{{resource.thumbnail.url}}" alt="{{resource.title}}" class="resource-img">
+            </a>
             <div class="resource-content">
               <h3 class="resource-title">{{resource.title}}</h3>
-              <p class="resource-author">{{resource.username}}</p>
+              <p class="resource-author">Shared by {{resource.username}}</p>
               <span class="resource-category">{{resource.category}}</span>
             </div>
           </div>
+        {% empty %}
+          <div style="grid-column: span 2; text-align: center; padding: 1.5rem; color: #94a3b8;">
+            <p>No resources found for your current interest yet.</p>
+          </div>
         {% endfor %}
-        <br>
-          <a href="/studyspace{{id}}/" class="action-btn">
-            <span>Upload resources from study space.</span>
+        </div>
+        <div style="text-align: right; margin-top: 0.5rem;">
+          <a href="/studyspace{{id}}/" class="action-btn-primary">
+            <span>Upload or Browse Resources</span> →
           </a>
         </div>
       </div>
 
-      <!-- Featured Hostels -->
-      <div class="quiz-card">
-        <h2>Featured hostel near your location</h2>
+      <!-- Featured Hostels Slider -->
+      <div class="card">
+        <h2 class="card-title">
+          <span>🏠</span>
+          Verified Hostels in Kathmandu
+        </h2>
         <div class="slider">
           <div class="slides" id="slides">
             <div class="slide">
-
-              <img
-                src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&amp;fit=crop&amp;w=800&amp;q=80"
-                alt="Hostel1">
+              <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=800&q=80" alt="Bagbazzar Fancy Hostel">
               <div class="slide-content">
-                <h3>Bagbazzar fancy hostel</h3>
+                <h3>Bagbazzar Fancy Hostel</h3>
                 <p>Bagbazzar, Kathmandu</p>
-                <p>Rs12,000/month • ⭐ 4.8 (234 reviews)</p>
-                <a style="text-decoration:none;" href="/hostel5/"><button class="view-more-btn"
-                    onclick="viewHostel('Bagbazzar fancy hostel')">View More →</button></a>
+                <p>Rs 12,000/month • ⭐ 4.8 (234 reviews)</p>
+                <a href="/hostel1/" class="view-more-btn">View Hostel Portal →</a>
               </div>
             </div>
             <div class="slide">
-              <img
-                src="https://images.unsplash.com/photo-1520277739336-7bf67edfa768?auto=format&amp;fit=crop&amp;w=800&amp;q=80"
-                alt="Hostel2">
+              <img src="https://images.unsplash.com/photo-1520277739336-7bf67edfa768?auto=format&fit=crop&w=800&q=80" alt="Maitighar Hostel">
               <div class="slide-content">
-                <h3>Maitighar hostel</h3>
+                <h3>Maitighar Hostel</h3>
                 <p>Maitighar, Kathmandu</p>
-                <p>Rs14,000/month • ⭐ 4.6 (189 reviews)</p>
-                <a style="text-decoration:none;" href="/hostel6/"><button class="view-more-btn"
-                    onclick="viewHostel('Maitighar hostel')">View More →</button></a>
+                <p>Rs 14,000/month • ⭐ 4.6 (189 reviews)</p>
+                <a href="/hostel2/" class="view-more-btn">View Hostel Portal →</a>
               </div>
             </div>
             <div class="slide">
-              <img src="{% static 'bdh.jpg' %}" alt="Coastal Dreams">
+              <img src="{% static 'bdh.jpg' %}" alt="Boys Dream Hostel">
               <div class="slide-content">
                 <h3>Boys Dream Hostel</h3>
                 <p>Baneshwor, Kathmandu</p>
-                <p>Rs15,000/month • ⭐ 4.7 (156 reviews)</p>
-                <a style="text-decoration:none;" href="/hostel7/"> <button class="view-more-btn"
-                    onclick="viewHostel('Boys Dream Hostel')">View More →</button></a>
+                <p>Rs 15,000/month • ⭐ 4.7 (156 reviews)</p>
+                <a href="/hostel3/" class="view-more-btn">View Hostel Portal →</a>
               </div>
             </div>
-
           </div>
           <div class="slider-buttons">
-            <button class="prev" onclick="prevSlide()">←</button>
-            <button class="next" onclick="nextSlide()">→</button>
+            <button class="prev" onclick="prevSlide()" aria-label="Previous slide">←</button>
+            <button class="next" onclick="nextSlide()" aria-label="Next slide">→</button>
           </div>
         </div>
       </div>
 
-
-
-      <script>
-        let currentSlide = 0;
-        const slides = document.getElementById('slides');
-        const totalSlides = 3;
-
-        function showSlide(index) {
-          slides.style.transform = `translateX(-${index * 100}%)`;
-        }
-
-        function nextSlide() {
-          currentSlide = (currentSlide + 1) % totalSlides;
-          showSlide(currentSlide);
-        }
-
-        function prevSlide() {
-          currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-          showSlide(currentSlide);
-        }
-
-        function viewHostel(id) {
-          // This function would navigate to the specific hostel page
-          alert('Viewing details for: ' + id);
-        }
-      </script>
-
-
-
-      <!-- Daily Quiz -->
+      <!-- Daily Academic Quiz -->
       <div class="quiz-card">
         <h2 class="quiz-title">
           <span>🎯</span>
-          Daily Quiz
+          Daily Challenge Quiz (+20 Coins)
         </h2>
         <p class="quiz-question">What is the primary difference between classical and quantum mechanics?</p>
         <div class="quiz-options">
           <button class="quiz-option" data-correct="true">
-            <span>A.</span> Quantum mechanics deals with probabilistic behavior at the microscopic level
+            <strong>A.</strong> Quantum mechanics deals with probabilistic behavior at the subatomic scale
           </button>
-          <button class="quiz-option">
-            <span>B.</span> Classical mechanics is more accurate than quantum mechanics
+          <button class="quiz-option" data-correct="false">
+            <strong>B.</strong> Classical mechanics is universally more accurate than quantum mechanics
           </button>
-          <button class="quiz-option">
-            <span>C.</span> Quantum mechanics only applies to light
+          <button class="quiz-option" data-correct="false">
+            <strong>C.</strong> Quantum mechanics applies only to visible light waves
           </button>
-          <button class="quiz-option">
-            <span>D.</span> There is no significant difference between them
+          <button class="quiz-option" data-correct="false">
+            <strong>D.</strong> There is no physical distinction between them
           </button>
         </div>
-        <button class="quiz-submit" disabled="">Submit Answer</button>
-        <div class="quiz-result"></div>
+        <button class="quiz-submit" id="quizSubmitBtn" disabled>Submit Answer</button>
+        <div class="quiz-result" id="quizResultBox"></div>
       </div>
-
     </div>
 
     <!-- Right Sidebar -->
-    <div class="sidebar">
-      <!-- Top Contributors section -->
+    <div class="right-sidebar">
+      <!-- Top Contributors -->
       <div class="card">
         <h2 class="card-title">
           <span>🏆</span>
@@ -928,19 +1031,19 @@
           <img src="{% static 'icon.png' %}" alt="Profile" class="profile-img">
           <div class="group-info">
             <p class="group-name">Aayus Tiwari</p>
-            <p class="group-desc">Physics</p>
+            <p class="group-desc">Physics Champion • 1,450 pts</p>
           </div>
         </div>
         <div class="contributor">
           <img src="{% static 'icon.png' %}" alt="Profile" class="profile-img">
           <div class="group-info">
             <p class="group-name">Pratik Bhandari</p>
-            <p class="group-desc">Python Coding</p>
+            <p class="group-desc">Python & Algorithms • 1,220 pts</p>
           </div>
         </div>
       </div>
 
-      <!-- Upcoming Events section -->
+      <!-- Upcoming Events -->
       <div class="card">
         <h2 class="card-title">
           <span>📅</span>
@@ -963,12 +1066,37 @@
   </main>
 
   <script>
+    // Slider functionality
+    let currentSlide = 0;
+    const slides = document.getElementById('slides');
+    const totalSlides = 3;
+
+    function showSlide(index) {
+      if (slides) {
+        slides.style.transform = `translateX(-${index * 100}%)`;
+      }
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      showSlide(currentSlide);
+    }
+
+    // Auto-advance slider every 6 seconds
+    setInterval(nextSlide, 6000);
+
+    // Add comment functionality
     function addComment(form) {
       const input = form.querySelector('input');
       const text = input.value.trim();
       if (!text) return;
 
-      const commentsList = document.querySelector('.comments-list');
+      const commentsList = form.closest('.comments-section').querySelector('.comments-list');
       const newComment = document.createElement('div');
       newComment.className = 'comment';
       newComment.innerHTML = `
@@ -978,33 +1106,35 @@
             <span class="comment-author">You</span>
             <span class="comment-time">Just now</span>
           </div>
-          <p class="comment-text">${text}</p>
+          <p class="comment-text">${escapeHtml(text)}</p>
         </div>
       `;
 
       commentsList.appendChild(newComment);
       form.reset();
-
-      // Update comment count
-      const commentCount = document.querySelector('.action-btn:nth-child(2) span');
-      commentCount.textContent = parseInt(commentCount.textContent) + 1;
     }
 
-    // Quiz functionality
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Single unified Quiz listener
     const quizOptions = document.querySelectorAll('.quiz-option');
-    const submitButton = document.querySelector('.quiz-submit');
-    const quizResult = document.querySelector('.quiz-result');
-    const pointsBadge = document.querySelector('.points-badge');
-    let currentPoints = 1250;
+    const submitButton = document.getElementById('quizSubmitBtn');
+    const quizResult = document.getElementById('quizResultBox');
+    const pointsBadge = document.getElementById('headerPointsBadge');
     let selectedOption = null;
 
     quizOptions.forEach(option => {
       option.addEventListener('click', () => {
-        // Reset previously selected option
-        quizOptions.forEach(opt => opt.style.backgroundColor = '');
-
-        // Highlight selected option
-        option.style.backgroundColor = '#0e7490';
+        quizOptions.forEach(opt => {
+          opt.style.borderColor = '';
+          opt.style.backgroundColor = '';
+        });
+        option.style.backgroundColor = 'rgba(14, 116, 144, 0.9)';
+        option.style.borderColor = '#22d3ee';
         selectedOption = option;
         submitButton.disabled = false;
       });
@@ -1018,73 +1148,30 @@
         option.disabled = true;
         if (option.dataset.correct === 'true') {
           option.classList.add('correct');
-
         } else if (option === selectedOption && !isCorrect) {
           option.classList.add('wrong');
         }
       });
 
-      // Show result message
       quizResult.style.display = 'block';
+      quizResult.classList.remove('correct', 'wrong');
       quizResult.classList.add(isCorrect ? 'correct' : 'wrong');
-      quizResult.textContent = isCorrect ?
-        '🎉 Correct! You earned 50 points!' :
-        '❌ Incorrect. Try again tomorrow!';
-
-      // Update points if correct
-      if (isCorrect) {
-        currentPoints += 50;
-        pointsBadge.innerHTML = `🏆 ${currentPoints} Points`;
-        pointsBadge.classList.add('points-animation');
-        setTimeout(() => {
-          pointsBadge.classList.remove('points-animation');
-        }, 300);
-      }
+      quizResult.textContent = isCorrect
+        ? '🎉 Correct! You earned 20 credit coins! Saving progress...'
+        : '❌ Incorrect. Try again tomorrow to earn coins!';
 
       submitButton.disabled = true;
+
+      if (isCorrect) {
+        if (pointsBadge) {
+          pointsBadge.classList.add('points-animation');
+        }
+        setTimeout(() => {
+          window.location.href = '/correctoptionclicked{{id}}/';
+        }, 1200);
+      }
     });
-    submitButton.addEventListener('click', () => {
-  if (!selectedOption) return;
-
-  const isCorrect = selectedOption.dataset.correct === 'true';
-  quizOptions.forEach(option => {
-    option.disabled = true;
-    if (option.dataset.correct === 'true') {
-      option.classList.add('correct');
-    } else if (option === selectedOption && !isCorrect) {
-      option.classList.add('wrong');
-    }
-  });
-
-  // Show result message
-  quizResult.style.display = 'block';
-  quizResult.classList.add(isCorrect ? 'correct' : 'wrong');
-  quizResult.textContent = isCorrect ?
-    '🎉 Correct! You earned 50 points!' :
-    '❌ Incorrect. Try again tomorrow!';
-
-  // Update points if correct
-  if (isCorrect) {
-    currentPoints += 50;
-    pointsBadge.innerHTML = `🏆 ${currentPoints} Points`;
-    pointsBadge.classList.add('points-animation');
-    setTimeout(() => {
-      pointsBadge.classList.remove('points-animation');
-    }, 300);
-
-    // Navigate to the /correctoptionclicked/ route
-    window.location.href = '/correctoptionclicked{{id}}/';
-  }
-  submitButton.disabled = true;
-  });
   </script>
-
-
-
-
-
-
 </body>
-{% endblock content %} 
-
 </html>
+{% endblock content %}

@@ -1,187 +1,283 @@
 {% extends "base.html" %}
-
-{% load static  %}
+{% load static %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
-    {% block content %}
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Study Community</title>
+    <title>Community Discussions — Kyklos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         body {
-           
-            background:url({% static 'bg.jpg' %});
-            background-size:cover;
-            
-            color: #fff;
+            background-color: #071520;
+            background-image: radial-gradient(circle at 20% 20%, rgba(6, 182, 212, 0.15) 0%, transparent 40%),
+                              radial-gradient(circle at 80% 80%, rgba(14, 116, 144, 0.2) 0%, transparent 40%),
+                              url("{% static 'bg.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #ecfeff;
             min-height: 100vh;
         }
 
         .nav {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
+            background: rgba(10, 25, 38, 0.85);
+            backdrop-filter: blur(14px);
+            padding: 1rem 5%;
             position: sticky;
             top: 0;
             z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(34, 211, 238, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
         .nav-content {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
         .nav-brand {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #7fffd4;
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #ffffff;
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-brand span {
+            color: #22d3ee;
+        }
+
+        .back-dashboard {
+            color: #67e8f9;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+
+        .back-dashboard:hover {
+            color: #ffffff;
         }
 
         .start-discussion {
-            background: #7fffd4;
-            color: #1a2f3f;
-            padding: 0.5rem 1.2rem;
-            border-radius: 6px;
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+            color: #ffffff;
+            padding: 0.55rem 1.35rem;
+            border-radius: 8px;
             text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .start-discussion:hover {
-            background: #5fffc4;
-            transform: translateY(-1px);
+            background: linear-gradient(135deg, #22d3ee, #06b6d4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
         }
 
         .container {
-            max-width: 800px;
+            max-width: 850px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 2.5rem 1.5rem;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
         }
 
         .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: #7fffd4;
+            font-size: 2.35rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+        }
+
+        .header h1 span {
+            color: #22d3ee;
+        }
+
+        .header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
         }
 
         .post {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(14, 34, 48, 0.8);
+            border-radius: 16px;
+            padding: 1.75rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: border-color 0.25s;
+        }
+
+        .post:hover {
+            border-color: rgba(34, 211, 238, 0.4);
         }
 
         .post-header {
             display: flex;
             align-items: center;
             margin-bottom: 1rem;
+            gap: 12px;
         }
 
         .avatar {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
-            margin-right: 1rem;
+            border: 2px solid #22d3ee;
             object-fit: cover;
         }
 
         .user-info h3 {
-            color: #7fffd4;
-            margin-bottom: 0.2rem;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 700;
         }
 
-        .user-info span {
-            font-size: 0.9rem;
-            color: #aaa;
+        .user-info .category-badge {
+            font-size: 0.75rem;
+            color: #67e8f9;
+            background: rgba(34, 211, 238, 0.12);
+            padding: 2px 8px;
+            border-radius: 9999px;
+            border: 1px solid rgba(34, 211, 238, 0.25);
+            display: inline-block;
+            margin-top: 2px;
         }
 
-        .post-content {
-            margin-bottom: 1.5rem;
+        .post-content h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.35rem;
+        }
+
+        .post-content h5 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #22d3ee;
+            margin-bottom: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .post-content p {
+            color: #cffafe;
             line-height: 1.6;
+            margin-bottom: 1.25rem;
+            font-size: 0.95rem;
         }
 
         .post-actions {
             display: flex;
             gap: 1rem;
-            color: #aaa;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(34, 211, 238, 0.15);
         }
 
         .action-btn {
             background: none;
             border: none;
-            color: #7fffd4;
+            color: #67e8f9;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
+            gap: 0.4rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            transition: all 0.2s;
         }
 
         .action-btn:hover {
-            color: #fff;
+            color: #ffffff;
+            background: rgba(34, 211, 238, 0.15);
         }
 
         .replies {
-            margin-left: 3rem;
-            margin-top: 1rem;
+            margin-top: 1.25rem;
+            padding-top: 1.25rem;
+            border-top: 1px dashed rgba(34, 211, 238, 0.2);
             display: none;
         }
 
         .reply-box {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-top: 1rem;
+            background: rgba(10, 25, 36, 0.6);
+            border-radius: 10px;
+            padding: 1.25rem;
+            border: 1px solid rgba(34, 211, 238, 0.15);
         }
 
         .reply-input {
             width: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 6px;
-            padding: 0.8rem;
+            background: rgba(20, 48, 66, 0.6);
+            border: 1px solid rgba(34, 211, 238, 0.25);
+            border-radius: 8px;
+            padding: 0.85rem;
             color: #fff;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
             resize: vertical;
+            min-height: 80px;
+            font-size: 14px;
+            outline: none;
         }
 
-        .reply-input::placeholder {
-            color: #aaa;
+        .reply-input:focus {
+            border-color: #22d3ee;
+            box-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
         }
 
         .submit-reply {
-            background: #7fffd4;
-            color: #1a2f3f;
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+            color: #ffffff;
             border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
+            padding: 0.5rem 1.25rem;
+            border-radius: 8px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 700;
+            font-size: 0.875rem;
+            transition: all 0.2s;
         }
 
         .submit-reply:hover {
-            background: #5fffc4;
+            background: linear-gradient(135deg, #22d3ee, #06b6d4);
         }
 
         .show {
@@ -192,25 +288,35 @@
 <body>
     <nav class="nav">
         <div class="nav-content">
-            <a href="/" class="nav-brand">Kyklos</a>
-            <a href="/creatediscussion{{userid}}/" class="start-discussion">Start Discussion</a>
+            <div class="nav-left">
+                <a href="/home{{userid}}/" class="back-dashboard">
+                    <i class="fas fa-arrow-left"></i> Dashboard
+                </a>
+                <a href="/" class="nav-brand">
+                    <img src="{% static 'kyk.png' %}" width="32" height="32" alt="Kyklos" style="border-radius: 6px;">
+                    <span>Kyklos</span> Discussions
+                </a>
+            </div>
+            <a href="/creatediscussion{{userid}}/" class="start-discussion">
+                <i class="fas fa-plus-circle"></i> Start Discussion
+            </a>
         </div>
     </nav>
 
     <div class="container">
         <header class="header">
-            <h1>Discussion Community</h1>
-            <p>Share knowledge, ask questions, learn together, bond together</p>
+            <h1>Academic <span>Community Forum</span></h1>
+            <p>Share knowledge, ask conceptual questions, and collaborate with peer students.</p>
         </header>
-        
+
         <main>
             {% for discussion in discussions %}
-            
             <div class="post">
                 <div class="post-header">
                     <img src="{% static 'icon.png' %}" alt="User Avatar" class="avatar">
                     <div class="user-info">
                         <h3>{{discussion.username}}</h3>
+                        <span class="category-badge">{{discussion.category}}</span>
                     </div>
                 </div>
                 <div class="post-content">
@@ -219,16 +325,29 @@
                     <p>{{discussion.content}}</p>
                 </div>
                 <div class="post-actions">
-                    <button class="action-btn" onclick="toggleReplies(this)">💬 Reply</button>
-                    <button class="action-btn">⬆️ Upvote</button>
-                    <button class="action-btn">🔖 Save</button>
+                    <button class="action-btn" onclick="toggleReplies(this)">
+                        <i class="fas fa-comment"></i> Reply
+                    </button>
+                    <button class="action-btn" onclick="let s = this.querySelector('span'); s.textContent = parseInt(s.textContent) + 1;">
+                        <i class="fas fa-arrow-up"></i> Upvote (<span>12</span>)
+                    </button>
+                    <button class="action-btn">
+                        <i class="fas fa-bookmark"></i> Save
+                    </button>
                 </div>
                 <div class="replies">
                     <div class="reply-box">
-                        <textarea class="reply-input" placeholder="Write your reply..."></textarea>
-                        <button class="submit-reply">Submit</button>
+                        <textarea class="reply-input" placeholder="Write your collaborative reply or solution..."></textarea>
+                        <button class="submit-reply" onclick="submitReply(this)">Submit Reply</button>
                     </div>
                 </div>
+            </div>
+            {% empty %}
+            <div class="post" style="text-align: center; padding: 3rem 1rem;">
+                <p style="color: #94a3b8; font-size: 1.1rem; margin-bottom: 1rem;">No discussions found yet.</p>
+                <a href="/creatediscussion{{userid}}/" class="start-discussion" style="display: inline-flex;">
+                    Be the first to post a discussion
+                </a>
             </div>
             {% endfor %}
         </main>
@@ -240,7 +359,15 @@
             const replies = post.querySelector('.replies');
             replies.classList.toggle('show');
         }
+
+        function submitReply(button) {
+            const textarea = button.previousElementSibling;
+            if (textarea.value.trim() === '') return;
+            alert('Your reply has been added to the discussion!');
+            textarea.value = '';
+            button.closest('.replies').classList.remove('show');
+        }
     </script>
 </body>
-{% endblock content %} 
 </html>
+{% endblock content %}

@@ -1,132 +1,283 @@
 {% extends "base.html" %}
-
-
+{% load static %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
-    {% block content %}
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Complaints Portal</title>
+    <title>Submit Complaint — {{hostel.name}}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        body {
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
             min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #000000 0%, #008B8B 100%);
-            background-attachment: fixed;
+            background: linear-gradient(135deg, #071520 0%, #0d2838 50%, #06131c 100%);
+            background-image: radial-gradient(circle at 20% 20%, rgba(6, 182, 212, 0.15) 0%, transparent 40%),
+                              radial-gradient(circle at 80% 80%, rgba(14, 116, 144, 0.2) 0%, transparent 40%);
             display: flex;
             justify-content: center;
             align-items: center;
-            color: white;
+            padding: 3rem 1.5rem;
+            color: #ecfeff;
         }
 
         .container {
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 3rem;
+            background: rgba(14, 34, 48, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 2.75rem 2.5rem;
             border-radius: 20px;
-            border: 1px solid #00FFFF;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2),
-                       inset 0 0 20px rgba(0, 255, 255, 0.1);
-            width: 80%;
-            max-width: 600px;
-            backdrop-filter: blur(10px);
+            border: 1px solid rgba(34, 211, 238, 0.25);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6),
+                        0 0 30px rgba(6, 182, 212, 0.15);
+            width: 100%;
+            max-width: 640px;
         }
 
-        h1 {
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #22d3ee;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: #67e8f9;
+            transform: translateX(-4px);
+        }
+
+        .portal-header {
             text-align: center;
             margin-bottom: 2rem;
-            color: #00FFFF;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-            font-size: 2.5em;
+        }
+
+        .portal-header h1 {
+            color: #ffffff;
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .portal-header p {
+            color: #67e8f9;
+            font-size: 14px;
+            margin-top: 4px;
         }
 
         form {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 1.25rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #cffafe;
         }
 
         input, textarea, select {
-            padding: 1rem;
-            border: 2px solid #008B8B;
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid rgba(34, 211, 238, 0.25);
             border-radius: 10px;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        input:focus, textarea:focus, select:focus {
+            background: rgba(20, 48, 66, 0.6);
+            color: #ffffff;
+            font-size: 14px;
             outline: none;
-            border-color: #00FFFF;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
-        }
-
-        textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-
-        select {
-            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
         select option {
-            background-color: #000;
-            color: white;
+            background-color: #0e2a38;
+            color: #ffffff;
         }
 
-        button {
-            padding: 1rem;
-            background-color: #008B8B;
-            color: white;
+        input:focus, textarea:focus, select:focus {
+            border-color: #22d3ee;
+            background: rgba(20, 48, 66, 0.9);
+            box-shadow: 0 0 12px rgba(34, 211, 238, 0.3);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .camera-box {
+            background: rgba(10, 25, 36, 0.6);
+            border: 1px dashed rgba(34, 211, 238, 0.3);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .camera-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .btn-camera {
+            padding: 8px 16px;
+            background: rgba(34, 211, 238, 0.15);
+            color: #22d3ee;
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-camera:hover {
+            background: rgba(34, 211, 238, 0.3);
+            color: #ffffff;
+        }
+
+        video, canvas {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 10px auto;
+            border: 1px solid rgba(34, 211, 238, 0.4);
+        }
+
+        .submit-btn {
+            padding: 14px;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            color: #ffffff;
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: bold;
+            font-size: 16px;
+            font-weight: 700;
             transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4);
+            margin-top: 0.5rem;
         }
 
-        button:hover {
-            background-color: #00FFFF;
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.6);
+        }
+
+        #status {
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            min-height: 20px;
+        }
+
+        @media (max-width: 580px) {
+            .form-row { grid-template-columns: 1fr; }
+            .container { padding: 2rem 1.5rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Student Complaints Portal</h1>
+        <a href="/hostel{{hostelid}}/" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to {{hostel.name}}
+        </a>
+
+        <div class="portal-header">
+            <h1>Student Complaint Portal</h1>
+            <p>Notify your warden of facility, room, or maintenance issues</p>
+        </div>
+
         <form method="post" action="/complaintsubmit{{hostelid}}/">
-            <input type="text" placeholder="Room No " name = "roomno" required>
-            <input type="text" placeholder="Your Name" name="studentname" required>
-            <input type="text" placeholder="Priority" name = "priority" required><Br>
-                <input type="file" id="fileInput" accept="image/*">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="roomno">Room Number</label>
+                    <input type="text" id="roomno" placeholder="e.g. 102" name="roomno" required>
+                </div>
+                <div class="form-group">
+                    <label for="studentname">Your Full Name</label>
+                    <input type="text" id="studentname" placeholder="Enter your name" name="studentname" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="type">Issue Category</label>
+                    <select id="type" required name="type">
+                        <option value="">Select Category</option>
+                        <option value="maintenance">Maintenance</option>
+                        <option value="cleanliness">Cleanliness</option>
+                        <option value="food">Food Quality</option>
+                        <option value="security">Security</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="priority">Priority Level</label>
+                    <select id="priority" name="priority" required>
+                        <option value="Low">Low</option>
+                        <option value="Medium" selected>Medium</option>
+                        <option value="High">High</option>
+                        <option value="Urgent">Urgent</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Detailed Description</label>
+                <textarea id="description" name="description" placeholder="Describe the issue in detail so the warden can resolve it promptly..." required></textarea>
+            </div>
+
+            <div class="camera-box">
+                <label style="display: block; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: #cffafe;">
+                    Attach or Capture Issue Photo
+                </label>
+                <input type="file" id="fileInput" accept="image/*" style="margin-bottom: 10px;">
 
                 <!-- Webcam Capture -->
                 <video id="video" autoplay style="display: none;"></video>
-                <button id="useCamera">Use Camera</button>
-                <button id="capture" style="display: none;">Capture</button>
                 <canvas id="canvas" style="display: none;"></canvas>
-                <p id="status"></p>
-                <select required name = "type">
-                <option value="">Select Category</option>
-                <option value="maintenance">Maintenance</option>
-                <option value="cleanliness">Cleanliness</option>
-                <option value="food">Food Quality</option>
-                <option value="security">Security</option>
-                <option value="other">Other</option>
-            </select>
-            <textarea name="description" placeholder="Describe your complaint or review here..." required></textarea>
-            <button id = "formSubmit" type="submit">Submit Complaint</button>
+
+                <div class="camera-actions">
+                    <button type="button" id="useCamera" class="btn-camera">
+                        <i class="fas fa-camera"></i> Use Live Camera
+                    </button>
+                    <button type="button" id="capture" class="btn-camera" style="display: none;">
+                        <i class="fas fa-dot-circle"></i> Capture Photo
+                    </button>
+                </div>
+            </div>
+
+            <p id="status"></p>
+
+            <button id="formSubmit" type="submit" class="submit-btn">
+                <i class="fas fa-paper-plane" style="margin-right: 8px;"></i> Submit Complaint
+            </button>
         </form>
-       
     </div>
+
     <script>
         const fileInput = document.getElementById('fileInput');
         const video = document.getElementById('video');
@@ -134,56 +285,58 @@
         const useCameraBtn = document.getElementById('useCamera');
         const captureBtn = document.getElementById('capture');
         const form = document.querySelector('form');
+        const statusEl = document.getElementById('status');
         let stream;
-    
+
         // Start camera if available
         useCameraBtn.addEventListener('click', async () => {
             try {
                 stream = await navigator.mediaDevices.getUserMedia({ video: true });
                 video.srcObject = stream;
                 video.style.display = 'block';
-                captureBtn.style.display = 'block';
+                captureBtn.style.display = 'inline-block';
                 useCameraBtn.style.display = 'none';
             } catch (error) {
                 alert("Camera access denied or unavailable.");
             }
         });
-    
+
         // Capture image from webcam
         captureBtn.addEventListener('click', () => {
             const context = canvas.getContext('2d');
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
+            canvas.width = video.videoWidth || 640;
+            canvas.height = video.videoHeight || 480;
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            
-            // Convert canvas to file (ONLY updates file input, DOES NOT submit form)
+
             canvas.toBlob(blob => {
                 const file = new File([blob], "captured_image.png", { type: "image/png" });
-    
-                // Create a DataTransfer object to inject the file into the file input
                 const dataTransfer = new DataTransfer();
                 dataTransfer.items.add(file);
                 fileInput.files = dataTransfer.files;
-    
+
                 video.style.display = 'none';
                 captureBtn.style.display = 'none';
-                useCameraBtn.style.display = 'block';
-                stream.getTracks().forEach(track => track.stop()); // Stop camera
+                useCameraBtn.style.display = 'inline-block';
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                }
+                statusEl.style.color = '#34d399';
+                statusEl.innerText = "Photo captured and attached successfully!";
             }, "image/png");
         });
-    
-        // Submit form ONLY when "Submit Complaint" is clicked
+
+        // Submit form
         form.addEventListener('submit', function (event) {
             event.preventDefault();
-    
-            if (fileInput.files.length === 0) {
-                alert("Please select or capture an image first.");
-                return;
-            }
-    
+
             const formData = new FormData(form);
-            formData.append('image', fileInput.files[0]);
-    
+            if (fileInput.files.length > 0) {
+                formData.append('image', fileInput.files[0]);
+            }
+
+            statusEl.style.color = '#22d3ee';
+            statusEl.innerText = "Submitting complaint to warden...";
+
             fetch('/complaintsubmit{{hostelid}}/', {
                 method: 'POST',
                 body: formData,
@@ -191,14 +344,17 @@
             })
             .then(response => response.json())
             .then(data => {
-                document.getElementById('status').innerText = data.message;
-                form.reset(); // Clear form after submission
+                statusEl.style.color = '#34d399';
+                statusEl.innerText = data.message || "Complaint registered successfully! The warden has been notified.";
+                form.reset();
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                statusEl.style.color = '#f87171';
+                statusEl.innerText = "Failed to submit complaint. Please try again.";
+                console.error('Error:', error);
+            });
         });
     </script>
 </body>
-{% endblock content %} 
 </html>
-
-
+{% endblock content %}

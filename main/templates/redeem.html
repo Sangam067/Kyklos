@@ -1,101 +1,217 @@
 {% extends "base.html" %}
-
-
+{% load static %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
-    {% block content %}
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Student Rewards Center</title>
+    <title>Student Rewards Center — Kyklos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #001a1a, #004d4d, #003329);
+            background-color: #071520;
+            background-image: radial-gradient(circle at 20% 20%, rgba(6, 182, 212, 0.15) 0%, transparent 40%),
+                              radial-gradient(circle at 80% 80%, rgba(14, 116, 144, 0.2) 0%, transparent 40%),
+                              url("{% static 'bg.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             min-height: 100vh;
-            color: white;
+            color: #ecfeff;
         }
 
         header {
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            padding: 1rem;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(10, 25, 38, 0.85);
+            backdrop-filter: blur(14px);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(34, 211, 238, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .back-link {
+            color: #22d3ee;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: #67e8f9;
+            transform: translateX(-3px);
+        }
+
+        .header-title h1 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #ffffff;
         }
 
         .coin-balance {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            display: inline-flex;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.3), rgba(14, 116, 144, 0.3));
+            border: 1px solid rgba(34, 211, 238, 0.4);
+            color: #22d3ee;
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            display: flex;
             align-items: center;
             gap: 0.5rem;
-            margin-top: 1rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
         }
 
         .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
+            max-width: 1100px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .hero-banner {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-banner h2 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-banner h2 span {
+            color: #22d3ee;
+        }
+
+        .hero-banner p {
+            color: #94a3b8;
+            font-size: 1.05rem;
         }
 
         .categories {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
-            margin-top: 2rem;
         }
 
         .category {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 1.5rem;
+            background: rgba(14, 34, 48, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            border-radius: 16px;
+            padding: 1.75rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .category h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(34, 211, 238, 0.15);
         }
 
         .reward-item {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
-            padding: 1rem;
+            background: rgba(20, 48, 66, 0.5);
+            border: 1px solid rgba(34, 211, 238, 0.15);
+            border-radius: 12px;
+            padding: 1.25rem;
             margin-bottom: 1rem;
+            transition: all 0.25s ease;
+        }
+
+        .reward-item:hover {
+            border-color: rgba(34, 211, 238, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+        }
+
+        .reward-item h4 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.35rem;
         }
 
         .subdescription {
-            color: rgba(255, 255, 255, 0.7);
+            color: #94a3b8;
             font-size: 0.85rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+
+        .reward-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+
+        .price-badge {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #22d3ee;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .redeem-btn {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+            color: #ffffff;
             border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
+            padding: 0.55rem 1.25rem;
+            border-radius: 8px;
             cursor: pointer;
-            width: 100%;
-            transition: background 0.3s ease;
+            font-weight: 700;
+            font-size: 0.875rem;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
         }
 
         .redeem-btn:hover:not(:disabled) {
-            background: rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, #22d3ee, #06b6d4);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(6, 182, 212, 0.5);
         }
 
         .redeem-btn:disabled {
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: #64748b;
             cursor: not-allowed;
-            opacity: 0.7;
+            box-shadow: none;
         }
 
         @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
             .categories {
                 grid-template-columns: 1fr;
             }
@@ -104,55 +220,77 @@
 </head>
 <body>
     <header>
-        <h1>Student Rewards Center</h1>
+        <a href="/home{{id}}/" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+        <div class="header-title">
+            <h1>Student Rewards Center</h1>
+        </div>
         <div class="coin-balance">
-            <span>Your Balance: {{creditscore}} coins</span>
+            <span>🏆 Balance: {{creditscore}} Coins</span>
         </div>
     </header>
 
     <div class="container">
+        <div class="hero-banner">
+            <h2>Redeem Your <span>Academic Coins</span></h2>
+            <p>Exchange your hard-earned credit coins for study guides, workbook access, and tech upgrades.</p>
+        </div>
+
         <div class="categories">
             <div class="category">
-                <h2>Extra Learning Resources</h2>
+                <h3><i class="fas fa-book-reader" style="color: #22d3ee;"></i> Extra Learning Resources</h3>
+                
                 <div class="reward-item">
-                    <h3>Science Experiment Guide</h3>
-                    <p class="subdescription">Step-by-step science experiment manual</p>
-                    <p class="price">150 coins</p>
-                    <form action="/redeemsubmit{{id}}/" method="post">
-                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-                        <button type="submit" class="redeem-btn">Redeem</button>
-                    </form>
+                    <h4>Science Experiment Guide</h4>
+                    <p class="subdescription">Comprehensive step-by-step practical science experiment and lab safety manual.</p>
+                    <div class="reward-footer">
+                        <span class="price-badge"><span class="price">150</span> Coins</span>
+                        <form action="/redeemsubmit{{id}}/" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="redeem-btn">Redeem</button>
+                        </form>
+                    </div>
                 </div>
+
                 <div class="reward-item">
-                    <h3>English Grammar Workbook</h3>
-                    <p class="subdescription">Practice grammar with detailed exercises</p>
-                    <p class="price">150 coins</p>
-                    <form action="/redeemsubmit{{id}}/" method="post">
-                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-                        <button type="submit" class="redeem-btn">Redeem</button>
-                    </form>
+                    <h4>English Grammar & Writing Workbook</h4>
+                    <p class="subdescription">Advanced sentence structures, academic essay models, and grammar exercises.</p>
+                    <div class="reward-footer">
+                        <span class="price-badge"><span class="price">150</span> Coins</span>
+                        <form action="/redeemsubmit{{id}}/" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="redeem-btn">Redeem</button>
+                        </form>
+                    </div>
                 </div>
             </div>
 
             <div class="category">
-                <h2>Technology Access</h2>
+                <h3><i class="fas fa-laptop-code" style="color: #22d3ee;"></i> Technology & Subscriptions</h3>
+                
                 <div class="reward-item">
-                    <h3>Cloud Storage Upgrade</h3>
-                    <p class="subdescription">Extra 50GB cloud storage for a month</p>
-                    <p class="price">150 coins</p>
-                    <form action="/redeemsubmit{{id}}/" method="post">
-                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-                        <button type="submit" class="redeem-btn">Redeem</button>
-                    </form>
+                    <h4>Cloud Storage Upgrade (+50GB)</h4>
+                    <p class="subdescription">Extra 50GB high-speed cloud drive storage for sharing lecture files and notes for 1 month.</p>
+                    <div class="reward-footer">
+                        <span class="price-badge"><span class="price">150</span> Coins</span>
+                        <form action="/redeemsubmit{{id}}/" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="redeem-btn">Redeem</button>
+                        </form>
+                    </div>
                 </div>
+
                 <div class="reward-item">
-                    <h3>Premium Coding Platform</h3>
-                    <p class="subdescription">1-month premium subscription</p>
-                    <p class="price">150 coins</p>
-                    <form action="/redeemsubmit{{id}}/" method="post">
-                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-                        <button type="submit" class="redeem-btn">Redeem</button>
-                    </form>
+                    <h4>Premium Coding Platform Pass</h4>
+                    <p class="subdescription">1-month full access to curated algorithmic challenges and Python video tutorials.</p>
+                    <div class="reward-footer">
+                        <span class="price-badge"><span class="price">150</span> Coins</span>
+                        <form action="/redeemsubmit{{id}}/" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="redeem-btn">Redeem</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -165,9 +303,10 @@
             const button = item.querySelector('.redeem-btn');
             if (price > balance) {
                 button.disabled = true;
+                button.textContent = "Insufficient Coins";
             }
         });
     </script>
 </body>
-{% endblock content %} 
 </html>
+{% endblock content %}

@@ -1,177 +1,288 @@
 {% extends "base.html" %}
-
-<!DOCTYPE html>
 {% load static %}
 {% block content %}
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Register Form</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account — Kyklos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-    <style media="screen">
-        *,
-        *:before,
-        *:after {
-            padding: 0;
+    <style>
+        * {
             margin: 0;
+            padding: 0;
             box-sizing: border-box;
-        }
-        body {
-            background-image: url("{% static 'bg.jpg' %}");
-          
-            background-size: cover;
-        }
-        .background {
-            width: 430px;
-            height: 520px;
-            position: absolute;
-            transform: translate(-50%,-50%);
-            left: 50%;
-            top: 50%;
-        }
-        .background .shape {
-            height: 200px;
-            width: 200px;
-            position: absolute;
-            border-radius: 50%;
-        }
-        .shape:first-child {
-            background: linear-gradient(
-                limegreen,
-                lightgreen
-            );
-            left: -100px;
-            top: -80px;
-        }
-        .shape:last-child {
-            background: linear-gradient(
-                to right,
-                cyan,
-                aqua
-            );
-            right: -80px;
-            bottom: -300px;
-        }
-        form {
-            height: 780px;
-            width: 450px;
-            background-color: rgba(255,255,255,0.13);
-            position: absolute;
-            transform: translate(-50%,-50%);
-            top: 50%;
-            left: 50%;
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255,255,255,0.1);
-            box-shadow: 0 0 40px rgba(8,7,16,0.6);
-            padding: 50px 35px;
-            margin-top:100px;
-            margin-bottom:100px;
-        }
-        form * {
             font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: #0c1a24;
+            background-image: radial-gradient(circle at 20% 20%, rgba(6, 182, 212, 0.15) 0%, transparent 40%),
+                              radial-gradient(circle at 80% 80%, rgba(14, 116, 144, 0.2) 0%, transparent 40%),
+                              url("{% static 'bg.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1rem;
+        }
+
+        .register-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 520px;
+            z-index: 1;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #22d3ee;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: #67e8f9;
+            transform: translateX(-4px);
+        }
+
+        .register-card {
+            background: rgba(15, 32, 45, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(34, 211, 238, 0.25);
+            border-radius: 18px;
+            padding: 2.5rem 2.25rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6),
+                        0 0 30px rgba(6, 182, 212, 0.15);
+            color: #ecfeff;
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .card-header img {
+            width: 56px;
+            height: 56px;
+            margin-bottom: 0.75rem;
+            filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.4));
+        }
+
+        .card-header h2 {
+            font-size: 26px;
+            font-weight: 700;
             color: #ffffff;
             letter-spacing: 0.5px;
-            outline: none;
-            border: none;
         }
-        form h3 {
-            font-size: 32px;
-            font-weight: 500;
-            line-height: 42px;
-            text-align: center;
-        }
-        label {
-            display: block;
-            margin-top: 30px;
-            font-size: 16px;
-            font-weight: 500;
-        }
-        input {
-            display: block;
-            height: 50px;
-            width: 100%;
-            background-color: rgba(255,255,255,0.07);
-            border-radius: 3px;
-            padding: 0 10px;
-            margin-top: 8px;
+
+        .card-header p {
+            color: #94a3b8;
             font-size: 14px;
-            font-weight: 300;
+            margin-top: 4px;
         }
-        ::placeholder {
-            color: #e5e5e5;
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
         }
-        button {
-            margin-top: 50px;
-            width: 100%;
-            background-color: #ffffff;
-            color: #080710;
-            padding: 15px 0;
-            font-size: 18px;
-            font-weight: 600;
-            border-radius: 5px;
-            cursor: pointer;
+
+        .form-group {
+            margin-bottom: 1.25rem;
         }
-        .social {
-            margin-top: 30px;
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #cffafe;
+        }
+
+        .input-wrapper {
+            position: relative;
             display: flex;
+            align-items: center;
         }
-        .social div {
-            background: red;
-            width: 150px;
-            border-radius: 3px;
-            padding: 5px 10px 10px 5px;
-            background-color: rgba(255,255,255,0.27);
-            color: #eaf0fb;
+
+        .input-wrapper i {
+            position: absolute;
+            left: 14px;
+            color: #22d3ee;
+            font-size: 14px;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            height: 46px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            border-radius: 10px;
+            padding: 0 14px 0 40px;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .input-wrapper input:focus {
+            border-color: #22d3ee;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 12px rgba(34, 211, 238, 0.3);
+        }
+
+        .input-wrapper input::placeholder {
+            color: #64748b;
+        }
+
+        .submit-btn {
+            width: 100%;
+            height: 50px;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4);
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.6);
+        }
+
+        .card-footer {
             text-align: center;
+            margin-top: 1.75rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            color: #94a3b8;
         }
-        .social div:hover {
-            background-color: rgba(255,255,255,0.47);
+
+        .card-footer a {
+            color: #22d3ee;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
         }
-        .social .fb {
-            margin-left: 25px;
+
+        .card-footer a:hover {
+            color: #67e8f9;
+            text-decoration: underline;
         }
-        .social i {
-            margin-right: 4px;
+
+        @media (max-width: 540px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+            .register-card {
+                padding: 2rem 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="background">
-        <div class="shape"></div>
-        <div class="shape"></div>
+    <div class="register-wrapper">
+        <a href="/" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Kyklos Home
+        </a>
+
+        <div class="register-card">
+            <div class="card-header">
+                <img src="{% static 'kyk.png' %}" alt="Kyklos Logo">
+                <h2>Join Kyklos</h2>
+                <p>Create your student account to get started</p>
+            </div>
+
+            <form method="post" action="/register_submit/">
+                {% csrf_token %}
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="username">Username</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user"></i>
+                            <input type="text" placeholder="Choose a username" id="username" name="username" required autofocus>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="email">Email Address</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" placeholder="name@example.com" id="email" name="email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="interest">Academic Interest / Subject</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-graduation-cap"></i>
+                            <input type="text" placeholder="e.g. Physics, CS" id="interest" name="interest">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">Location / City</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <input type="text" placeholder="e.g. Kathmandu" id="location" name="location">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" placeholder="Create password" id="password" name="password" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-check-circle"></i>
+                            <input type="password" placeholder="Repeat password" id="confirm-password" name="confirm-password" required>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-user-plus" style="margin-right: 8px;"></i> Create Account
+                </button>
+
+                <div class="card-footer">
+                    Already have an account? <a href="/login/">Log In</a>
+                </div>
+            </form>
+        </div>
     </div>
-    <form method="post" action="/register_submit/">
-        {% csrf_token %}
-        <h3>Register Here</h3>
-
-        <label for="username">Username</label>
-        <input type="text" placeholder="Username" id="username" name = "username">
-
-        <label for="email">Email</label>
-        <input type="email" placeholder="Email" id="email" name = "email">
-
-        <label for="interest">Interests or Hobbie</label>
-        <input type="text" placeholder="Write your interests or Hobbie." id="interest" name = "interest">
-
-        <label for="location">Location</label>
-        <input type="text" placeholder="Location" id="location" name = "location">
-
-        <label for="password">Password</label>
-        <input type="password" placeholder="Password" id="password" name = "password">
-
-        <label for="confirm-password">Confirm Password</label>
-        <input type="password" placeholder="Confirm Password" id="confirm-password" name = "confirm-password">
-
-        <button>Register</button>
-        <div class="social">
-            <div class="go"><i class="fab fa-google"></i>  Google</div>
-            <div class="fb"><i class="fab fa-facebook"></i>  Facebook</div>
-        </div><br>
-        <p>Already have an account? <a href="/login">Log In</a></p>
-    </form>
 </body>
-{% endblock content %} 
 </html>
+{% endblock content %}

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,50 +8,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mathematics Notes</title>
+    <title>Mathematics Notes — Kyklos</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         body {
-           background-image:url(bg.jpg);
-  background-size:cover;
-            color: #e0ffff;
+            background-color: #071520;
+            background-image: radial-gradient(circle at 20% 20%, rgba(6, 182, 212, 0.15) 0%, transparent 40%),
+                              radial-gradient(circle at 80% 80%, rgba(14, 116, 144, 0.2) 0%, transparent 40%),
+                              url("{% static 'bg.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #ecfeff;
             line-height: 1.6;
+            min-height: 100vh;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 2.5rem 1.5rem;
         }
 
         header {
-            background-color: #003838;
-            padding: 20px;
-            text-align: center;
-            border-bottom: 3px solid #006400;
+            background: rgba(14, 34, 48, 0.85);
+            backdrop-filter: blur(12px);
+            padding: 20px 30px;
+            border-radius: 16px;
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .back-btn {
+            color: #22d3ee;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 8px;
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid rgba(34, 211, 238, 0.25);
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            background: rgba(34, 211, 238, 0.2);
+            color: #ffffff;
         }
 
         h1 {
-            color: #00ff9d;
-            margin-bottom: 10px;
+            color: #ffffff;
+            font-size: 1.6rem;
+            font-weight: 700;
         }
 
         .notes-section {
-            padding: 20px;
+            padding: 0;
         }
 
         .note-card {
-            background-color: #005252;
-            border-radius: 8px;
+            background-color: rgba(14, 34, 48, 0.8);
+            border-radius: 12px;
             padding: 20px;
             margin-bottom: 15px;
-            border-left: 4px solid #006400;
+            border: 1px solid rgba(34, 211, 238, 0.15);
+            border-left: 4px solid #22d3ee;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -59,7 +92,8 @@
         }
 
         .note-card:hover {
-            transform: translateX(10px);
+            transform: translateX(6px);
+            border-color: rgba(34, 211, 238, 0.4);
         }
 
         .note-info {
@@ -67,29 +101,33 @@
         }
 
         .note-card h2 {
-            color: #00ff9d;
+            color: #22d3ee;
             margin-bottom: 5px;
+            font-size: 1.2rem;
         }
 
         .note-meta {
-            font-size: 0.9em;
-            color: #a0ffff;
+            font-size: 0.85em;
+            color: #94a3b8;
         }
 
         .download-link {
-            background-color: #006400;
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
             color: white;
             padding: 10px 20px;
-            border-radius: 5px;
+            border-radius: 8px;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            transition: background-color 0.3s ease;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
         }
 
         .download-link:hover {
-            background-color: #008000;
+            background: linear-gradient(135deg, #22d3ee, #06b6d4);
+            transform: translateY(-2px);
         }
 
         .file-icon {
@@ -104,18 +142,24 @@
 
         .shared-by {
             font-style: italic;
-            color: #a0ffff;
+            color: #67e8f9;
             margin-top: 5px;
+            font-size: 0.85em;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Mathematics Notes</h1>
-        <p>Shared notes from your teachers</p>
-    </header>
-
     <div class="container">
+        <header>
+            <div>
+                <h1>Mathematics Lecture Notes</h1>
+                <p style="color: #67e8f9; font-size: 14px; margin-top: 4px;">Verified calculus, algebra, and statistics study resources</p>
+            </div>
+            <a href="/mathgroup/" class="back-btn">
+                ← Back to Classroom
+            </a>
+        </header>
+
         <div class="notes-section">
             <div class="note-card">
                 <div class="note-info">

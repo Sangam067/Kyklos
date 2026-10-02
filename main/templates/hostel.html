@@ -1,32 +1,37 @@
 {% extends "base.html" %}
-
-
+{% load static %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
-    {% block content %}
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hostel</title>
+    <title>{{hostelname}} — Kyklos Hostels</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #000000, #006064);
-            color: #e0e0e0;
+            background-color: #071520;
+            background-image: radial-gradient(circle at 20% 20%, rgba(6, 182, 212, 0.12) 0%, transparent 45%),
+                              radial-gradient(circle at 80% 80%, rgba(14, 116, 144, 0.15) 0%, transparent 45%);
+            color: #ecfeff;
             min-height: 100vh;
         }
 
         /* Navigation */
         nav {
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
+            background: rgba(10, 25, 38, 0.85);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
             padding: 1rem 5%;
             display: flex;
             justify-content: space-between;
@@ -35,143 +40,274 @@
             width: 100%;
             top: 0;
             z-index: 1000;
-            border-bottom: 1px solid rgba(0, 188, 212, 0.3);
+            border-bottom: 1px solid rgba(34, 211, 238, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .brand-group {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .back-kyklos {
+            color: #67e8f9;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+
+        .back-kyklos:hover {
+            color: #ffffff;
         }
 
         .logo {
-            color: #00BCD4;
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
+            color: #ffffff;
+            font-size: 1.35rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: #22d3ee;
         }
 
         .nav-links {
             display: flex;
-            gap: 2rem;
+            align-items: center;
+            gap: 1.75rem;
         }
 
         .nav-links a {
-            color: #B2EBF2;
+            color: #cffafe;
             text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
         }
 
         .nav-links a:hover {
-            color: #00BCD4;
+            color: #22d3ee;
         }
 
         .login-btn {
-            background: linear-gradient(45deg, #00BCD4, #006064);
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
             color: white;
-            padding: 0.5rem 1.5rem;
-            border-radius: 25px;
+            padding: 0.55rem 1.4rem;
+            border-radius: 8px;
             border: none;
             cursor: pointer;
-            transition: transform 0.3s ease;
-            box-shadow: 0 0 15px rgba(0, 188, 212, 0.3);
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .login-btn:hover {
+            background: linear-gradient(135deg, #22d3ee, #06b6d4);
             transform: translateY(-2px);
-            box-shadow: 0 0 20px rgba(0, 188, 212, 0.5);
+            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
         }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-                        linear-gradient(45deg, #006064, #00BCD4);
+            background: linear-gradient(rgba(7, 21, 32, 0.85), rgba(7, 21, 32, 0.9)),
+                        radial-gradient(circle at center, rgba(6, 182, 212, 0.2) 0%, transparent 60%);
             color: white;
-            padding: 10rem 5% 6rem;
+            padding: 9.5rem 5% 5rem;
             text-align: center;
         }
 
         .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 20px rgba(0, 188, 212, 0.5);
+            font-size: 3.25rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #ffffff 40%, #67e8f9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .hero p {
             font-size: 1.2rem;
-            color: #B2EBF2;
+            color: #cffafe;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-cta {
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 10px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-cta:hover {
+            background: linear-gradient(135deg, #22d3ee, #06b6d4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.6);
+        }
+
+        .btn-cta-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            color: #cffafe;
+            padding: 0.8rem 1.8rem;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s;
+        }
+
+        .btn-cta-secondary:hover {
+            background: rgba(34, 211, 238, 0.15);
+            color: #ffffff;
+            border-color: #22d3ee;
+            transform: translateY(-2px);
         }
 
         /* Features Section */
         .features {
-            padding: 4rem 5%;
-            background: rgba(0, 0, 0, 0.5);
+            padding: 4.5rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .features h2 {
             text-align: center;
-            margin-bottom: 2rem;
-            color: #00BCD4;
-            font-size: 2.5rem;
+            margin-bottom: 2.5rem;
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+        }
+
+        .features h2 span {
+            color: #22d3ee;
         }
 
         .feature-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.75rem;
         }
 
         .feature-card {
-            background: rgba(0, 96, 100, 0.3);
+            background: rgba(14, 34, 48, 0.7);
             padding: 2rem;
-            border-radius: 15px;
+            border-radius: 14px;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 188, 212, 0.2);
-            transition: transform 0.3s ease;
+            border: 1px solid rgba(34, 211, 238, 0.15);
+            transition: all 0.3s ease;
         }
 
         .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(0, 188, 212, 0.5);
+            transform: translateY(-4px);
+            border-color: rgba(34, 211, 238, 0.4);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: inline-block;
         }
 
         .feature-card h3 {
-            color: #00BCD4;
-            margin-bottom: 1rem;
+            color: #ffffff;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.6;
         }
 
         /* Reviews Section */
         .reviews {
-            padding: 4rem 5%;
-            background: rgba(0, 0, 0, 0.3);
+            padding: 4.5rem 5%;
+            background: rgba(10, 25, 36, 0.5);
+            border-top: 1px solid rgba(34, 211, 238, 0.15);
+        }
+
+        .reviews-container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .reviews h2 {
             text-align: center;
-            margin-bottom: 2rem;
-            color: #00BCD4;
-            font-size: 2.5rem;
+            margin-bottom: 2.5rem;
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+        }
+
+        .reviews h2 span {
+            color: #22d3ee;
         }
 
         .review-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            gap: 1.75rem;
         }
 
         .review-card {
-            background: rgba(0, 96, 100, 0.2);
+            background: rgba(14, 34, 48, 0.7);
             padding: 2rem;
-            border-radius: 15px;
+            border-radius: 14px;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 188, 212, 0.2);
-            transition: transform 0.3s ease;
+            border: 1px solid rgba(34, 211, 238, 0.15);
+            transition: all 0.3s ease;
         }
 
         .review-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(0, 188, 212, 0.5);
+            transform: translateY(-4px);
+            border-color: rgba(34, 211, 238, 0.4);
+        }
+
+        .review-card p {
+            color: #cffafe;
+            font-style: italic;
+            line-height: 1.6;
         }
 
         .review-author {
-            font-weight: bold;
-            margin-top: 1rem;
-            color: #00BCD4;
+            font-weight: 700;
+            margin-top: 1.25rem;
+            color: #22d3ee;
+            font-style: normal;
         }
 
         /* Login Modal */
@@ -182,98 +318,115 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(5, 15, 25, 0.85);
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            padding: 1.5rem;
         }
 
         .modal-content {
-            background: linear-gradient(135deg, #006064, #00363a);
+            background: rgba(14, 34, 48, 0.95);
             padding: 2.5rem;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 400px;
+            border-radius: 18px;
+            width: 100%;
+            max-width: 420px;
             position: relative;
-            border: 1px solid rgba(0, 188, 212, 0.3);
-            box-shadow: 0 0 30px rgba(0, 188, 212, 0.2);
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6),
+                        0 0 30px rgba(6, 182, 212, 0.2);
         }
 
         .modal h2 {
             margin-bottom: 1.5rem;
-            color: #00BCD4;
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: 700;
             text-align: center;
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
-            color: #B2EBF2;
+            margin-bottom: 6px;
+            color: #cffafe;
+            font-size: 14px;
+            font-weight: 600;
         }
 
         .form-group input,
         .form-group select {
             width: 100%;
-            padding: 0.8rem;
-            border: 1px solid rgba(0, 188, 212, 0.3);
-            border-radius: 8px;
-            background: rgba(0, 0, 0, 0.3);
+            padding: 12px 14px;
+            border: 1px solid rgba(34, 211, 238, 0.25);
+            border-radius: 10px;
+            background: rgba(20, 48, 66, 0.6);
             color: white;
-            transition: border-color 0.3s ease;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .form-group select option {
+            background: #0e2a38;
+            color: #ffffff;
         }
 
         .form-group input:focus,
         .form-group select:focus {
-            outline: none;
-            border-color: #00BCD4;
-            box-shadow: 0 0 10px rgba(0, 188, 212, 0.3);
+            border-color: #22d3ee;
+            background: rgba(20, 48, 66, 0.9);
+            box-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
         }
 
         .submit-btn {
-            background: linear-gradient(45deg, #00BCD4, #006064);
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
             color: white;
-            padding: 0.8rem;
+            padding: 12px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             width: 100%;
             cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            transition: transform 0.3s ease;
+            font-size: 15px;
+            font-weight: 700;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+            margin-top: 0.5rem;
         }
 
         .submit-btn:hover {
+            background: linear-gradient(135deg, #22d3ee, #06b6d4);
             transform: translateY(-2px);
-            box-shadow: 0 0 15px rgba(0, 188, 212, 0.5);
+            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
         }
 
         .close-btn {
             position: absolute;
-            right: 1.5rem;
-            top: 1.5rem;
+            right: 1.25rem;
+            top: 1.25rem;
             background: none;
             border: none;
-            color: #B2EBF2;
-            font-size: 1.5rem;
+            color: #94a3b8;
+            font-size: 1.75rem;
             cursor: pointer;
-            transition: color 0.3s ease;
+            line-height: 1;
+            transition: color 0.2s ease;
         }
 
         .close-btn:hover {
-            color: #00BCD4;
+            color: #ffffff;
         }
 
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
             }
-
             .hero h1 {
-                font-size: 2rem;
+                font-size: 2.25rem;
             }
         }
     </style>
@@ -281,58 +434,79 @@
 <body>
     <!-- Navigation -->
     <nav>
-        <div class="logo">{{hostelname}}</div>
+        <div class="brand-group">
+            <a href="/" class="back-kyklos">
+                <i class="fas fa-arrow-left"></i> Kyklos Home
+            </a>
+            <div class="logo">{{hostelname}}</div>
+        </div>
         <div class="nav-links">
             <a href="#features">Features</a>
             <a href="#reviews">Reviews</a>
-            <button class="login-btn" onclick="openModal()">Login</button>
+            <button class="login-btn" onclick="openModal()">
+                <i class="fas fa-key"></i> Portal Login
+            </button>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <section class="hero">
         <h1>Welcome to {{hostelname}}</h1>
-        <p>Your Home Away From Home</p>
+        <p>Premium student accommodation with modern security, hygienic mess dining, and direct portal access.</p>
+        <div class="hero-actions">
+            <button class="btn-cta" onclick="openModal()">
+                <i class="fas fa-sign-in-alt"></i> Resident & Warden Sign In
+            </button>
+            <a href="#features" class="btn-cta-secondary">
+                <i class="fas fa-info-circle"></i> Learn More
+            </a>
+        </div>
     </section>
 
     <!-- Features Section -->
     <section class="features" id="features">
-        <h2>Top Features</h2>
+        <h2>Top <span>Hostel Features</span></h2>
         <div class="feature-grid">
             <div class="feature-card">
-                <h3>24/7 Security</h3>
-                <p>Round-the-clock security with CCTV surveillance and trained guards.</p>
+                <span class="feature-icon">🛡️</span>
+                <h3>24/7 Security & CCTV</h3>
+                <p>Round-the-clock physical security with active digital surveillance for complete peace of mind.</p>
             </div>
             <div class="feature-card">
-                <h3>Modern Amenities</h3>
-                <p>Well-furnished rooms with high-speed WiFi and study areas.</p>
+                <span class="feature-icon">📶</span>
+                <h3>Modern Amenities & WiFi</h3>
+                <p>Spacious study desks, ergonomic chairs, and high-speed dedicated internet in every room.</p>
             </div>
             <div class="feature-card">
-                <h3>Dining Facility</h3>
-                <p>Nutritious meals served three times a day in our hygienic mess.</p>
+                <span class="feature-icon">🍲</span>
+                <h3>Nutritious Dining Facility</h3>
+                <p>Balanced, hygienic, and wholesome home-cooked meals served 3 times daily in our clean cafeteria.</p>
             </div>
             <div class="feature-card">
-                <h3>Complaint System</h3>
-                <p>Easy-to-use complaint management system for quick resolution.</p>
+                <span class="feature-icon">⚡</span>
+                <h3>Fast Complaint Resolution</h3>
+                <p>Direct digital complaint submission system to keep wardens instantly informed of maintenance requests.</p>
             </div>
         </div>
     </section>
 
     <!-- Reviews Section -->
     <section class="reviews" id="reviews">
-        <h2>Student Reviews</h2>
-        <div class="review-grid">
-            <div class="review-card">
-                <p>"The facilities are excellent and the staff is very helpful. The complaint resolution system is very efficient."</p>
-                <div class="review-author">- Sarah Tuladhar</div>
-            </div>
-            <div class="review-card">
-                <p>"Clean rooms, good food, and great environment for studies. Highly recommended!"</p>
-                <div class="review-author">- Rishab Pathak</div>
-            </div>
-            <div class="review-card">
-                <p>"The security system should be improved."</p>
-                <div class="review-author">- Priya Patel</div>
+        <div class="reviews-container">
+            <h2>Student <span>Reviews</span></h2>
+            <div class="review-grid">
+                <div class="review-card">
+                    <p>"The facilities are top notch and the warden is very responsive. Any maintenance issues get fixed within hours!"</p>
+                    <div class="review-author">— Sarah Tuladhar</div>
+                </div>
+                <div class="review-card">
+                    <p>"Clean and spacious rooms, reliable high-speed WiFi, and a peaceful environment that is great for engineering exams."</p>
+                    <div class="review-author">— Rishab Pathak</div>
+                </div>
+                <div class="review-card">
+                    <p>"Great food quality, friendly peers, and convenient location right next to public transportation."</p>
+                    <div class="review-author">— Priya Patel</div>
+                </div>
             </div>
         </div>
     </section>
@@ -341,26 +515,26 @@
     <div class="modal" id="loginModal">
         <div class="modal-content">
             <button class="close-btn" onclick="closeModal()">&times;</button>
-            <h2>Login</h2>
+            <h2>Portal Sign In</h2>
 
-            <form method = "post" action = "/hostelloginsubmit{{hostelid}}/">
+            <form method="post" action="/hostelloginsubmit{{hostelid}}/">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="userType">Login As:</label>
-                    <select id="userType" name = "usertype" required>
-                        <option value="student">Student</option>
-                        <option value="warden">Warden</option>
+                    <label for="userType">Login Role</label>
+                    <select id="userType" name="usertype" required>
+                        <option value="student">Student Resident</option>
+                        <option value="warden">Hostel Warden</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="username" >Username:</label>
-                    <input type="text" id="username" name = "username" required>
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter username" required>
                 </div>
                 <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name = "password" required>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter password" required>
                 </div>
-                <button type="submit" class="submit-btn">Login</button>
+                <button type="submit" class="submit-btn">Sign In</button>
             </form>
         </div>
     </div>
@@ -374,7 +548,6 @@
             document.getElementById('loginModal').style.display = 'none';
         }
 
-        // Close modal when clicking outside
         window.onclick = function(event) {
             const modal = document.getElementById('loginModal');
             if (event.target == modal) {
@@ -383,5 +556,5 @@
         }
     </script>
 </body>
-{% endblock content %} 
 </html>
+{% endblock content %}

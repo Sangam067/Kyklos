@@ -1,25 +1,29 @@
 {% extends "base.html" %}
-
+{% load static %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
-    {% block content %}
-
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudySpace - Your Ultimate Study Environment</title>
+    <title>StudySpace — Kyklos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #001a1a, #004d4d, #003329);
-            color: #e6ffff;
+            background-color: #071520;
+            background-image: radial-gradient(circle at 15% 20%, rgba(6, 182, 212, 0.12) 0%, transparent 45%),
+                              radial-gradient(circle at 85% 70%, rgba(14, 116, 144, 0.15) 0%, transparent 45%);
+            color: #ecfeff;
             min-height: 100vh;
         }
 
@@ -29,84 +33,270 @@
             padding: 20px;
         }
 
-        header {
+        /* Header */
+        .page-header {
             text-align: center;
-            padding: 20px 0;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            margin-bottom: 20px;
+            padding: 1.5rem 1.25rem;
+            background: rgba(14, 34, 48, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 14px;
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            margin-bottom: 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
+        .page-header .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .page-header .back-link {
+            color: #67e8f9;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+
+        .page-header .back-link:hover {
+            color: #ffffff;
+        }
+
+        .page-header h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        .page-header h1 span {
+            color: #22d3ee;
+        }
+
+        .page-header p {
+            font-size: 0.9rem;
+            color: #67e8f9;
+        }
+
+        /* Main Grid */
         .main-content {
             display: grid;
             grid-template-columns: 3fr 1fr;
-            gap: 20px;
+            gap: 1.25rem;
         }
 
-        .workspace {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            border-radius: 10px;
-            min-height: 600px;
+        /* Cards */
+        .card {
+            background: rgba(14, 34, 48, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 14px;
+            padding: 1.5rem;
+            border: 1px solid rgba(34, 211, 238, 0.15);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+            margin-bottom: 1.25rem;
         }
 
-        .timer-section {
-            background: rgba(0, 26, 26, 0.5);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+        .card h2 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
+        .card h2 i {
+            color: #22d3ee;
+        }
+
+        /* Timer Section */
         .timer-display {
-            font-size: 2.5rem;
+            font-size: 2.75rem;
             text-align: center;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.3);
+            padding: 1.25rem;
+            background: rgba(21, 94, 117, 0.5);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            border-radius: 12px;
+            margin: 0.75rem 0;
+            font-weight: 800;
+            color: #22d3ee;
+            text-shadow: 0 0 20px rgba(34, 211, 238, 0.4);
+            letter-spacing: 4px;
+        }
+
+        .timer-settings {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.75rem;
+            background: rgba(20, 48, 66, 0.5);
+            padding: 0.75rem;
+            border-radius: 10px;
+            border: 1px solid rgba(34, 211, 238, 0.1);
+        }
+
+        .timer-input-group {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .timer-input {
+            width: 56px;
+            text-align: center;
+            padding: 8px;
+            background: rgba(20, 48, 66, 0.6);
+            border: 1px solid rgba(34, 211, 238, 0.25);
             border-radius: 8px;
-            margin: 10px 0;
+            color: #ecfeff;
+            font-size: 1rem;
+            font-weight: 600;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .timer-input:focus {
+            border-color: #22d3ee;
+            box-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
+        }
+
+        .timer-input::-webkit-inner-spin-button,
+        .timer-input::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .timer-label {
+            font-size: 0.85rem;
+            color: #67e8f9;
+            font-weight: 600;
         }
 
         .timer-controls {
             display: flex;
-            gap: 10px;
+            gap: 0.75rem;
         }
 
-        .timer-controls button {
-            flex: 1;
-        }
-
-        .resources {
-            background: rgba(0, 26, 26, 0.5);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        .resource-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .resource-tabs button {
-            flex: 1;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.2);
-            border: none;
-            border-radius: 5px;
-            color: #e6ffff;
+        /* Buttons */
+        .btn {
+            padding: 0.6rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.875rem;
             cursor: pointer;
+            transition: all 0.25s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .resource-tabs button:hover,
-        .resource-tabs button.active {
-            background: rgba(0, 102, 102, 0.7);
+        .btn-primary {
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #22d3ee, #06b6d4);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(6, 182, 212, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(34, 211, 238, 0.12);
+            color: #22d3ee;
+            border: 1px solid rgba(34, 211, 238, 0.25);
+            flex: 1;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(34, 211, 238, 0.25);
+            color: #ffffff;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        /* Form Inputs */
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            background: rgba(20, 48, 66, 0.6);
+            border: 1px solid rgba(34, 211, 238, 0.25);
+            padding: 0.65rem 0.85rem;
+            border-radius: 8px;
+            color: #ecfeff;
+            font-size: 0.875rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            border-color: #22d3ee;
+            box-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
+            background: rgba(20, 48, 66, 0.9);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #67e8f9;
+            opacity: 0.6;
+        }
+
+        /* Resources Section */
+        .file-upload {
+            background: rgba(10, 25, 36, 0.5);
+            border: 1px dashed rgba(34, 211, 238, 0.3);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .file-upload label {
+            display: block;
+            padding: 0.75rem;
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 0.5rem;
+            color: #67e8f9;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .file-upload label:hover {
+            background: rgba(34, 211, 238, 0.2);
+            border-color: #22d3ee;
+            color: #ffffff;
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
         }
 
         .resource-input {
             display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
         }
 
         .resource-input input {
@@ -118,57 +308,37 @@
         }
 
         .resource-list li {
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.2);
-            margin: 5px 0;
-            border-radius: 5px;
+            padding: 0.75rem;
+            background: rgba(20, 48, 66, 0.5);
+            border: 1px solid rgba(34, 211, 238, 0.1);
+            margin: 0.4rem 0;
+            border-radius: 8px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 0.75rem;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.2s;
+            color: #cffafe;
+            font-size: 0.9rem;
+            font-weight: 500;
         }
 
         .resource-list li:hover {
-            background: rgba(0, 102, 102, 0.4);
+            background: rgba(21, 94, 117, 0.6);
+            border-color: rgba(34, 211, 238, 0.3);
+            transform: translateX(4px);
         }
 
         .resource-list li img {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             object-fit: cover;
-            border-radius: 4px;
+            border-radius: 6px;
+            border: 1px solid rgba(34, 211, 238, 0.2);
         }
 
-        .file-upload {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .file-upload label {
-            display: block;
-            padding: 10px;
-            background: rgba(0, 77, 77, 0.5);
-            border-radius: 5px;
-            cursor: pointer;
-            margin-bottom: 10px;
-        }
-
-        .file-upload label:hover {
-            background: rgba(0, 102, 102, 0.7);
-        }
-
-        .file-upload input[type="file"] {
-            display: none;
-        }
-
-        .chatbot {
-            background: rgba(0, 26, 26, 0.5);
-            padding: 20px;
-            border-radius: 10px;
+        /* Chatbot */
+        .chatbot-container {
             height: 400px;
             display: flex;
             flex-direction: column;
@@ -176,64 +346,68 @@
 
         .chat-messages {
             flex-grow: 1;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 10px;
+            background: rgba(10, 25, 36, 0.6);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
             overflow-y: auto;
+            border: 1px solid rgba(34, 211, 238, 0.1);
         }
 
         .chat-input {
             display: flex;
-            gap: 10px;
+            gap: 0.5rem;
         }
 
-        input, button, textarea {
-            background: rgba(230, 255, 255, 0.1);
-            border: 1px solid rgba(230, 255, 255, 0.2);
-            padding: 10px;
-            border-radius: 5px;
-            color: #e6ffff;
-        }
-
-        button {
-            background: rgba(0, 77, 77, 0.5);
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        button:hover {
-            background: rgba(0, 102, 102, 0.7);
-        }
-
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .todo-list {
-            background: rgba(0, 26, 26, 0.5);
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        .notes {
-            background: rgba(0, 26, 26, 0.5);
-            padding: 20px;
-            border-radius: 10px;
+        .chat-input input {
             flex-grow: 1;
         }
 
-        h2 {
-            margin-bottom: 15px;
-            color: #80ffff;
+        .message-user {
+            text-align: right;
+            margin: 0.65rem 0;
+        }
+
+        .message-bubble {
+            display: inline-block;
+            padding: 0.6rem 1rem;
+            border-radius: 12px;
+            max-width: 80%;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .message-user .message-bubble {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.4), rgba(14, 116, 144, 0.4));
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            color: #ecfeff;
+        }
+
+        .message-ai {
+            margin: 0.65rem 0;
+        }
+
+        .message-ai .message-bubble {
+            background: rgba(20, 48, 66, 0.7);
+            border: 1px solid rgba(34, 211, 238, 0.15);
+            color: #cffafe;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
         }
 
         .task-input {
             display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .task-input input {
+            flex: 1;
         }
 
         .tasks {
@@ -243,97 +417,66 @@
         .tasks li {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 8px;
-            background: rgba(0, 0, 0, 0.2);
-            margin: 5px 0;
-            border-radius: 5px;
+            gap: 0.65rem;
+            padding: 0.6rem 0.75rem;
+            background: rgba(20, 48, 66, 0.5);
+            border: 1px solid rgba(34, 211, 238, 0.1);
+            margin: 0.35rem 0;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            color: #cffafe;
+            transition: background 0.2s;
+        }
+
+        .tasks li:hover {
+            background: rgba(20, 48, 66, 0.75);
+        }
+
+        .tasks li input[type="checkbox"] {
+            accent-color: #22d3ee;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
         }
 
         .tasks li.completed span {
             text-decoration: line-through;
-            color: #80ffff;
+            color: #67e8f9;
+            opacity: 0.7;
         }
 
-        textarea {
+        /* Notes */
+        .notes textarea {
             width: 100%;
             height: 200px;
             resize: none;
+            background: rgba(20, 48, 66, 0.6);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            border-radius: 10px;
+            padding: 1rem;
+            color: #ecfeff;
+            font-size: 0.875rem;
+            line-height: 1.6;
         }
 
-        .message-user {
-            text-align: right;
-            margin: 10px 0;
+        .notes textarea:focus {
+            border-color: #22d3ee;
+            box-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
+            background: rgba(20, 48, 66, 0.9);
         }
 
-        .message-bubble {
-            display: inline-block;
-            padding: 8px 12px;
-            border-radius: 15px;
-            max-width: 80%;
-        }
-
-        .message-user .message-bubble {
-            background: rgba(0, 77, 77, 0.5);
-        }
-
-        .message-ai .message-bubble {
-            background: rgba(0, 0, 0, 0.3);
-        }
-
-        .message-ai {
-            margin: 10px 0;
-        }
-
-        .timer-settings {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 10px;
-            border-radius: 8px;
-        }
-
-        .timer-input-group {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .timer-input {
-            width: 60px;
-            text-align: center;
-            padding: 8px;
-            background: rgba(230, 255, 255, 0.1);
-            border: 1px solid rgba(230, 255, 255, 0.2);
-            border-radius: 5px;
-            color: #e6ffff;
-            font-size: 1rem;
-        }
-
-        .timer-input::-webkit-inner-spin-button,
-        .timer-input::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        .timer-label {
-            font-size: 0.9rem;
-            color: #80ffff;
-        }
-
+        /* Resource Viewer */
         .resource-viewer {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(5, 15, 25, 0.92);
+            backdrop-filter: blur(10px);
             display: none;
             z-index: 1000;
-            padding: 20px;
+            padding: 1.25rem;
         }
 
         .resource-viewer.active {
@@ -345,30 +488,40 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px;
-            background: rgba(0, 26, 26, 0.8);
-            border-radius: 8px;
-            margin-bottom: 10px;
+            padding: 0.75rem 1rem;
+            background: rgba(14, 34, 48, 0.9);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            border-radius: 10px;
+            margin-bottom: 0.75rem;
         }
 
         .resource-viewer-title {
-            color: #80ffff;
-            font-size: 1.2rem;
+            color: #22d3ee;
+            font-size: 1.1rem;
+            font-weight: 700;
         }
 
         .resource-viewer-close {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: #e6ffff;
-            padding: 5px 10px;
-            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.25);
+            color: #ecfeff;
+            padding: 0.4rem 0.85rem;
+            border-radius: 8px;
             cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .resource-viewer-close:hover {
+            background: rgba(34, 211, 238, 0.2);
+            color: #ffffff;
         }
 
         .resource-viewer-content {
             flex-grow: 1;
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 8px;
+            border-radius: 10px;
             overflow: hidden;
         }
 
@@ -378,56 +531,41 @@
             border: none;
         }
 
-        .resource-input-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .resource-input-tabs button {
-            flex: 1;
-            padding: 8px;
-            background: rgba(0, 0, 0, 0.2);
-            border: none;
-            border-radius: 5px;
-            color: #e6ffff;
-            cursor: pointer;
-        }
-
-        .resource-input-tabs button.active {
-            background: rgba(0, 102, 102, 0.7);
-        }
-
-        .resource-input-panel {
-            display: none;
-        }
-
-        .resource-input-panel.active {
-            display: block;
-        }
-
         @media (max-width: 768px) {
             .main-content {
                 grid-template-columns: 1fr;
             }
-
-            .resource-viewer {
-                padding: 10px;
+            .page-header {
+                flex-direction: column;
+                gap: 0.75rem;
+                text-align: center;
+            }
+            .resource-input {
+                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>StudySpace For {{username}}</h1>
-            <p>Your All-in-One Study Environment</p>
+        <header class="page-header">
+            <div class="header-left">
+                <a href="/home{{id}}/" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Dashboard
+                </a>
+            </div>
+            <div>
+                <h1><i class="fas fa-book-open" style="color: #22d3ee;"></i> StudySpace for <span>{{username}}</span></h1>
+                <p>Your All-in-One Study Environment</p>
+            </div>
+            <div></div>
         </header>
 
         <div class="main-content">
             <main class="workspace">
-                <div class="timer-section">
-                    <h2>Study Timer</h2>
+                <!-- Study Timer -->
+                <div class="card">
+                    <h2><i class="fas fa-clock"></i> Study Timer</h2>
                     <div class="timer-settings">
                         <div class="timer-input-group">
                             <input type="number" id="minutes-input" class="timer-input" min="0" max="99" value="25">
@@ -437,62 +575,77 @@
                             <input type="number" id="seconds-input" class="timer-input" min="0" max="59" value="0">
                             <span class="timer-label">sec</span>
                         </div>
-                        <button onclick="setCustomTime()">Set Time</button>
+                        <button class="btn btn-secondary btn-small" onclick="setCustomTime()">
+                            <i class="fas fa-sync-alt"></i> Set
+                        </button>
                     </div>
                     <div class="timer-display" id="timer">25:00</div>
                     <div class="timer-controls">
-                        <button id="startTimer">Start Timer</button>
-                        <button id="resetTimer">Reset</button>
+                        <button class="btn btn-primary" id="startTimer">
+                            <i class="fas fa-play"></i> Start Timer
+                        </button>
+                        <button class="btn btn-secondary" id="resetTimer">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
                     </div>
                 </div>
 
-                <div class="resources">
-                    <h2>Study Resources</h2>
-                    <form method="post" enctype="multipart/form-data" action = "/addresource{{id}}/">
+                <!-- Study Resources -->
+                <div class="card">
+                    <h2><i class="fas fa-folder-open"></i> Study Resources</h2>
+                    <form method="post" enctype="multipart/form-data" action="/addresource{{id}}/">
                         {% csrf_token %}
                         <div class="file-upload">
                             <label for="file-input">
-                                📤 Click to Upload Thumbnail Of your Resource
+                                <i class="fas fa-cloud-upload-alt"></i> Click to Upload Thumbnail Of your Resource
                                 <input type="file" id="file-input" multiple accept="image/*,.pdf,.doc,.docx" name="thumbnail">
                             </label>
                         </div>
-                        
+
                         <div class="resource-input">
-                            <input type="text" placeholder="Enter resource title..." id="resource-title" name = "title">
-                            <input type="text" placeholder="Enter resource category..." id="resource-category" name = "category">
-                            <input type="text" placeholder="Enter URL..." id="resource-url" name = "url">
-                            <button type="submit" onclick="alert('Resource uploaded, Credit was increased by 150.')">Add</button>
+                            <input type="text" placeholder="Resource title..." id="resource-title" name="title">
+                            <input type="text" placeholder="Category..." id="resource-category" name="category">
+                            <input type="text" placeholder="URL..." id="resource-url" name="url">
+                            <button type="submit" class="btn btn-primary btn-small" onclick="alert('Resource uploaded, Credit was increased by 150.')">
+                                <i class="fas fa-plus"></i> Add
+                            </button>
                         </div>
                     </form>
 
                     <ul class="resource-list" id="resource-list">
                         {% for resource in resources %}
-                                    <li onclick="showResource('{{resource.resourceurl}}')">
-                                        <img src="{{resource.thumbnail.url}}" alt="Book">
-                                        <span>{{resource.title}}</span>
-                                    </li>
+                        <li onclick="showResource('{{resource.resourceurl}}')">
+                            <img src="{{resource.thumbnail.url}}" alt="Book">
+                            <span>📚 {{resource.title}}</span>
+                        </li>
                         {% endfor %}
                     </ul>
                 </div>
 
-                <div class="chatbot">
-                    <h2>Study Assistant</h2>
-                    <div class="chat-messages" id="chat-messages">
-                        <!-- Messages will be added here dynamically -->
-                    </div>
-                    <div class="chat-input">
-                        <input type="text" id="chat-input" placeholder="Ask me anything...">
-                        <button id="send-button">Send</button>
+                <!-- AI Study Assistant -->
+                <div class="card">
+                    <h2><i class="fas fa-robot"></i> Study Assistant</h2>
+                    <div class="chatbot-container">
+                        <div class="chat-messages" id="chat-messages"></div>
+                        <div class="chat-input">
+                            <input type="text" id="chat-input" placeholder="Ask me anything about your studies...">
+                            <button class="btn btn-primary btn-small" id="send-button">
+                                <i class="fas fa-paper-plane"></i> Send
+                            </button>
+                        </div>
                     </div>
                 </div>
             </main>
 
             <aside class="sidebar">
-                <div class="todo-list">
-                    <h2>Study Tasks</h2>
+                <!-- Study Tasks -->
+                <div class="card">
+                    <h2><i class="fas fa-tasks"></i> Study Tasks</h2>
                     <div class="task-input">
                         <input type="text" id="task-input" placeholder="Add new task...">
-                        <button onclick="addTask()">Add</button>
+                        <button class="btn btn-primary btn-small" onclick="addTask()">
+                            <i class="fas fa-plus"></i> Add
+                        </button>
                     </div>
                     <ul class="tasks" id="task-list">
                         <li>
@@ -506,18 +659,22 @@
                     </ul>
                 </div>
 
-                <div class="notes">
-                    <h2>Quick Notes</h2>
+                <!-- Quick Notes -->
+                <div class="card notes">
+                    <h2><i class="fas fa-sticky-note"></i> Quick Notes</h2>
                     <textarea id="notes" placeholder="Write your notes here..."></textarea>
                 </div>
             </aside>
         </div>
     </div>
 
+    <!-- Resource Viewer Modal -->
     <div class="resource-viewer" id="resource-viewer">
         <div class="resource-viewer-header">
             <div class="resource-viewer-title" id="resource-viewer-title">Resource Title</div>
-            <button class="resource-viewer-close" onclick="closeResource()">Close</button>
+            <button class="resource-viewer-close" onclick="closeResource()">
+                <i class="fas fa-times"></i> Close
+            </button>
         </div>
         <div class="resource-viewer-content">
             <iframe id="resource-viewer-frame" title="Resource Viewer"></iframe>
@@ -557,7 +714,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const chatMessages = document.querySelector('.chat-messages');
             const chatInput = document.querySelector('.chat-input input');
-            const sendButton = document.querySelector('.chat-input button');
+            const sendButton = document.querySelector('#send-button');
             let isProcessing = false;
 
             async function sendMessage() {
@@ -589,7 +746,7 @@
                 `;
 
                 isProcessing = false;
-                sendButton.textContent = 'Send';
+                sendButton.innerHTML = '<i class="fas fa-paper-plane"></i> Send';
                 sendButton.disabled = false;
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
@@ -611,6 +768,7 @@
             `;
         });
 
+        // Timer
         let timerMinutes = 25;
         let timerSeconds = 0;
         let timerInterval = null;
@@ -624,38 +782,29 @@
         }
 
         function setCustomTime() {
-            // Clear any running timer
             if (timerInterval !== null) {
                 clearInterval(timerInterval);
                 timerInterval = null;
-                startButton.textContent = 'Start Timer';
+                startButton.innerHTML = '<i class="fas fa-play"></i> Start Timer';
             }
 
-            // Get and validate input values
             let minutes = parseInt(minutesInput.value) || 0;
             let seconds = parseInt(secondsInput.value) || 0;
 
-            // Validate and adjust values
             if (seconds >= 60) {
                 minutes += Math.floor(seconds / 60);
                 seconds = seconds % 60;
             }
 
-            // Update inputs with adjusted values
             minutesInput.value = minutes;
             secondsInput.value = seconds;
-
-            // Set timer values
             timerMinutes = minutes;
             timerSeconds = seconds;
-
-            // Update display
             updateTimerDisplay();
         }
 
         function startTimer() {
             if (timerInterval === null) {
-                // Don't start if timer is at 0
                 if (timerMinutes === 0 && timerSeconds === 0) {
                     alert('Please set a time greater than 0');
                     return;
@@ -666,7 +815,7 @@
                         if (timerMinutes === 0) {
                             clearInterval(timerInterval);
                             timerInterval = null;
-                            startButton.textContent = 'Start Timer';
+                            startButton.innerHTML = '<i class="fas fa-play"></i> Start Timer';
                             alert('Time is up!');
                             return;
                         }
@@ -677,23 +826,21 @@
                     }
                     updateTimerDisplay();
                 }, 1000);
-                startButton.textContent = 'Pause Timer';
+                startButton.innerHTML = '<i class="fas fa-pause"></i> Pause Timer';
             } else {
                 clearInterval(timerInterval);
                 timerInterval = null;
-                startButton.textContent = 'Start Timer';
+                startButton.innerHTML = '<i class="fas fa-play"></i> Start Timer';
             }
         }
 
         function resetTimer() {
             clearInterval(timerInterval);
             timerInterval = null;
-            // Reset to the values in the input fields
             setCustomTime();
-            startButton.textContent = 'Start Timer';
+            startButton.innerHTML = '<i class="fas fa-play"></i> Start Timer';
         }
 
-        // Add input validation
         minutesInput.addEventListener('input', function() {
             let value = parseInt(this.value) || 0;
             if (value > 99) value = 99;
@@ -711,47 +858,13 @@
         document.getElementById('startTimer').addEventListener('click', startTimer);
         document.getElementById('resetTimer').addEventListener('click', resetTimer);
 
-        function showTab(tab) {
-            document.querySelectorAll('.resource-tabs button').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-        }
-
-        function showInputTab(tab) {
-            document.querySelectorAll('.resource-input-tabs button').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelectorAll('.resource-input-panel').forEach(panel => {
-                panel.classList.remove('active');
-            });
-            
-            event.target.classList.add('active');
-            document.getElementById(`${tab}-input`).classList.add('active');
-        }
-
-        function addResource() {
-            const title = document.getElementById('resource-title').value;
-            const url = document.getElementById('resource-url').value;
-            if (title && url) {
-                const li = document.createElement('li');
-                li.onclick = () => showResource(url, title);
-                li.innerHTML = `
-                    <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=80&h=80&fit=crop" alt="">
-                    <span>📚 ${title}</span>
-                `;
-                document.getElementById('resource-list').appendChild(li);
-                document.getElementById('resource-title').value = '';
-                document.getElementById('resource-url').value = '';
-            }
-        }
-
+        // Resource Viewer
         function showResource(url, title) {
             const viewer = document.getElementById('resource-viewer');
             const frame = document.getElementById('resource-viewer-frame');
             const titleElement = document.getElementById('resource-viewer-title');
-            
-            titleElement.textContent = title;
+
+            titleElement.textContent = title || 'Resource';
             frame.src = url;
             viewer.classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -760,30 +873,13 @@
         function closeResource() {
             const viewer = document.getElementById('resource-viewer');
             const frame = document.getElementById('resource-viewer-frame');
-            
+
             viewer.classList.remove('active');
             frame.src = '';
             document.body.style.overflow = '';
         }
 
-        // File upload handling
-        document.getElementById('file-input-field').addEventListener('change', function(e) {
-            const files = e.target.files;
-            for (let file of files) {
-                // In a real application, you would upload the file to a server here
-                // For this demo, we'll create a local object URL
-                const url = URL.createObjectURL(file);
-                const li = document.createElement('li');
-                li.onclick = () => showResource(url, file.name);
-                li.innerHTML = `
-                    <img src="${file.type.startsWith('image/') ? url : 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=80&h=80&fit=crop'}" alt="">
-                    <span>📄 ${file.name}</span>
-                `;
-                document.getElementById('resource-list').appendChild(li);
-            }
-            e.target.value = ''; // Reset the input
-        });
-
+        // Tasks
         function addTask() {
             const taskInput = document.getElementById('task-input');
             const taskText = taskInput.value.trim();
@@ -814,5 +910,5 @@
         });
     </script>
 </body>
-{% endblock content %} 
 </html>
+{% endblock content %}

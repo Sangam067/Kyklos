@@ -121,3 +121,51 @@ class KyklosAppTests(TestCase):
         data = response.json()
         self.assertIn('complaint_id', data)
         self.assertTrue(Complaint.objects.filter(roomno='101').exists())
+
+    def test_login_submit_empty_fields(self):
+        """Login with missing credentials should redirect back with error."""
+        response = self.client.post('/login_submit/', {
+            'username': '',
+            'password': ''
+        })
+        self.assertRedirects(response, '/login/')
+
+    def test_login_submit_nonexistent_user(self):
+        """Login with a username that doesn't exist should redirect back."""
+        response = self.client.post('/login_submit/', {
+            'username': 'ghost_user',
+            'password': 'somepassword'
+        })
+        self.assertRedirects(response, '/login/')
+
+    def test_registration_duplicate_email(self):
+        """Registration with an already-used email should be rejected."""
+        response = self.client.post('/register_submit/', {
+            'username': 'uniqueuser',
+            'email': 'test@example.com',  # already used by self.student
+            'password': 'password123',
+        })
+        self.assertRedirects(response, '/register/')
+        self.assertFalse(Student.objects.filter(username='uniqueuser').exists())
+
+    def test_submit_complaint_get_not_allowed(self):
+        """GET request to complaint submit should return 405 Method Not Allowed."""
+        response = self.client.get(f'/complaintsubmit{self.hostel.id}/')
+        self.assertEqual(response.status_code, 405)
+
+    def test_post_discussion_empty_fields(self):
+        """Posting a discussion with empty title/content should redirect back."""
+        response = self.client.post(f'/postdiscussion{self.student.id}/', {
+            'topic': 'Physics',
+            'title': '',
+            'content': '',
+            'category': 'Physics'
+        })
+        self.assertRedirects(response, f'/creatediscussion{self.student.id}/')
+        self.assertEqual(Discussion.objects.count(), 0)
+
+    def test_view_nonexistent_hostel_returns_404(self):
+        """Requesting a hostel that doesn't exist should return 404."""
+        response = self.client.get('/hostel9999/')
+        self.assertEqual(response.status_code, 404)
+

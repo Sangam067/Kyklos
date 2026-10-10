@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.conf import settings
+from django.views.decorators.http import require_http_methods, require_POST, require_GET
 from .models import Student, Hostel, Discussion, Resource, Warden, Complaint
 
 logger = logging.getLogger(__name__)
@@ -19,6 +20,7 @@ def login(request):
     return render(request, "login.html")
 
 
+@require_http_methods(["GET", "POST"])
 def login_submit(request):
     """Handle student authentication with secure password verification."""
     if request.method != "POST":
@@ -59,6 +61,7 @@ def register(request):
     return render(request, "register.html")
 
 
+@require_http_methods(["GET", "POST"])
 def register_submit(request):
     """Handle new student registration."""
     if request.method != "POST":
@@ -140,6 +143,7 @@ def view_hostel(request, hostelid):
     return render(request, "hostel.html", context=context)
 
 
+@require_http_methods(["GET", "POST"])
 def hostelloginsubmit(request, hostelid):
     """Authenticate warden or student for a specific hostel."""
     if request.method != "POST":
@@ -208,6 +212,7 @@ def view_studyspace(request, studentid):
     return render(request, "studyspace.html", context=context)
 
 
+@require_http_methods(["GET", "POST"])
 def addresource(request, userid):
     """Upload a study resource and award credit points."""
     if request.method == "POST":
@@ -250,6 +255,7 @@ def create_discussion(request, userid):
     return render(request, "creatediscussion.html", {"userid": userid})
 
 
+@require_http_methods(["GET", "POST"])
 def post_discussion(request, userid):
     """Handle new discussion submission."""
     if request.method == "POST":
@@ -292,6 +298,7 @@ def complaint(request, hostelid):
     return render(request, "complaint.html", {"hostel": hostel, "complaints": complaints})
 
 
+@require_POST
 def submit_complaint(request, hostelid):
     """Submit a student maintenance complaint and notify warden."""
     if request.method == 'POST':
@@ -357,6 +364,7 @@ def reedem(request, studentid):
     return render(request, "redeem.html", context=context)
 
 
+@require_http_methods(["GET", "POST"])
 def redeem_submit(request, studentid):
     """Handle item redemption using credit points."""
     student = get_object_or_404(Student, id=studentid)

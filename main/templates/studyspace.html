@@ -317,6 +317,35 @@
             padding: 0.5rem 0 1.25rem;
         }
 
+        .timer-confetti-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 4;
+        }
+
+        .timer-card.celebrate {
+            animation: timerCelebrationPulse 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes timerCelebrationPulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(34, 211, 238, 0.12), 0 0 40px -10px rgba(6, 182, 212, 0.2);
+            }
+            35% {
+                transform: scale(1.02);
+                box-shadow: 0 20px 45px -4px rgba(0, 0, 0, 0.55), 0 0 0 2px rgba(251, 191, 36, 0.7), 0 0 60px 10px rgba(251, 191, 36, 0.35);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(34, 211, 238, 0.12), 0 0 40px -10px rgba(6, 182, 212, 0.2);
+            }
+        }
+
         .timer-svg-wrap {
             position: relative;
             width: 220px;
@@ -1059,6 +1088,7 @@
 
                     <!-- Circular Progress Ring Centerpiece -->
                     <div class="timer-centerpiece">
+                        <canvas class="timer-confetti-canvas" id="timerConfettiCanvas"></canvas>
                         <div class="timer-svg-wrap">
                             <svg viewBox="0 0 220 220" width="220" height="220">
                                 <defs>
@@ -1310,7 +1340,7 @@
         let totalSessionSeconds = 25 * 60;
         let timerInterval = null;
         let isSoundEnabled = true;
-        let completedSessions = 0;
+        let completedSessions = parseInt(localStorage.getItem('kyklos_study_sessions') || '0', 10);
         let currentMode = 'pomodoro';
 
         const timerCard = document.getElementById('timerCard');
@@ -1332,6 +1362,12 @@
         const customPanel = document.getElementById('customTimePanel');
         const addFiveBtn = document.getElementById('addFiveMinutes');
         const presetButtons = document.querySelectorAll('.preset-btn');
+        const confettiCanvas = document.getElementById('timerConfettiCanvas');
+        let celebrationAnimId = null;
+
+        if (sessionCountElem) {
+            sessionCountElem.textContent = completedSessions;
+        }
 
         const RING_CIRCUMFERENCE = 2 * Math.PI * 96; // ~603.18
         if (progressRing) {
@@ -1346,6 +1382,89 @@
             deepWork: { name: 'Deep Work', label: 'DEEP FOCUS', hint: 'Maximum flow state', isBreak: false, stroke: 'url(#timerCyanGrad)' },
             custom: { name: 'Custom Session', label: 'CUSTOM TIME', hint: 'Custom study block', isBreak: false, stroke: 'url(#timerCyanGrad)' }
         };
+
+        function triggerCelebration() {
+            if (timerCard) {
+                timerCard.classList.remove('celebrate');
+                void timerCard.offsetWidth; // force reflow
+                timerCard.classList.add('celebrate');
+                setTimeout(() => timerCard.classList.remove('celebrate'), 1400);
+            }
+
+            if (!confettiCanvas) return;
+            const ctx = confettiCanvas.getContext('2d');
+            const rect = confettiCanvas.getBoundingClientRect();
+            confettiCanvas.width = rect.width || 280;
+            confettiCanvas.height = rect.height || 240;
+
+            const particles = [];
+            const colors = ['#22d3ee', '#38bdf8', '#34d399', '#fbbf24', '#f43f5e', '#a855f7', '#ecfeff'];
+            const centerX = confettiCanvas.width / 2;
+            const centerY = confettiCanvas.height / 2;
+
+            for (let i = 0; i < 60; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = 2.5 + Math.random() * 5.5;
+                particles.push({
+                    x: centerX,
+                    y: centerY,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed - 1.8,
+                    size: 3 + Math.random() * 4,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    alpha: 1,
+                    decay: 0.014 + Math.random() * 0.018,
+                    rotation: Math.random() * 360,
+                    rotationSpeed: (Math.random() - 0.5) * 14,
+                    shape: Math.random() > 0.4 ? 'circle' : 'rect'
+                });
+            }
+
+            if (celebrationAnimId) cancelAnimationFrame(celebrationAnimId);
+
+            function render() {
+                ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+                let aliveCount = 0;
+
+                for (let p of particles) {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += 0.12; // gravity
+                    p.vx *= 0.98; // air drag
+                    p.alpha -= p.decay;
+                    p.rotation += p.rotationSpeed;
+
+                    if (p.alpha > 0) {
+                        aliveCount++;
+                        ctx.save();
+                        ctx.translate(p.x, p.y);
+                        ctx.rotate((p.rotation * Math.PI) / 180);
+                        ctx.globalAlpha = Math.max(0, p.alpha);
+                        ctx.fillStyle = p.color;
+                        ctx.shadowColor = p.color;
+                        ctx.shadowBlur = 6;
+
+                        if (p.shape === 'circle') {
+                            ctx.beginPath();
+                            ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+                            ctx.fill();
+                        } else {
+                            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 1.4);
+                        }
+                        ctx.restore();
+                    }
+                }
+
+                if (aliveCount > 0) {
+                    celebrationAnimId = requestAnimationFrame(render);
+                } else {
+                    ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+                    celebrationAnimId = null;
+                }
+            }
+
+            celebrationAnimId = requestAnimationFrame(render);
+        }
 
         function playCompletionChime() {
             if (!isSoundEnabled) return;
@@ -1531,21 +1650,27 @@
                                 if (startTimerText) startTimerText.textContent = 'Start Timer';
                             }
 
+                            triggerCelebration();
                             playCompletionChime();
 
                             const isFocus = !(modeConfigs[currentMode] && modeConfigs[currentMode].isBreak);
                             if (isFocus) {
                                 completedSessions++;
+                                localStorage.setItem('kyklos_study_sessions', completedSessions);
                                 if (sessionCountElem) sessionCountElem.textContent = completedSessions;
                                 if (timerStatusHint) {
                                     timerStatusHint.textContent = '🎉 Focus session finished! Great job!';
                                 }
-                                alert('🎉 Focus session complete! Time for a well-deserved break.');
+                                setTimeout(() => {
+                                    alert('🎉 Focus session complete! Time for a well-deserved break.');
+                                }, 600);
                             } else {
                                 if (timerStatusHint) {
                                     timerStatusHint.textContent = '⚡ Break finished! Ready to focus again?';
                                 }
-                                alert('⚡ Break is over! Time to get back into focus.');
+                                setTimeout(() => {
+                                    alert('⚡ Break is over! Time to get back into focus.');
+                                }, 600);
                             }
 
                             updateTimerDisplay();
